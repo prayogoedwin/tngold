@@ -31,6 +31,14 @@ class RolePermissionSeeder extends Seeder
             'edit-permissions',
             'download-permissions',
             'delete-permissions',
+
+            //tokos
+            'view-tokos',
+            'show-tokos',
+            'create-tokos',
+            'edit-tokos',
+            'download-tokos',
+            'delete-tokos',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -50,6 +58,11 @@ class RolePermissionSeeder extends Seeder
                 'edit-users',
                 'download-users',
                 'delete-users',
+
+                'view-tokos',
+                'show-tokos',
+                'edit-tokos',
+                'download-tokos',
             ])->pluck('id')
         );
 
@@ -70,7 +83,7 @@ class RolePermissionSeeder extends Seeder
         $owner = User::firstOrCreate(
             ['email' => 'owner@example.com'],
             [
-                'name' => 'Admin User',
+                'name' => 'Owner',
                 'password' => Hash::make('password'),
             ]
         );

@@ -3,6 +3,7 @@
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Settings;
+use App\Http\Controllers\TokoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit')->middleware('permission:edit-roles');
     Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update')->middleware('permission:edit-roles');
     Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy')->middleware('permission:delete-roles');
-    
+
     // Permissions Management - dengan permission check
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index')->middleware('permission:view-permissions');
     Route::get('permissions/export', [PermissionController::class, 'export'])->name('permissions.export')->middleware('permission:download-permissions');
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('permissions/{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit')->middleware('permission:edit-permissions');
     Route::put('permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update')->middleware('permission:edit-permissions');
     Route::delete('permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy')->middleware('permission:delete-permissions');
-    
+
     // Users Management - dengan permission check
     Route::get('users', [UserController::class, 'index'])->name('users.index')->middleware('permission:view-users');
     Route::get('users/export', [UserController::class, 'export'])->name('users.export')->middleware('permission:download-users');
@@ -56,6 +57,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('permission:edit-users');
     Route::put('users/{user}', [UserController::class, 'update'])->name('users.update')->middleware('permission:edit-users');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('permission:delete-users');
+
+    // Resource Toko
+    Route::get('tokos', [TokoController::class, 'index'])->name('tokos.index')->middleware('permission:view-tokos');
+    Route::get('tokos/indexTable', [TokoController::class, 'indexTable'])->name('tokos.indexTable')->middleware('permission:view-tokos');
+    Route::get('tokos/export', [TokoController::class, 'export'])->name('tokos.export')->middleware('permission:download-tokos');
+    Route::get('tokos/create', [TokoController::class, 'create'])->name('tokos.create')->middleware('permission:create-tokos');
+    Route::post('tokos', [TokoController::class, 'store'])->name('tokos.store')->middleware('permission:create-tokos');
+    Route::get('tokos/{toko}', [TokoController::class, 'show'])->name('tokos.show')->middleware('permission:show-tokos');
+    Route::get('tokos/{toko}/edit', [TokoController::class, 'edit'])->name('tokos.edit')->middleware('permission:edit-tokos');
+    Route::put('tokos/{toko}', [TokoController::class, 'update'])->name('tokos.update')->middleware('permission:edit-tokos');
+    Route::delete('tokos/{toko}', [TokoController::class, 'destroy'])->name('tokos.destroy')->middleware('permission:delete-tokos');    
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
