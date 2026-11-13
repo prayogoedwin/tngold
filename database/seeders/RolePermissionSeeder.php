@@ -38,19 +38,23 @@ class RolePermissionSeeder extends Seeder
         }
 
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
-        $editorRole = Role::firstOrCreate(['name' => 'editor']);
-        $userRole = Role::firstOrCreate(['name' => 'user']);
+        $ownerRole = Role::firstOrCreate(['name' => 'owner']);
+        $adminTokoRole = Role::firstOrCreate(['name' => 'admin-toko']);
 
         $superAdminRole->permissions()->sync(Permission::all());
-        $adminRole->permissions()->sync(Permission::all());
-
-        $editorRole->permissions()->sync(
+        $ownerRole->permissions()->sync(
             Permission::whereIn('name', [
-                'view-users', 'show-users',
-                'view-roles', 'show-roles',
-                'view-permissions', 'show-permissions'
+                'view-users',
+                'show-users',
+                'create-users',
+                'edit-users',
+                'download-users',
+                'delete-users',
             ])->pluck('id')
+        );
+
+        $adminTokoRole->permissions()->sync(
+            Permission::whereIn('name', [])->pluck('id')
         );
 
         $superAdmin = User::firstOrCreate(
@@ -63,34 +67,26 @@ class RolePermissionSeeder extends Seeder
 
         $superAdmin->roles()->sync([$superAdminRole->id]);
 
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
+        $owner = User::firstOrCreate(
+            ['email' => 'owner@example.com'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'),
             ]
         );
 
-        $admin->roles()->sync([$adminRole->id]);
+        $owner->roles()->sync([$ownerRole->id]);
 
-        $editor = User::firstOrCreate(
-            ['email' => 'editor@example.com'],
+        $adminToko = User::firstOrCreate(
+            ['email' => 'admintoko@example.com'],
             [
-                'name' => 'Editor User',
+                'name' => 'Admin Toko User',
                 'password' => Hash::make('password'),
             ]
         );
 
-        $editor->roles()->sync([$editorRole->id]);
+        $adminToko->roles()->sync([$adminTokoRole->id]);
 
-        $user = User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'Regular User',
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        $user->roles()->sync([$userRole->id]);
+        
     }
 }

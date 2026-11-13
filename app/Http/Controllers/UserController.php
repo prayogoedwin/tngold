@@ -20,6 +20,11 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $users = User::with('roles')->select('users.*');
+
+            //pastikan user dengan role 'super-admin' di hidden
+            $users->whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'super-admin');
+            });
             
             return DataTables::of($users)
                 ->addColumn('roles', function ($user) {
