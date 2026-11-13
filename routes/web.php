@@ -4,6 +4,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Settings;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\Transaksi\TransaksiKategoriController;
+use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,7 +69,29 @@ Route::middleware(['auth'])->group(function () {
     Route::get('tokos/{toko}', [TokoController::class, 'show'])->name('tokos.show')->middleware('permission:show-tokos');
     Route::get('tokos/{toko}/edit', [TokoController::class, 'edit'])->name('tokos.edit')->middleware('permission:edit-tokos');
     Route::put('tokos/{toko}', [TokoController::class, 'update'])->name('tokos.update')->middleware('permission:edit-tokos');
-    Route::delete('tokos/{toko}', [TokoController::class, 'destroy'])->name('tokos.destroy')->middleware('permission:delete-tokos');    
+    Route::delete('tokos/{toko}', [TokoController::class, 'destroy'])->name('tokos.destroy')->middleware('permission:delete-tokos');
+
+    // Resource Transaksi
+    Route::get('transaksis', [TransaksiController::class, 'index'])->name('transaksis.index')->middleware('permission:view-transaksis');
+    Route::get('transaksis/indexTable', [TransaksiController::class, 'indexTable'])->name('transaksis.indexTable')->middleware('permission:view-transaksis');
+    Route::get('transaksis/export', [TransaksiController::class, 'export'])->name('transaksis.export')->middleware('permission:download-transaksis');
+    Route::get('transaksis/create', [TransaksiController::class, 'create'])->name('transaksis.create')->middleware('permission:create-transaksis');
+    Route::post('transaksis', [TransaksiController::class, 'store'])->name('transaksis.store')->middleware('permission:create-transaksis');
+    Route::get('transaksis/{transaksi}', [TransaksiController::class, 'show'])->name('transaksis.show')->middleware('permission:show-transaksis');
+    Route::get('transaksis/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksis.edit')->middleware('permission:edit-transaksis');
+    Route::put('transaksis/{transaksi}', [TransaksiController::class, 'update'])->name('transaksis.update')->middleware('permission:edit-transaksis');
+    Route::delete('transaksis/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksis.destroy')->middleware('permission:delete-transaksis');  
+    
+    //resource transaksi-kategoris
+    Route::get('transaksi-kategoris', [TransaksiKategoriController::class, 'index'])->name('transaksi-kategoris.index')->middleware('permission:view-transaksi-kategoris');
+    Route::get('transaksi-kategoris/indexTable', [TransaksiKategoriController::class, 'indexTable'])->name('transaksi-kategoris.indexTable')->middleware('permission:view-transaksi-kategoris');
+    Route::get('transaksi-kategoris/export', [TransaksiKategoriController::class, 'export'])->name('transaksi-kategoris.export')->middleware('permission:download-transaksi-kategoris');
+    Route::get('transaksi-kategoris/create', [TransaksiKategoriController::class, 'create'])->name('transaksi-kategoris.create')->middleware('permission:create-transaksi-kategoris');
+    Route::post('transaksi-kategoris', [TransaksiKategoriController::class, 'store'])->name('transaksi-kategoris.store')->middleware('permission:create-transaksi-kategoris');
+    Route::get('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriController::class, 'show'])->name('transaksi-kategoris.show')->middleware('permission:show-transaksi-kategoris');
+    Route::get('transaksi-kategoris/{transaksiKategori}/edit', [TransaksiKategoriController::class, 'edit'])->name('transaksi-kategoris.edit')->middleware('permission:edit-transaksi-kategoris');
+    Route::put('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriController::class, 'update'])->name('transaksi-kategoris.update')->middleware('permission:edit-transaksi-kategoris');
+    Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriController::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
 
 });
 

@@ -44,5 +44,27 @@ return [
         'active' => 'tokos*',
         'permission' => 'view-tokos',
     ],
+    [
+        'title' => 'Transaksi Management',
+        'icon' => 'fas-list',
+        'active' => 'transaksis*',
+        'permission' => ['view-transaksis', 'view-transaksi-kategoris'],
+        'children' => [
+            [
+                'title' => 'Transaksis',
+                'icon' => 'fas-list',
+                'route' => 'transaksis.index',
+                'active' => 'transaksis*',
+                'permission' => 'view-transaksis',
+            ],
+            [
+                'title' => 'Transaksi Kategori',
+                'icon' => 'fas-list',
+                'route' => 'transaksi-kategoris.index',
+                'active' => 'transaksi-kategoris*',
+                'permission' => 'view-transaksi-kategoris',
+            ],
+        ],
+    ]
     
 ];

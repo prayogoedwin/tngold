@@ -16,14 +16,15 @@ class TemplateStud extends Model
         'description',
         'date',
         'number',
-        'enum'
+        'enum',
+        'foreign_id'
     ];
 
     public function structure()
     {
         return [
             'parent' => null,
-            'table' => 'template_studs',
+            'table' => 'template-studs',
             'title' => 'Template Stud',
             'table_has_actions' => true,
             'table_has_timestamps' => true,
@@ -31,6 +32,8 @@ class TemplateStud extends Model
             'columns' => [
                 [
                     'name' => 'name',
+                    'data' => 'name',
+                    'display_value' => 'name',
                     'type' => 'string',
                     'validation' => 'required|string|max:255',
                     'label' => 'Name',
@@ -42,6 +45,8 @@ class TemplateStud extends Model
                 ],
                 [
                     'name' => 'description',
+                    'data' => 'description',
+                    'display_value' => 'description',
                     'type' => 'text',
                     'validation' => 'required|string|max:255',
                     'label' => 'Description',
@@ -53,6 +58,8 @@ class TemplateStud extends Model
                 ],
                 [
                     'name' => 'date',
+                    'data' => 'date',
+                    'display_value' => 'date',
                     'type' => 'date',
                     'validation' => 'required|date',
                     'label' => 'Date',
@@ -64,6 +71,8 @@ class TemplateStud extends Model
                 ],
                 [
                     'name' => 'number',
+                    'data' => 'number',
+                    'display_value' => 'number',
                     'type' => 'number',
                     'validation' => 'required|integer|min:0',
                     'label' => 'Number',
@@ -75,18 +84,61 @@ class TemplateStud extends Model
                 ],
                 [
                     'name' => 'enum',
+                    'data' => 'enum',
+                    'display_value' => 'enum',
                     'type' => 'enum',
-                    'validation' => 'required|in:option1,option2,option3',
+                    'validation' => 'nullable|in:option1,option2,option3',
                     'label' => 'Enum',
+                    'options' => ['option1', 'option2', 'option3'],
                     'required' => false,
                     'inTable' => true,
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,
-                ]
+                ],
+                [
+                    'name' => 'checkbox',
+                    'data' => 'checkbox',
+                    'display_value' => 'checkbox',
+                    'type' => 'checkbox',
+                    'validation' => 'nullable|boolean',
+                    'label' => 'checkbox',
+                    'required' => false,
+                    'inTable' => true,
+                    'inCreateForm' => true,
+                    'inEditForm' => true,
+                    'inShowPage' => true,
+                ],
+                [
+                    'name' => 'foreign_id',
+                    'data' => 'foreign.name',
+                    'display_value' => 'foreigns.name',
+                    'type' => 'select',
+                    'validation' => 'required|exists:foreigns,id',
+                    'label' => 'Foreign',
+                    'options' => TemplateStud::all()->pluck('name', 'id')->toArray(),
+                    'required' => true,
+                    'inTable' => true,
+                    'inCreateForm' => true,
+                    'inEditForm' => true,
+                    'inShowPage' => true,
+                ],
             ]
         ];
     }
 
+    public function getValidationRules(): array
+    {
+        $structure = $this->structure();
 
+        $rules = [];
+
+        foreach ($structure['columns'] as $column) {
+            if (!empty($column['validation'])) {
+                $rules[$column['name']] = $column['validation'];
+            }
+        }
+
+        return $rules;
+    }
 }

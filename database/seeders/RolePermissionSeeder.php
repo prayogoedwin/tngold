@@ -39,6 +39,22 @@ class RolePermissionSeeder extends Seeder
             'edit-tokos',
             'download-tokos',
             'delete-tokos',
+
+            //transaksis
+            'view-transaksis',
+            'show-transaksis',
+            'create-transaksis',
+            'edit-transaksis',
+            'download-transaksis',
+            'delete-transaksis',
+
+            //transaksi kategoris
+            'view-transaksi-kategoris',
+            'show-transaksi-kategoris',
+            'create-transaksi-kategoris',
+            'edit-transaksi-kategoris',
+            'download-transaksi-kategoris',
+            'delete-transaksi-kategoris',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -63,6 +79,20 @@ class RolePermissionSeeder extends Seeder
                 'show-tokos',
                 'edit-tokos',
                 'download-tokos',
+
+                'create-transaksi-kategoris',
+                'view-transaksi-kategoris',
+                'show-transaksi-kategoris',
+                'edit-transaksi-kategoris',
+                'download-transaksi-kategoris',
+                'delete-transaksi-kategoris',
+
+                'create-transaksis',
+                'view-transaksis',
+                'show-transaksis',
+                'edit-transaksis',
+                'download-transaksis',
+                'delete-transaksis',
             ])->pluck('id')
         );
 
