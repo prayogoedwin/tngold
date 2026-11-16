@@ -55,6 +55,22 @@ class RolePermissionSeeder extends Seeder
             'edit-transaksi-kategoris',
             'download-transaksi-kategoris',
             'delete-transaksi-kategoris',
+
+            //harga emas
+            'view-harga-emas',
+            'show-harga-emas',
+            'create-harga-emas',
+            'edit-harga-emas',
+            'download-harga-emas',
+            'delete-harga-emas',
+
+            //harga emas history
+            'view-harga-emas-history',
+            'show-harga-emas-history',
+            'create-harga-emas-history',
+            'edit-harga-emas-history',
+            'download-harga-emas-history',
+            'delete-harga-emas-history',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -93,6 +109,20 @@ class RolePermissionSeeder extends Seeder
                 'edit-transaksis',
                 'download-transaksis',
                 'delete-transaksis',
+
+                'create-harga-emas',
+                'view-harga-emas',
+                'show-harga-emas',
+                'edit-harga-emas',
+                'download-harga-emas',
+                'delete-harga-emas',
+
+                'create-harga-emas-history',
+                'view-harga-emas-history',
+                'show-harga-emas-history',
+                'edit-harga-emas-history',
+                'download-harga-emas-history',
+                'delete-harga-emas-history',
             ])->pluck('id')
         );
 

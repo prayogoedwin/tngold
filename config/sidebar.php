@@ -65,6 +65,13 @@ return [
                 'permission' => 'view-transaksi-kategoris',
             ],
         ],
+    ],
+    [
+        'title' => 'Harga Emas',
+        'icon' => 'fas-coins',
+        'route' => 'harga-emas.index',
+        'active' => 'harga-emas*',
+        'permission' => 'view-harga-emas',
     ]
     
 ];

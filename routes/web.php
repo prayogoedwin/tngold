@@ -7,6 +7,8 @@ use App\Http\Controllers\TokoController;
 use App\Http\Controllers\Transaksi\TransaksiKategoriController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HargaEmas\HargaEmasController;
+use App\Http\Controllers\HargaEmas\HargaEmasHistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -92,6 +94,31 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transaksi-kategoris/{transaksiKategori}/edit', [TransaksiKategoriController::class, 'edit'])->name('transaksi-kategoris.edit')->middleware('permission:edit-transaksi-kategoris');
     Route::put('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriController::class, 'update'])->name('transaksi-kategoris.update')->middleware('permission:edit-transaksi-kategoris');
     Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriController::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
+
+    //resource hargaemas
+    Route::get('harga-emas', [HargaEmasController::class, 'index'])->name('harga-emas.index')->middleware('permission:view-harga-emas');
+    Route::get('harga-emas/indexTable', [HargaEmasController::class, 'indexTable'])->name('harga-emas.indexTable')->middleware('permission:view-harga-emas');
+    Route::get('harga-emas/export', [HargaEmasController::class, 'export'])->name('harga-emas.export')->middleware('permission:download-harga-emas');
+    Route::get('harga-emas/create', [HargaEmasController::class, 'create'])->name('harga-emas.create')->middleware('permission:create-harga-emas');
+    Route::post('harga-emas', [HargaEmasController::class, 'store'])->name('harga-emas.store')->middleware('permission:create-harga-emas');
+    Route::get('harga-emas/{hargaEmas}', [HargaEmasController::class, 'show'])->name('harga-emas.show')->middleware('permission:show-harga-emas');
+    Route::get('harga-emas/{hargaEmas}/edit', [HargaEmasController::class, 'edit'])->name('harga-emas.edit')->middleware('permission:edit-harga-emas');
+    Route::put('harga-emas/{hargaEmas}', [HargaEmasController::class, 'update'])->name('harga-emas.update')->middleware('permission:edit-harga-emas');
+    Route::delete('harga-emas/{hargaEmas}', [HargaEmasController::class, 'destroy'])->name('harga-emas.destroy')->middleware('permission:delete-harga-emas');
+
+    Route::get('harga-emas/{hargaEmas}/history/indexTable', [HargaEmasController::class, 'historyIndexTable'])->name('harga-emas.history.indexTable')->middleware('permission:view-harga-emas');
+
+    //resource hargaemas history
+    Route::get('harga-emas-history', [HargaEmasHistoryController::class, 'index'])->name('harga-emas-history.index')->middleware('permission:view-harga-emas-history');
+    Route::get('harga-emas-history/indexTable', [HargaEmasHistoryController::class, 'indexTable'])->name('harga-emas-history.indexTable')->middleware('permission:view-harga-emas-history');
+    Route::get('harga-emas-history/export', [HargaEmasHistoryController::class, 'export'])->name('harga-emas-history.export')->middleware('permission:download-harga-emas-history');
+    Route::get('harga-emas-history/create', [HargaEmasHistoryController::class, 'create'])->name('harga-emas-history.create')->middleware('permission:create-harga-emas-history');
+    Route::post('harga-emas-history', [HargaEmasHistoryController::class, 'store'])->name('harga-emas-history.store')->middleware('permission:create-harga-emas-history');
+    Route::get('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'show'])->name('harga-emas-history.show')->middleware('permission:show-harga-emas-history');
+    Route::get('harga-emas-history/{hargaEmasHistory}/edit', [HargaEmasHistoryController::class, 'edit'])->name('harga-emas-history.edit')->middleware('permission:edit-harga-emas-history');
+    Route::put('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'update'])->name('harga-emas-history.update')->middleware('permission:edit-harga-emas-history');
+    Route::delete('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'destroy'])->name('harga-emas-history.destroy')->middleware('permission:delete-harga-emas-history');
+    
 
 });
 

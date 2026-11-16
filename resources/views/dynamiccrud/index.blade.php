@@ -55,9 +55,7 @@
                             @endif
                         @endforeach
 
-                        @if ($table_has_timestamps ?? false)
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Created At') }}</th>
-                        @endif
+                        
 
                         @if ($table_has_actions ?? false)
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Actions') }}</th>
@@ -76,7 +74,6 @@
     <!-- hidden variable for js -->
      <input type="hidden" id="table" value="{{ $table }}">
      <input type="hidden" id="title" value="{{ $title }}">
-     <input type="hidden" id="timestamps" value="{{ $table_has_timestamps ?? false }}">
      <input type="hidden" id="actions" value="{{ $table_has_actions ?? false }}">
      <input type="hidden" id="columns" value="{{ collect($columns) }}">
 
@@ -97,9 +94,7 @@
                 if (c.inTable) columns.push({ data: c.data, name: c.display_value, defaultContent: '-' });
             }
 
-            if ($('#timestamps').val() == '1') {
-                columns.push({ data: 'created_at', name: 'created_at' });
-            }
+            
 
             if ($('#actions').val() == '1') {
                 columns.push({
