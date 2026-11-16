@@ -67,6 +67,13 @@ return [
         ],
     ],
     [
+        'title' => 'Pembelian Management',
+        'icon' => 'fas-cart-shopping',
+        'active' => 'pembelians*',
+        'permission' => ['view-pembelians',],
+        'route' => 'pembelians.index',
+    ],
+    [
         'title' => 'Harga Emas',
         'icon' => 'fas-coins',
         'route' => 'harga-emas.index',

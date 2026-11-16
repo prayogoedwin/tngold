@@ -9,6 +9,7 @@ use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HargaEmas\HargaEmasController;
 use App\Http\Controllers\HargaEmas\HargaEmasHistoryController;
+use App\Http\Controllers\PembelianController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -118,6 +119,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('harga-emas-history/{hargaEmasHistory}/edit', [HargaEmasHistoryController::class, 'edit'])->name('harga-emas-history.edit')->middleware('permission:edit-harga-emas-history');
     Route::put('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'update'])->name('harga-emas-history.update')->middleware('permission:edit-harga-emas-history');
     Route::delete('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'destroy'])->name('harga-emas-history.destroy')->middleware('permission:delete-harga-emas-history');
+
+    //resource pembelians
+    Route::get('pembelians', [PembelianController::class, 'index'])->name('pembelians.index')->middleware('permission:view-pembelians');
+    Route::get('pembelians/indexTable', [PembelianController::class, 'indexTable'])->name('pembelians.indexTable')->middleware('permission:view-pembelians');
+    Route::get('pembelians/export', [PembelianController::class, 'export'])->name('pembelians.export')->middleware('permission:download-pembelians');
+    Route::get('pembelians/create', [PembelianController::class, 'create'])->name('pembelians.create')->middleware('permission:create-pembelians');
+    Route::post('pembelians', [PembelianController::class, 'store'])->name('pembelians.store')->middleware('permission:create-pembelians');
+    Route::get('pembelians/{pembelian}', [PembelianController::class, 'show'])->name('pembelians.show')->middleware('permission:show-pembelians');
+    Route::get('pembelians/{pembelian}/edit', [PembelianController::class, 'edit'])->name('pembelians.edit')->middleware('permission:edit-pembelians');
+    Route::put('pembelians/{pembelian}', [PembelianController::class, 'update'])->name('pembelians.update')->middleware('permission:edit-pembelians');
+    Route::delete('pembelians/{pembelian}', [PembelianController::class, 'destroy'])->name('pembelians.destroy')->middleware('permission:delete-pembelians');
     
 
 });

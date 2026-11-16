@@ -123,6 +123,41 @@ class TemplateStud extends Model
                     'inEditForm' => true,
                     'inShowPage' => true,
                 ],
+
+                // [
+                //     'name' => 'details',
+                //     'data' => 'details',
+                //     'display_value' => 'details',
+                //     'type' => 'has-many',
+                //     'validation' => 'nullable|array',
+                //     'label' => 'Details',
+                //     'required' => false,
+                //     'inTable' => false,
+                //     'inCreateForm' => true,
+                //     'inEditForm' => true,
+                //     'inShowPage' => true,
+                //     'fields' => [
+                //         [
+                //             'name' => 'product_id',
+                //             'type' => 'select',
+                //             'options' => Toko::all()->pluck('name', 'id')->toArray(),
+                //             'label' => 'Product',
+                //             'required' => true,
+                //         ],
+                //         [
+                //             'name' => 'quantity',
+                //             'type' => 'number',
+                //             'label' => 'Quantity',
+                //             'required' => true,
+                //         ],
+                //         [
+                //             'name' => 'price',
+                //             'type' => 'number',
+                //             'label' => 'Price',
+                //             'required' => true,
+                //         ],
+                //     ],
+                // ],
             ]
         ];
     }

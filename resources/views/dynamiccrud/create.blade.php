@@ -54,6 +54,7 @@
                 $label = __($column['label'] ?? ucfirst(str_replace('_', ' ', $name)));
                 $required = $column['required'] ?? false;
                 $type = $column['type'] ?? 'string';
+
                 @endphp
 
                 @switch($type)
@@ -88,7 +89,7 @@
                 @case('date')
                 <div class="mb-4">
                     <x-forms.input :label="$label" :name="$name" type="date"
-                        :value="old($name)" :required="$required" />
+                        :value="now()->format('Y-m-d')" :required="$required" />
                 </div>
                 @break
 
@@ -129,6 +130,12 @@
                 <div class="mb-4">
                     <x-forms.checkbox :label="$label" :name="$name"
                         :checked="old($name, false)" />
+                </div>
+                @break
+
+                @case('has-many') 
+                <div class="mb-4">
+                    <x-forms.has-many :label="$label" :name="$name" :fields="$column['fields'] ?? []" />
                 </div>
                 @break
 

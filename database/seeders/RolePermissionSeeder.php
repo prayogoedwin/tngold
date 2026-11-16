@@ -71,6 +71,22 @@ class RolePermissionSeeder extends Seeder
             'edit-harga-emas-history',
             'download-harga-emas-history',
             'delete-harga-emas-history',
+
+            //pembelians
+            'view-pembelians',
+            'show-pembelians',
+            'create-pembelians',
+            'edit-pembelians',
+            'download-pembelians',
+            'delete-pembelians',
+
+            //pembelian details
+            'view-pembelian-details',
+            'show-pembelian-details',
+            'create-pembelian-details',
+            'edit-pembelian-details',
+            'download-pembelian-details',
+            'delete-pembelian-details',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -123,6 +139,20 @@ class RolePermissionSeeder extends Seeder
                 'edit-harga-emas-history',
                 'download-harga-emas-history',
                 'delete-harga-emas-history',
+
+                'create-pembelians',
+                'view-pembelians',
+                'show-pembelians',
+                'edit-pembelians',
+                'download-pembelians',
+                'delete-pembelians',
+
+                'create-pembelian-details',
+                'view-pembelian-details',
+                'show-pembelian-details',
+                'edit-pembelian-details',
+                'download-pembelian-details',
+                'delete-pembelian-details',
             ])->pluck('id')
         );
 
