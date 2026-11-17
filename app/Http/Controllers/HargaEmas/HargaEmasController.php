@@ -85,10 +85,14 @@ class HargaEmasController extends Controller
 
                 $diffs[$history->id] = [
                     'diffBefore' => $previousPrice !== null
-                        ? $history->harga_beli - $previousPrice
+                        ? ($previousPrice != 0
+                            ? (($history->harga_beli - $previousPrice) / $previousPrice) * 100
+                            : null)
                         : null,
 
-                    'diffAverage' => $history->harga_beli - $average,
+                    'diffAverage' => $average != 0
+                        ? (($history->harga_beli - $average) / $average) * 100
+                        : null,
                 ];
 
                 $previousPrice = $history->harga_beli;
@@ -101,13 +105,37 @@ class HargaEmasController extends Controller
 
             return DataTables::of($query)
                 ->addIndexColumn()
+                ->editColumn('harga_beli', function ($history) {
+                    //rata kanan
+                    return '<div class="text-right">' . number_format($history->harga_beli, 0, '.', ',') . '</div>';
+                })
 
                 ->addColumn('diffBefore', function ($history) use ($diffs) {
-                    return $diffs[$history->id]['diffBefore'] ?? null;
+                    $value = $diffs[$history->id]['diffBefore'] ?? null;
+
+                    if ($value === null) {
+                        return '';
+                    }
+
+                    $formatted = rtrim(rtrim(number_format($value, 2, '.', ''), '0'), '.');
+                    $color = $value > 0 ? 'text-green-600' : ($value < 0 ? 'text-red-600' : '');
+                    $sign = $value > 0 ? '+' : '';
+
+                    return '<span class="' . $color . '">' . $sign . $formatted . '%</span>';
                 })
 
                 ->addColumn('diffAverage', function ($history) use ($diffs) {
-                    return $diffs[$history->id]['diffAverage'] ?? null;
+                    $value = $diffs[$history->id]['diffAverage'] ?? null;
+
+                    if ($value === null) {
+                        return '';
+                    }
+
+                    $formatted = rtrim(rtrim(number_format($value, 2, '.', ''), '0'), '.');
+                    $color = $value > 0 ? 'text-green-600' : ($value < 0 ? 'text-red-600' : '');
+                    $sign = $value > 0 ? '+' : '';
+
+                    return '<span class="' . $color . '">' . $sign . $formatted . '%</span>';
                 })
 
                 ->addColumn('actions', function ($history) {
@@ -133,7 +161,7 @@ class HargaEmasController extends Controller
                         : '';
                 })
 
-                ->rawColumns(['actions'])
+                ->rawColumns(['actions', 'diffBefore', 'diffAverage', 'harga_beli'])
                 ->make(true);
         }
     }
@@ -143,7 +171,10 @@ class HargaEmasController extends Controller
     {
         $structure = $hargaEmas->structure();
         $data = $hargaEmas;
-        return view('hargaemas.show', array_merge($structure, ['data' => $data]));
+
+        $hargaHistoryData = $data->hargaEmasHistories()->limit(20)->get();
+
+        return view('hargaemas.show', array_merge($structure, ['data' => $data, 'hargaHistoryData' => $hargaHistoryData]));
     }
 
     public function create()

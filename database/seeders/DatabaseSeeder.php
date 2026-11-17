@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             TokoSeeder::class,
             TransaksiKategoriSeeder::class,
-            TransaksiSeeder::class
+            TransaksiSeeder::class,
+            HargaEmasSeeder::class,
+            HargaEmasHistorySeeder::class
         ]);
     }
 }

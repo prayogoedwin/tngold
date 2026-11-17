@@ -184,6 +184,7 @@
     <input type="hidden" id="table" value="{{ $table }}">
     <input type="hidden" id="title" value="{{ $title }}">
     <input type="hidden" id="harga-emas-id" value="{{ $data->id }}">
+    <input type="hidden" id="harga-history-data" value="{{ json_encode($hargaHistoryData) }}">
 
 
     <script>
@@ -262,19 +263,16 @@
             }
 
             const labels = data.map(item => {
-                const date = new Date(item.date.replace(' ', 'T'));
+                const date = new Date(item.tanggal.replace(' ', 'T'));
 
                 return date.toLocaleDateString('id-ID', {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric'
-                }) + ' ' + date.toLocaleTimeString('id-ID', {
-                    hour: '2-digit',
-                    minute: '2-digit'
                 });
             });
 
-            const prices = data.map(item => item.price);
+            const prices = data.map(item => item.harga_beli);
 
             hargaHistoryChart.data.labels = labels;
             hargaHistoryChart.data.datasets[0].data = prices;
@@ -286,6 +284,11 @@
     <script>
         $(document).ready(function() {
             initHargaHistoryChart();
+
+            const hargaHistoryData = JSON.parse($('#harga-history-data').val());
+            console.log(hargaHistoryData);
+
+            updateHargaHistoryChart(hargaHistoryData)
 
 
             const columns = [{
@@ -336,7 +339,10 @@
                 processing: true,
                 serverSide: true,
                 searching: false,
-                ajax: "{{ route('harga-emas.history.indexTable', $data->id) }}",
+                ajax: {
+                    url: "{{ route('harga-emas.history.indexTable', $data->id) }}",
+                    
+                },
                 columns: columns,
                 order: [
                     [0, 'asc']
