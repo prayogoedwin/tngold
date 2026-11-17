@@ -149,7 +149,7 @@ class PembelianController extends Controller
     public function edit(Pembelian $pembelian)
     {
         $structure = $pembelian->structure();
-        $data = $pembelian;
+        $data = $pembelian->load('details');
         $hargaEmass = HargaEmas::get();
         $asal_emas_options = [];
         foreach ($hargaEmass as $hargaEmas) {
@@ -214,7 +214,7 @@ class PembelianController extends Controller
                     'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
                     'tanggal' => now(),
                     'toko_id' => 1, // TODO:Ganti dengan ID toko yang sesuai
-                    'nominal' => $pembelian->total_harga,
+                    'nominal' => $pembelian->totalHarga(),
                     'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
                 ]);
             }

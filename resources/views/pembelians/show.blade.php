@@ -135,7 +135,7 @@
                                     {{ $detail->satuan }}
                                 </td>
                                 <td class="px-4 py-3 text-center">
-                                    Rp {{ number_format($detail->harga_beli, 0, ',', '.') }}
+                                    Rp {{ number_format($detail->harga_per_satuan, 0, ',', '.') }}
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     {{ $detail->jumlah }}

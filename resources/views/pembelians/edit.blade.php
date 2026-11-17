@@ -44,9 +44,10 @@
         @endif
 
         <div class="p-6">
-            <form action="{{ route($table . '.store') }}" method="POST" class="max-w-2xl"
+            <form action="{{ route($table . '.update', $data->id) }}" method="POST" class="max-w-2xl"
                 @if ($hasFile) enctype="multipart/form-data" @endif>
                 @csrf
+                @method('PUT')
 
                 @foreach ($formColumns as $column)
                 @php
@@ -155,7 +156,17 @@
                 {{-- Pembelian Detail --}}
                 <div
                     x-data="{
-        items: [],
+        items: @js(
+            $data->details->map(fn ($detail) => [
+                'id' => $detail->id,
+                'emas_asal' => (string) $detail->emas_asal,
+                'kadar' => $detail->kadar,
+                'satuan' => $detail->satuan,
+                'jumlah' => $detail->jumlah,
+                'harga_per_satuan' => $detail->harga_per_satuan,
+                'total_harga' => $detail->total_harga,
+            ])->values(),
+        ),
         modal: false,
         editingIndex: null,
 
@@ -504,7 +515,7 @@
                 </div>
 
                 <div class="flex gap-3 mt-6">
-                    <x-button type="primary">{{ __('Create') }}</x-button>
+                    <x-button type="primary">{{ __('Update') }}</x-button>
                     <a href="{{ route($table . '.index') }}"
                         class="text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors flex items-center justify-center cursor-pointer bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600">
                         {{ __('Batal') }}
