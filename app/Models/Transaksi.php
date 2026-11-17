@@ -14,7 +14,6 @@ class Transaksi extends Model
     use SoftDeletes;
     protected $table = 'transaksis';
     protected $fillable = [
-        'no_transaksi',
         'type',
         'transaksi_kategori_id',
         'tanggal',
@@ -66,22 +65,10 @@ class Transaksi extends Model
             'table_has_timestamps' => true,
 
             'columns' => [
-                [
-                    'name' => 'no_transaksi',
-                    'data' => 'no_transaksi',
-                    'display_value' => 'no_transaksi',
-                    'type' => 'string',
-                    'validation' => 'required|string|max:255',
-                    'label' => 'No Transaksi',
-                    'required' => true,
-                    'inTable' => true,
-                    'inCreateForm' => true,
-                    'inEditForm' => true,
-                    'inShowPage' => true,
-                ],
+                
                 [
                     'name' => 'transaksi_kategori_id',
-                    'data' => 'transaksiKategori.name',
+                    'data' => 'transaksi_kategori.name',
                     'display_value' => 'transaksi_kategoris.name',
                     'type' => 'select',
                     'validation' => 'required|exists:transaksi_kategoris,id',
@@ -143,7 +130,7 @@ class Transaksi extends Model
                     'validation' => 'required|integer|min:0',
                     'label' => 'Nominal',
                     'required' => false,
-                    'inTable' => false,
+                    'inTable' => true,
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,
@@ -156,7 +143,7 @@ class Transaksi extends Model
                     'validation' => 'required|string|max:255',
                     'label' => 'Keterangan',
                     'required' => true,
-                    'inTable' => true,
+                    'inTable' => false,
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,

@@ -1,8 +1,9 @@
 @props([
     'label',
     'name',
+    'value',
     'type' => 'text',
-    'value' => old($name, $value),
+    'value' => old($name, $value ?? ''),
     'placeholder' => '',
     'error' => false,
     'class' => '',

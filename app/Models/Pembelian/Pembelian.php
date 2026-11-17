@@ -4,6 +4,7 @@ namespace App\Models\Pembelian;
 
 use App\Models\Pembelian\PembelianDetail;
 use App\Models\Toko;
+use App\Models\Transaksi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -168,6 +169,20 @@ class Pembelian extends Model
     public function details()
     {
         return $this->hasMany(PembelianDetail::class, 'pembelian_id');
+    }
+
+    public function totalHarga()
+    {
+        return $this->details()->sum('total_harga');
+    }
+
+    public function transaksi()
+    {
+        return $this->belongsToMany(Transaksi::class, 'transaksi_pembelians', 'pembelian_id', 'transaksi_id');
+    }
+    public function transaksiOne()
+    {
+        return $this->belongsToMany(Transaksi::class, 'transaksi_pembelians', 'pembelian_id', 'transaksi_id')->first();
     }
 
     public function getValidationRules(): array

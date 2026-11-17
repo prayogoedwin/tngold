@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->string('no_transaksi')->unique();
             $table->enum('type', ['IN', 'OUT']);
             $table->foreignId('transaksi_kategori_id')->constrained('transaksi_kategoris')->onDelete('cascade');
             $table->foreignId('toko_id')->constrained('tokos')->onDelete('cascade');

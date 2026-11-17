@@ -30,7 +30,7 @@ class TransaksiController extends Controller
     {
         if (request()->ajax()) {
 
-            $transaksis = Transaksi::query();
+            $transaksis = Transaksi::query()->with('transaksiKategori', 'toko');
             
             return DataTables::of($transaksis)
                 ->addIndexColumn()
@@ -55,10 +55,14 @@ class TransaksiController extends Controller
                     
                     return $actions;
                 })
-                ->editColumn('tanggal', function ($row) {
-                    return $row->tanggal ? $row->tanggal->format('Y-m-d H:i:s') : '';
+                ->editColumn('nominal', function ($row) {
+                    //rata kanan
+                    return  '<div style="text-align: right;">' . number_format($row->nominal, 0, ',', '.') . '</div>';
                 })
-                ->rawColumns(['actions'])
+                ->editColumn('tanggal', function ($row) {
+                    return $row->tanggal ? $row->tanggal->format('Y-m-d') : '';
+                })
+                ->rawColumns(['actions', 'nominal'])
                 ->make(true);
         }
     }
