@@ -37,6 +37,7 @@ class Toko extends Model
             'title' => 'Toko',
             'table_has_actions' => true,
             'table_has_timestamps' => false,
+            'index_has_download' => false,
 
             'columns' => [
                 [

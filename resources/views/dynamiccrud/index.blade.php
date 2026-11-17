@@ -24,7 +24,7 @@
             <p class="text-gray-600 dark:text-gray-400 mt-1">Manage System {{ $title }}</p>
         </div>
         <div class="flex gap-2">
-            @if (auth()->user()->hasPermission('download-' . $table) && ($canDownload ?? true) !== false)
+            @if (auth()->user()->hasPermission('download-' . $table) && ($index_has_download ?? true) !== false)
                 <a href="{{ route($table . '.export') }}">
                     <x-button type="secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

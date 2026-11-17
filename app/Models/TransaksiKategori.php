@@ -55,6 +55,7 @@ class TransaksiKategori extends Model
             'title' => 'Kategori Transaksi',
             'table_has_actions' => true,
             'table_has_timestamps' => false,
+            'index_has_download' => false,
 
             'columns' => [
                 [

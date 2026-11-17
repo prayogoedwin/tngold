@@ -63,6 +63,7 @@ class Transaksi extends Model
             'title' => 'Transaksi',
             'table_has_actions' => true,
             'table_has_timestamps' => true,
+            'index_has_download' => false,
 
             'columns' => [
                 

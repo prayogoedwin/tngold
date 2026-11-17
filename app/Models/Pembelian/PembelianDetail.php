@@ -54,6 +54,7 @@ class PembelianDetail extends Model
             'title' => 'Pembelian Detail',
             'table_has_actions' => true,
             'table_has_timestamps' => true,
+            'index_has_download' => false,
 
             'columns' => [
                 [

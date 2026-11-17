@@ -79,6 +79,7 @@ class Pembelian extends Model
             'title' => 'Pembelian',
             'table_has_actions' => true,
             'table_has_timestamps' => true,
+            'index_has_download' => false,
 
             'columns' => [
                 [
