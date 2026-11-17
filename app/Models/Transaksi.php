@@ -69,7 +69,7 @@ class Transaksi extends Model
                 [
                     'name' => 'transaksi_kategori_id',
                     'data' => 'transaksi_kategori.name',
-                    'display_value' => 'transaksi_kategoris.name',
+                    'display_value' => 'transaksiKategori.name',
                     'type' => 'select',
                     'validation' => 'required|exists:transaksi_kategoris,id',
                     'label' => 'Kategori Transaksi',
@@ -83,7 +83,7 @@ class Transaksi extends Model
                 [
                     'name' => 'toko_id',
                     'data' => 'toko.name',
-                    'display_value' => 'tokos.name',
+                    'display_value' => 'toko.name',
                     'type' => 'select',
                     'validation' => 'required|exists:tokos,id',
                     'label' => 'Toko',

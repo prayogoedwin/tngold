@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Transaksi;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
@@ -23,7 +24,7 @@ class TransaksiController extends Controller
     public function index()
     {
         $structure = (new Transaksi())->structure();
-        return view('dynamiccrud.index', $structure);
+        return view('transaksi.index', $structure);
     }
 
     public function indexTable(Request $request)
@@ -31,6 +32,18 @@ class TransaksiController extends Controller
         if (request()->ajax()) {
 
             $transaksis = Transaksi::query()->with('transaksiKategori', 'toko');
+
+            //apply filters based on request parameters
+            if($request->filled(['startdate','enddate'])) {
+                $start = Carbon::parse($request->startdate)->toDateString();
+                $end   = Carbon::parse($request->enddate)->toDateString();
+
+                $transaksis->whereBetween('tanggal', [$start, $end]);
+            }
+            
+            if($request->filled('type')) {
+                $transaksis->where('type', $request->type);
+            }
             
             return DataTables::of($transaksis)
                 ->addIndexColumn()

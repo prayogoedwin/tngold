@@ -46,13 +46,13 @@ return [
     ],
     [
         'title' => 'Transaksi Management',
-        'icon' => 'fas-list',
+        'icon' => 'fas-money-bill',
         'active' => 'transaksis*',
         'permission' => ['view-transaksis', 'view-transaksi-kategoris'],
         'children' => [
             [
                 'title' => 'Transaksis',
-                'icon' => 'fas-list',
+                'icon' => 'fas-money-bill',
                 'route' => 'transaksis.index',
                 'active' => 'transaksis*',
                 'permission' => 'view-transaksis',
