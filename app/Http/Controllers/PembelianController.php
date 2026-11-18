@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Toko;
 
 use App\Http\Controllers\Controller;
 use App\Models\HargaEmas\HargaEmas;
@@ -25,15 +26,59 @@ class PembelianController extends Controller
 
     public function index()
     {
-        $structure = (new Pembelian())->structure();
-        return view('dynamiccrud.index', $structure);
+
+        // Cek session
+        if (session()->has('selected_toko_id')) {
+            $structure = (new Pembelian())->structure();
+            return view('pembelians.index', $structure);
+        }
+
+        return redirect()->route('pembelians.pilihToko');
+    }
+
+    public function pilihToko()
+    {
+        $tokos = Toko::all();
+        return view('pembelians.pilihtoko', compact('tokos'));
+    }
+
+    // Proses simpan pilihan toko ke session
+    public function simpanPilihanToko(Request $request)
+    {
+        $request->validate([
+            'toko_id' => 'required|exists:tokos,id'
+        ]);
+
+        $toko = Toko::find($request->toko_id);
+
+        // Simpan ke session
+        session([
+            'selected_toko_id' => $toko->id,
+            'selected_toko_nama' => $toko->name,
+            'selected_toko_data' => $toko
+        ]);
+
+
+
+        return to_route('pembelians.index')->with('status', 'Berhasil memilih toko: ' . $toko->name);
+    }
+
+    public function exitToko()
+    {
+        session()->forget(['selected_toko_id', 'selected_toko_nama', 'selected_toko_data']);
+        return to_route('pembelians.pilihToko')->with('status', 'Berhasil keluar dari toko.');
     }
 
     public function indexTable(Request $request)
     {
         if (request()->ajax()) {
 
-            $pembelians = Pembelian::query();
+            $selectedTokoId = session('selected_toko_id');
+
+            $pembelians = Pembelian::query()
+                ->whereHas('toko', function ($query) use ($selectedTokoId) {
+                    $query->where('toko_id', $selectedTokoId);
+                });
 
             return DataTables::of($pembelians)
                 ->addIndexColumn()
@@ -103,6 +148,8 @@ class PembelianController extends Controller
 
     public function store(Request $request)
     {
+        $selectedTokoId = session('selected_toko_id');
+
         $validatedData = $request->validate([
             ...$this->model->getValidationRules(),
 
@@ -115,7 +162,7 @@ class PembelianController extends Controller
             'details.*.total_harga' => ['required', 'numeric'],
         ]);
 
-        DB::transaction(function () use ($validatedData) {
+        DB::transaction(function () use ($validatedData, $selectedTokoId) {
 
             // Simpan data pembelian
             $pembelian = Pembelian::create(
@@ -127,6 +174,8 @@ class PembelianController extends Controller
                 $validatedData['details']
             );
 
+            $pembelian->toko()->attach($selectedTokoId);
+
             //jika status pembelian adalah 'completed', buat transaksi
             if (isset($validatedData['status']) && $validatedData['status'] === 'completed') {
                 // Buat data transaksi terkait pembelian
@@ -134,7 +183,7 @@ class PembelianController extends Controller
                     'type' => 'OUT',
                     'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
                     'tanggal' => now(),
-                    'toko_id' => 1, // TODO:Ganti dengan ID toko yang sesuai
+                    'toko_id' => $selectedTokoId,
                     'nominal' => $pembelian->totalHarga(),
                     'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
                 ]);
@@ -172,6 +221,8 @@ class PembelianController extends Controller
 
     public function update(Request $request, Pembelian $pembelian)
     {
+        $selectedTokoId = session('selected_toko_id');
+
         $validatedData = $request->validate([
             ...$this->model->getValidationRules(),
 
@@ -186,11 +237,11 @@ class PembelianController extends Controller
 
         //jika status pembelian sebelumnya bukan 'completed' dan status baru adalah 'completed', perlu buat transaksi
         $perlu_buat_transaksi = $pembelian->status !== 'completed' && isset($validatedData['status']) && $validatedData['status'] === 'completed';
-        
 
-        DB::transaction(function () use ($validatedData, $pembelian, $perlu_buat_transaksi) {
 
-            
+        DB::transaction(function () use ($validatedData, $pembelian, $perlu_buat_transaksi, $selectedTokoId) {
+
+
 
             // Simpan data pembelian
             $pembelian->update(
@@ -213,7 +264,7 @@ class PembelianController extends Controller
                     'type' => 'OUT',
                     'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
                     'tanggal' => now(),
-                    'toko_id' => 1, // TODO:Ganti dengan ID toko yang sesuai
+                    'toko_id' => $selectedTokoId, 
                     'nominal' => $pembelian->totalHarga(),
                     'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
                 ]);

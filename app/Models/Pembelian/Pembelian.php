@@ -186,6 +186,12 @@ class Pembelian extends Model
         return $this->belongsToMany(Transaksi::class, 'transaksi_pembelians', 'pembelian_id', 'transaksi_id')->first();
     }
 
+    // Model untuk tabel pivot pembelian - toko
+    public function toko()
+    {
+        return $this->belongsToMany(Toko::class, 'pembelian_tokos', 'pembelian_id', 'toko_id');
+    }
+
     public function getValidationRules(): array
     {
         $structure = $this->structure();

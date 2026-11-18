@@ -121,6 +121,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('harga-emas-history/{hargaEmasHistory}', [HargaEmasHistoryController::class, 'destroy'])->name('harga-emas-history.destroy')->middleware('permission:delete-harga-emas-history');
 
     //resource pembelians
+    Route::get('pembelians/pilihToko', [PembelianController::class, 'pilihToko'])->name('pembelians.pilihToko')->middleware('permission:view-pembelians');
+    Route::post('pembelians/simpantoko', [PembelianController::class, 'simpanPilihanToko'])->name('pembelians.simpantoko')->middleware('permission:view-pembelians');
+    Route::post('pembelians/exittoko', [PembelianController::class, 'exitToko'])->name('pembelians.exittoko')->middleware('permission:view-pembelians');
     Route::get('pembelians', [PembelianController::class, 'index'])->name('pembelians.index')->middleware('permission:view-pembelians');
     Route::get('pembelians/indexTable', [PembelianController::class, 'indexTable'])->name('pembelians.indexTable')->middleware('permission:view-pembelians');
     Route::get('pembelians/export', [PembelianController::class, 'export'])->name('pembelians.export')->middleware('permission:download-pembelians');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pembelian\Pembelian;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -95,6 +96,31 @@ class Toko extends Model
                 
             ]
         ];
+    }
+
+    public function pembelians()
+    {
+        return $this->belongsToMany(Pembelian::class, 'pembelian_tokos', 'toko_id', 'pembelian_id');
+    }
+
+    public function transaksis()
+    {
+        return $this->belongsTo(Transaksi::class, 'toko_id');
+    }
+
+    public function getValidationRules(): array
+    {
+        $structure = $this->structure();
+
+        $rules = [];
+
+        foreach ($structure['columns'] as $column) {
+            if (!empty($column['validation'])) {
+                $rules[$column['name']] = $column['validation'];
+            }
+        }
+
+        return $rules;
     }
 
 
