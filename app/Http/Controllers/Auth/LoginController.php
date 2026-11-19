@@ -40,6 +40,8 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
+        $this->setTokoSession($request);
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
@@ -74,6 +76,19 @@ class LoginController extends Controller
 
     public function throttleKey(Request $request): string
     {
-        return Str::transliterate(Str::lower($request->string('email')).'|'.$request->ip());
+        return Str::transliterate(Str::lower($request->string('email')) . '|' . $request->ip());
+    }
+    protected function setTokoSession(Request $request): void
+    {
+        $user = Auth::user();
+        if ($user && $user->tokos()->exists()) {
+            $toko = $user->tokos()->first();
+            // Simpan ke session
+            session([
+                'selected_toko_id' => $toko->id,
+                'selected_toko_nama' => $toko->name,
+                'selected_toko_data' => $toko
+            ]);
+        }
     }
 }

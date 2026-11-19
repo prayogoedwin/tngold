@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Toko;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -96,6 +97,7 @@ class RolePermissionSeeder extends Seeder
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
         $ownerRole = Role::firstOrCreate(['name' => 'owner']);
         $adminTokoRole = Role::firstOrCreate(['name' => 'admin-toko']);
+        
 
         $superAdminRole->permissions()->sync(Permission::all());
         $ownerRole->permissions()->sync(
@@ -157,7 +159,14 @@ class RolePermissionSeeder extends Seeder
         );
 
         $adminTokoRole->permissions()->sync(
-            Permission::whereIn('name', [])->pluck('id')
+            Permission::whereIn('name', [
+                'view-pembelians',
+                'show-pembelians',
+                'create-pembelians',
+                'edit-pembelians',
+                'download-pembelians',
+                'delete-pembelians',
+            ])->pluck('id')
         );
 
         $superAdmin = User::firstOrCreate(
@@ -183,13 +192,41 @@ class RolePermissionSeeder extends Seeder
         $adminToko = User::firstOrCreate(
             ['email' => 'admintoko@example.com'],
             [
-                'name' => 'Admin Toko User',
+                'name' => 'Admin Toko',
                 'password' => Hash::make('password'),
             ]
         );
 
         $adminToko->roles()->sync([$adminTokoRole->id]);
 
+        $adminTokoA = User::firstOrCreate(
+            ['email' => 'admintokoa@example.com'],
+            [
+                'name' => 'Admin Toko A',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $adminTokoA->roles()->sync([$adminTokoRole->id]);
+        
+
+        $adminTokoB = User::firstOrCreate(
+            ['email' => 'admintokob@example.com'],
+            [
+                'name' => 'Admin Toko B',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $adminTokoB->roles()->sync([$adminTokoRole->id]);
+        
+
+        $adminTokoC = User::firstOrCreate(
+            ['email' => 'admintokoc@example.com'],
+            [
+                'name' => 'Admin Toko C',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $adminTokoC->roles()->sync([$adminTokoRole->id]);
         
     }
 }

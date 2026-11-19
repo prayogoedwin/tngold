@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             TokoSeeder::class,
+            AssignAdminTokoSeeder::class,
             TransaksiKategoriSeeder::class,
             TransaksiSeeder::class,
             HargaEmasSeeder::class,

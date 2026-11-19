@@ -21,13 +21,15 @@
     <div class="mb-6">
         <p class="text-gray-600 dark:text-gray-400">Selected Toko: {{ session('selected_toko_nama') }}</p>
         <div class="col-lg-6 text-xs text-gray-500 px-4 py-2 text-right">
-
+            <!-- Form untuk keluar dari toko yang dipilih Kalau dia admin-toko maka hide -->
+            @if ($canExitToko ?? true)
             <form action="{{ route('pembelians.exittoko') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="text-red-500 hover:text-red-700 ml-2" style="font-size: large;">
                     <i class="fas fa-sign-out-alt"></i> Keluar
                 </button>
             </form>
+            @endif
         </div>
     </div>
 

@@ -24,11 +24,20 @@ class PembelianController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
 
         // Cek session
         if (session()->has('selected_toko_id')) {
+
+            //validasi session toko
+            $user = auth()->user();
+            if ($user->hasRole('admin-toko') && ! $user->tokos()->where('id', session('selected_toko_id'))->exists()) {
+                return redirect()->route('pembelians.pilihToko')->with('error', 'Anda tidak memiliki akses ke toko ini.');
+            }
+
+
+
             $structure = (new Pembelian())->structure();
             return view('pembelians.index', $structure);
         }

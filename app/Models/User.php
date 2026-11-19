@@ -95,4 +95,9 @@ class User extends Authenticatable
 
         $this->roles()->detach($role->id);
     }
+
+    public function tokos(): BelongsToMany
+    {
+        return $this->belongsToMany(Toko::class, 'toko_users', 'user_id', 'toko_id');
+    }
 }

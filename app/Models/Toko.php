@@ -108,6 +108,11 @@ class Toko extends Model
         return $this->belongsTo(Transaksi::class, 'toko_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'toko_users', 'toko_id', 'user_id');
+    }
+
     public function getValidationRules(): array
     {
         $structure = $this->structure();
