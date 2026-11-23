@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pivot;
 
 use App\Models\Pembelian\Pembelian;
 use Illuminate\Database\Eloquent\Model;

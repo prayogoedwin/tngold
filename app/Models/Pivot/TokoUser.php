@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pivot;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Toko;
+use App\Models\User;
 
 class TokoUser extends Model
 {

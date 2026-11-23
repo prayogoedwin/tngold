@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pivot;
 
 use App\Models\Pembelian\Pembelian;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Transaksi;
 
 class TransaksiPembelian extends Model
 {
