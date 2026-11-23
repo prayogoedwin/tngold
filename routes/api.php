@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HargaEmasApi;
 use App\Http\Controllers\Api\PembelianApi;
+use App\Http\Controllers\Api\TokoApi;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TransaksiApi;
@@ -45,4 +46,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('pembelians/{pembelian}', [PembelianApi::class, 'update'])->middleware('permission:edit-pembelians');
     Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
+
+    //toko
+    Route::get('tokos', [TokoApi::class, 'index'])->middleware('permission:view-tokos');
+    Route::post('tokos', [TokoApi::class, 'store'])->middleware('permission:create-tokos');
+    Route::get('tokos/{toko}', [TokoApi::class, 'show'])->middleware('permission:show-tokos');
+    Route::put('tokos/{toko}', [TokoApi::class, 'update'])->middleware('permission:edit-tokos');
+    Route::delete('tokos/{toko}', [TokoApi::class, 'destroy'])->middleware('permission:delete-tokos');
 });

@@ -23,7 +23,6 @@ class TokoController extends Controller
     public function index()
     {
         $structure = (new Toko())->structure();
-        $structure['tablename'] = 'bla';
         // dd($structure);
         return view('dynamiccrud.index', $structure);
     }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-// this is not real Model, just a template structure for copy paste purposes
 class Toko extends Model
 {
     use SoftDeletes;
@@ -95,6 +94,17 @@ class Toko extends Model
                 ],
                 
             ]
+        ];
+    }
+
+    public function transformed(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'code' => $this->code,
+            'address' => $this->address,
+            'phone' => $this->phone,
         ];
     }
 
