@@ -92,6 +92,16 @@ class TransaksiKategori extends Model
         ];
     }
 
+    public function transformed()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => $this->type,
+            
+        ];
+    }
+
     public function transaksis()
     {
         return $this->hasMany(Transaksi::class);

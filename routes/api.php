@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\TokoApi;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TransaksiApi;
+use App\Http\Controllers\Api\TransaksiKategoriApi;
+use App\Models\TransaksiKategori;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -38,6 +40,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('transaksis/{transaksi}', [TransaksiApi::class, 'show'])->middleware('permission:show-transaksis');
     Route::put('transaksis/{transaksi}', [TransaksiApi::class, 'update'])->middleware('permission:edit-transaksis');
     Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-transaksis');
+
+    //resource transaksi-kategori
+    Route::get('transaksi-kategoris', [TransaksiKategoriApi::class, 'index'])->name('transaksi-kategoris.index')->middleware('permission:view-transaksi-kategoris');
+    Route::post('transaksi-kategoris', [TransaksiKategoriApi::class, 'store'])->name('transaksi-kategoris.store')->middleware('permission:create-transaksi-kategoris');
+    Route::get('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'show'])->name('transaksi-kategoris.show')->middleware('permission:show-transaksi-kategoris');
+    Route::put('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'update'])->name('transaksi-kategoris.update')->middleware('permission:edit-transaksi-kategoris');
+    Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
 
     // - pembelian
     Route::get('pembelians', [PembelianApi::class, 'index'])->middleware('permission:view-pembelians');
