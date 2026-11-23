@@ -167,6 +167,21 @@ class Pembelian extends Model
         ];
     }
 
+    public function transformed()
+    {
+        
+        return [
+            'id' => $this->id,
+            'no_invoice' => $this->no_invoice,
+            'nama_pembeli' => $this->nama_pembeli,
+            'no_hp_pembeli' => $this->no_hp_pembeli,
+            'tanggal' => $this->tanggal,
+            'status' => $this->status,
+            'keterangan' => $this->keterangan,
+            'total_harga' => $this->totalHarga(),
+        ];
+    }
+
     public function details()
     {
         return $this->hasMany(PembelianDetail::class, 'pembelian_id');

@@ -277,6 +277,7 @@ class PembelianController extends Controller
                     'nominal' => $pembelian->totalHarga(),
                     'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
                 ]);
+                $pembelian->transaksi()->attach($transaksi->id);
             }
         });
 

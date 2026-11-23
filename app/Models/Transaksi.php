@@ -153,6 +153,19 @@ class Transaksi extends Model
         ];
     }
 
+    public function transformed()
+    {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'tanggal' => $this->tanggal,
+            'nominal' => $this->nominal,
+            'keterangan' => $this->keterangan,
+            'transaksi_kategori_id' => $this->transaksi_kategori_id,
+            'toko_id' => $this->toko_id,
+        ];
+    }
+
     public function transaksiKategori()
     {
         return $this->belongsTo(TransaksiKategori::class);
@@ -161,6 +174,25 @@ class Transaksi extends Model
     public function toko()
     {
         return $this->belongsTo(Toko::class);
+    }
+
+    public function transaksiMasuk()
+    {
+        // yang type nya 'IN'
+        return $this->where('type', 'IN');
+    }
+
+    public function transaksiKeluar()
+    {
+        // yang type nya 'OUT'
+        return $this->where('type', 'OUT');
+    }
+
+    public function currentSaldo(int $tokoId)
+    {
+        $saldoMasuk = $this->transaksiMasuk()->where('toko_id', $tokoId)->sum('nominal');
+        $saldoKeluar = $this->transaksiKeluar()->where('toko_id', $tokoId)->sum('nominal');
+        return $saldoMasuk - $saldoKeluar;
     }
 
     public function getValidationRules(): array

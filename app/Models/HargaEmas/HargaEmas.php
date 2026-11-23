@@ -146,6 +146,19 @@ class HargaEmas extends Model
         ];
     }
 
+    //untuk response api
+    public function transformed()
+    {
+        return [
+            'id' => $this->id,
+            'nama' => $this->emas_asal,
+            'kadar' => $this->kadar,
+            'satuan' => $this->satuan,
+            'jumlah' => $this->jumlah,
+            'harga_beli' => $this->harga_beli,
+        ];
+    }
+
     public function hargaEmasHistories()
     {
         return $this->hasMany(HargaEmasHistory::class, 'harga_emas_id');

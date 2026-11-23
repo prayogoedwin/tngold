@@ -113,6 +113,15 @@ class HargaEmasHistory extends Model
         ];
     }
 
+    public function transformed()
+    {
+        return [
+            'id' => $this->id,
+            'harga_beli' => $this->harga_beli,
+            'tanggal' => $this->tanggal,
+        ];
+    }
+
     public function hargaEmas()
     {
         return $this->belongsTo(HargaEmas::class, 'harga_emas_id');
