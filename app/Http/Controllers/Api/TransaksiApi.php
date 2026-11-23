@@ -30,6 +30,20 @@ class TransaksiApi extends Controller
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(type: 'integer', example: 1)
+            ),
+            new OA\Parameter(
+                name: 'per_page',
+                description: 'Number of items per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 10)
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 1)
             )
         ],
         responses: [
@@ -107,11 +121,22 @@ class TransaksiApi extends Controller
         $request->validate([
             'toko_id' => 'required|integer|exists:tokos,id'
         ]);
-        $transaksis = Transaksi::where('toko_id', $request->toko_id)->get();
-        return response()->json([
-            'message' => 'Transaksis retrieved successfully.',
-            'data' => $transaksis->map->transformed()
-        ]);
+        $per_page = $request->integer('per_page', 10);
+        $page = $request->integer('page', 1);
+
+        $transaksis = Transaksi::where('toko_id', $request->toko_id)->paginate($per_page, ['*'], 'page', $page);
+
+        $data = $transaksis->getCollection()
+                ->map(
+                    fn(Transaksi $t) =>
+                    $t->transformed()
+                );
+
+        $output = $transaksis->toArray();
+        $output['data'] = $data;
+        $output['message'] = 'Transaksis retrieved successfully.';
+
+        return response()->json($output);
     }
 
     #[OA\Get(

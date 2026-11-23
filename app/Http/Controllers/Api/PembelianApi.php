@@ -74,12 +74,22 @@ class PembelianApi extends Controller
     )]
     public function index(Request $request)
     {
-        $pembelians = Pembelian::all();
+        $per_page = $request->integer('per_page', 10);
+        $page = $request->integer('page', 1);
 
-        return response()->json([
-            'message' => 'Pembelian retrieved successfully.',
-            'data' => $pembelians->map->transformed()
-        ]);
+        $pembelians = Pembelian::paginate($per_page, ['*'], 'page', $page);
+
+        $data = $pembelians->getCollection()
+                ->map(
+                    fn(Pembelian $pembelian) =>
+                    $pembelian->transformed()
+                );
+
+        $output = $pembelians->toArray();
+        $output['data'] = $data;
+        $output['message'] = 'Pembelian retrieved successfully.';
+
+        return response()->json($output);
     }
 
     #[OA\Get(

@@ -23,6 +23,22 @@ class HargaEmasApi extends Controller
         description: 'Retrieves all gold price data. Requires the view-harga-emas permission.',
         tags: ['Harga Emas'],
         security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'per_page',
+                description: 'Number of items per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 10)
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 1)
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -71,13 +87,26 @@ class HargaEmasApi extends Controller
             )
         ]
     )]
-    public function index()
+    public function index(Request $request)
     {
-        $hargaEmas = HargaEmas::all();
-        return response()->json([
-            'message' => 'Harga Emas retrieved successfully.',
-            'data' => $hargaEmas->map->transformed()
-        ]);
+        $per_page = $request->integer('per_page', 10);
+        $page = $request->integer('page', 1);
+
+
+        $hargaEmas = HargaEmas::paginate($per_page, ['*'], 'page', $page);
+
+
+        $data = $hargaEmas->getCollection()
+                ->map(
+                    fn(HargaEmas $h) =>
+                    $h->transformed()
+                );
+
+        $output = $hargaEmas->toArray();
+        $output['data'] = $data;
+        $output['message'] = 'Harga Emas retrieved successfully.';
+
+        return response()->json($output);
     }
 
     #[OA\Get(
