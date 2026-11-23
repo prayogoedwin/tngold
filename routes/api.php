@@ -39,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-transaksis');
 
     // - pembelian
-    
     Route::get('pembelians', [PembelianApi::class, 'index'])->middleware('permission:view-pembelians');
     Route::post('pembelians', [PembelianApi::class, 'store'])->middleware('permission:create-pembelians');
     Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');

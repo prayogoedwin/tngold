@@ -189,11 +189,13 @@ class HargaEmasApi extends Controller
             required: true,
             content: new OA\JsonContent(
                 type: 'object',
-                required: ['nama_produk', 'harga_beli', 'harga_jual'],
+                required: ['emas_asal', 'kadar', 'satuan', 'jumlah', 'harga_beli'],
                 properties: [
-                    new OA\Property(property: 'nama_produk', type: 'string', example: 'Emas Batangan 1 gram'),
-                    new OA\Property(property: 'harga_beli', type: 'number', example: 1250000),
-                    new OA\Property(property: 'harga_jual', type: 'number', example: 1350000)
+                    new OA\Property(property: 'emas_asal', type: 'string', example: 'Antam'),
+                    new OA\Property(property: 'kadar', type: 'integer', example: '24'),
+                    new OA\Property(property: 'satuan', type: 'string', example: 'gram'),
+                    new OA\Property(property: 'jumlah', type: 'number', example: 1),
+                    new OA\Property(property: 'harga_beli', type: 'number', example: 1250000)
                 ]
             )
         ),
@@ -210,11 +212,11 @@ class HargaEmasApi extends Controller
                             type: 'object',
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
-                                new OA\Property(property: 'nama_produk', type: 'string', example: 'Emas Batangan 1 gram'),
-                                new OA\Property(property: 'harga_beli', type: 'number', example: 1250000),
-                                new OA\Property(property: 'harga_jual', type: 'number', example: 1350000),
-                                new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
-                                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z')
+                                new OA\Property(property: 'emas_asal', type: 'string', example: 'Antam'),
+                                new OA\Property(property: 'kadar', type: 'integer', example: '24'),
+                                new OA\Property(property: 'satuan', type: 'string', example: 'gram'),
+                                new OA\Property(property: 'jumlah', type: 'number', example: 1),
+                                new OA\Property(property: 'harga_beli', type: 'number', example: 1250000)
                             ]
                         )
                     ]
@@ -297,11 +299,13 @@ class HargaEmasApi extends Controller
             required: true,
             content: new OA\JsonContent(
                 type: 'object',
-                required: ['nama_produk', 'harga_beli', 'harga_jual'],
+                required: ['emas_asal', 'kadar', 'satuan', 'jumlah', 'harga_beli'],
                 properties: [
-                    new OA\Property(property: 'nama_produk', type: 'string', example: 'Emas Batangan 1 gram'),
-                    new OA\Property(property: 'harga_beli', type: 'number', example: 1260000),
-                    new OA\Property(property: 'harga_jual', type: 'number', example: 1360000)
+                    new OA\Property(property: 'emas_asal', type: 'string', example: 'Antam'),
+                    new OA\Property(property: 'kadar', type: 'integer', example: 24),
+                    new OA\Property(property: 'satuan', type: 'string', example: 'gram'),
+                    new OA\Property(property: 'jumlah', type: 'number', example: 1),
+                    new OA\Property(property: 'harga_beli', type: 'number', example: 1260000)
                 ]
             )
         ),
@@ -318,9 +322,11 @@ class HargaEmasApi extends Controller
                             type: 'object',
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
-                                new OA\Property(property: 'nama_produk', type: 'string', example: 'Emas Batangan 1 gram'),
+                                new OA\Property(property: 'emas_asal', type: 'string', example: 'Antam'),
+                                new OA\Property(property: 'kadar', type: 'integer', example: 24),
+                                new OA\Property(property: 'satuan', type: 'string', example: 'gram'),
+                                new OA\Property(property: 'jumlah', type: 'number', example: 1),
                                 new OA\Property(property: 'harga_beli', type: 'number', example: 1260000),
-                                new OA\Property(property: 'harga_jual', type: 'number', example: 1360000),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
                                 new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2026-07-02T00:00:00.000000Z')
                             ]

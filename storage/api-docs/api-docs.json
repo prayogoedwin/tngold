@@ -282,22 +282,32 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "nama_produk",
-                                    "harga_beli",
-                                    "harga_jual"
+                                    "emas_asal",
+                                    "kadar",
+                                    "satuan",
+                                    "jumlah",
+                                    "harga_beli"
                                 ],
                                 "properties": {
-                                    "nama_produk": {
+                                    "emas_asal": {
                                         "type": "string",
-                                        "example": "Emas Batangan 1 gram"
+                                        "example": "Antam"
+                                    },
+                                    "kadar": {
+                                        "type": "integer",
+                                        "example": "24"
+                                    },
+                                    "satuan": {
+                                        "type": "string",
+                                        "example": "gram"
+                                    },
+                                    "jumlah": {
+                                        "type": "number",
+                                        "example": 1
                                     },
                                     "harga_beli": {
                                         "type": "number",
                                         "example": 1250000
-                                    },
-                                    "harga_jual": {
-                                        "type": "number",
-                                        "example": 1350000
                                     }
                                 },
                                 "type": "object"
@@ -322,27 +332,25 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "nama_produk": {
+                                                "emas_asal": {
                                                     "type": "string",
-                                                    "example": "Emas Batangan 1 gram"
+                                                    "example": "Antam"
+                                                },
+                                                "kadar": {
+                                                    "type": "integer",
+                                                    "example": "24"
+                                                },
+                                                "satuan": {
+                                                    "type": "string",
+                                                    "example": "gram"
+                                                },
+                                                "jumlah": {
+                                                    "type": "number",
+                                                    "example": 1
                                                 },
                                                 "harga_beli": {
                                                     "type": "number",
                                                     "example": 1250000
-                                                },
-                                                "harga_jual": {
-                                                    "type": "number",
-                                                    "example": 1350000
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2026-07-01T00:00:00.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2026-07-01T00:00:00.000000Z"
                                                 }
                                             },
                                             "type": "object"
@@ -595,22 +603,32 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "nama_produk",
-                                    "harga_beli",
-                                    "harga_jual"
+                                    "emas_asal",
+                                    "kadar",
+                                    "satuan",
+                                    "jumlah",
+                                    "harga_beli"
                                 ],
                                 "properties": {
-                                    "nama_produk": {
+                                    "emas_asal": {
                                         "type": "string",
-                                        "example": "Emas Batangan 1 gram"
+                                        "example": "Antam"
+                                    },
+                                    "kadar": {
+                                        "type": "integer",
+                                        "example": 24
+                                    },
+                                    "satuan": {
+                                        "type": "string",
+                                        "example": "gram"
+                                    },
+                                    "jumlah": {
+                                        "type": "number",
+                                        "example": 1
                                     },
                                     "harga_beli": {
                                         "type": "number",
                                         "example": 1260000
-                                    },
-                                    "harga_jual": {
-                                        "type": "number",
-                                        "example": 1360000
                                     }
                                 },
                                 "type": "object"
@@ -635,17 +653,25 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "nama_produk": {
+                                                "emas_asal": {
                                                     "type": "string",
-                                                    "example": "Emas Batangan 1 gram"
+                                                    "example": "Antam"
+                                                },
+                                                "kadar": {
+                                                    "type": "integer",
+                                                    "example": 24
+                                                },
+                                                "satuan": {
+                                                    "type": "string",
+                                                    "example": "gram"
+                                                },
+                                                "jumlah": {
+                                                    "type": "number",
+                                                    "example": 1
                                                 },
                                                 "harga_beli": {
                                                     "type": "number",
                                                     "example": 1260000
-                                                },
-                                                "harga_jual": {
-                                                    "type": "number",
-                                                    "example": 1360000
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -874,7 +900,7 @@
                                                     },
                                                     "status": {
                                                         "type": "string",
-                                                        "example": "completed"
+                                                        "example": "draft/cancelled/completed"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -956,13 +982,25 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "no_invoice": {
+                                    "nama_pembeli": {
                                         "type": "string",
-                                        "example": "INV-PB-0001"
+                                        "example": "John Doe"
+                                    },
+                                    "no_hp_pembeli": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    },
+                                    "tanggal": {
+                                        "type": "string",
+                                        "example": "2024-06-28"
+                                    },
+                                    "keterangan": {
+                                        "type": "string",
+                                        "example": "Pembelian untuk keperluan toko"
                                     },
                                     "status": {
                                         "type": "string",
-                                        "example": "completed"
+                                        "example": "draft/cancelled/completed"
                                     },
                                     "details": {
                                         "type": "array",
@@ -1028,13 +1066,9 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "no_invoice": {
-                                                    "type": "string",
-                                                    "example": "INV-PB-0001"
-                                                },
                                                 "status": {
                                                     "type": "string",
-                                                    "example": "completed"
+                                                    "example": "draft/cancelled/completed"
                                                 },
                                                 "details": {
                                                     "type": "array",
@@ -1382,13 +1416,25 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "no_invoice": {
+                                    "nama_pembeli": {
                                         "type": "string",
-                                        "example": "INV-PB-0001"
+                                        "example": "John Doe"
+                                    },
+                                    "no_hp_pembeli": {
+                                        "type": "string",
+                                        "example": "081234567890"
+                                    },
+                                    "tanggal": {
+                                        "type": "string",
+                                        "example": "2024-06-28"
+                                    },
+                                    "keterangan": {
+                                        "type": "string",
+                                        "example": "Pembelian untuk keperluan toko"
                                     },
                                     "status": {
                                         "type": "string",
-                                        "example": "completed"
+                                        "example": "draft/cancelled/completed"
                                     },
                                     "details": {
                                         "type": "array",

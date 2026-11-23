@@ -41,7 +41,7 @@ class PembelianApi extends Controller
                                 properties: [
                                     new OA\Property(property: 'id', type: 'integer', example: 1),
                                     new OA\Property(property: 'no_invoice', type: 'string', example: 'INV-PB-0001'),
-                                    new OA\Property(property: 'status', type: 'string', example: 'completed'),
+                                    new OA\Property(property: 'status', type: 'string', example: 'draft/cancelled/completed'),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
                                     new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z')
                                 ]
@@ -207,8 +207,11 @@ class PembelianApi extends Controller
                 required: ['toko_id', 'details'],
                 properties: [
                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                    new OA\Property(property: 'no_invoice', type: 'string', example: 'INV-PB-0001'),
-                    new OA\Property(property: 'status', type: 'string', example: 'completed'),
+                    new OA\Property(property: 'nama_pembeli', type: 'string', example: 'John Doe'),
+                    new OA\Property(property: 'no_hp_pembeli', type: 'string', example: '081234567890'),
+                    new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
+                    new OA\Property(property: 'keterangan', type: 'string', example: 'Pembelian untuk keperluan toko'),
+                    new OA\Property(property: 'status', type: 'string', example: 'draft/cancelled/completed'),
                     new OA\Property(
                         property: 'details',
                         type: 'array',
@@ -242,8 +245,7 @@ class PembelianApi extends Controller
                             type: 'object',
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
-                                new OA\Property(property: 'no_invoice', type: 'string', example: 'INV-PB-0001'),
-                                new OA\Property(property: 'status', type: 'string', example: 'completed'),
+                                new OA\Property(property: 'status', type: 'string', example: 'draft/cancelled/completed'),
                                 new OA\Property(
                                     property: 'details',
                                     type: 'array',
@@ -388,8 +390,11 @@ class PembelianApi extends Controller
                 required: ['toko_id', 'details'],
                 properties: [
                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                    new OA\Property(property: 'no_invoice', type: 'string', example: 'INV-PB-0001'),
-                    new OA\Property(property: 'status', type: 'string', example: 'completed'),
+                    new OA\Property(property: 'nama_pembeli', type: 'string', example: 'John Doe'),
+                    new OA\Property(property: 'no_hp_pembeli', type: 'string', example: '081234567890'),
+                    new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
+                    new OA\Property(property: 'keterangan', type: 'string', example: 'Pembelian untuk keperluan toko'),
+                    new OA\Property(property: 'status', type: 'string', example: 'draft/cancelled/completed'),
                     new OA\Property(
                         property: 'details',
                         type: 'array',

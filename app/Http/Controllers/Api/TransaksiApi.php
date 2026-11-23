@@ -48,7 +48,7 @@ class TransaksiApi extends Controller
                                 properties: [
                                     new OA\Property(property: 'id', type: 'integer', example: 1),
                                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                                    new OA\Property(property: 'tipe', type: 'string', example: 'masuk'),
+                                    new OA\Property(property: 'tipe', type: 'string', example: 'IN'),
                                     new OA\Property(property: 'nominal', type: 'number', example: 500000),
                                     new OA\Property(property: 'keterangan', type: 'string', example: 'Penjualan emas 1 gram'),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
@@ -384,7 +384,7 @@ class TransaksiApi extends Controller
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
                                 new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                                new OA\Property(property: 'tipe', type: 'string', example: 'masuk'),
+                                new OA\Property(property: 'tipe', type: 'string', example: 'IN'),
                                 new OA\Property(property: 'nominal', type: 'number', example: 500000),
                                 new OA\Property(property: 'keterangan', type: 'string', example: 'Penjualan emas 1 gram'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
@@ -446,10 +446,12 @@ class TransaksiApi extends Controller
             required: true,
             content: new OA\JsonContent(
                 type: 'object',
-                required: ['toko_id', 'tipe', 'nominal'],
+                required: ['toko_id', 'transaksi_kategori_id', 'type', 'tanggal', 'nominal'],
                 properties: [
                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                    new OA\Property(property: 'tipe', type: 'string', example: 'masuk'),
+                    new OA\Property(property: 'transaksi_kategori_id', type: 'integer', example: 1),
+                    new OA\Property(property: 'type', type: 'string', example: 'IN'),
+                    new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
                     new OA\Property(property: 'nominal', type: 'number', example: 500000),
                     new OA\Property(property: 'keterangan', type: 'string', nullable: true, example: 'Penjualan emas 1 gram')
                 ]
@@ -469,7 +471,9 @@ class TransaksiApi extends Controller
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
                                 new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                                new OA\Property(property: 'tipe', type: 'string', example: 'masuk'),
+                                new OA\Property(property: 'transaksi_kategori_id', type: 'integer', example: 1),
+                                new OA\Property(property: 'type', type: 'string', example: 'IN'),
+                                new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
                                 new OA\Property(property: 'nominal', type: 'number', example: 500000),
                                 new OA\Property(property: 'keterangan', type: 'string', example: 'Penjualan emas 1 gram'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
@@ -556,10 +560,12 @@ class TransaksiApi extends Controller
             required: true,
             content: new OA\JsonContent(
                 type: 'object',
-                required: ['toko_id', 'tipe', 'nominal'],
+                required: ['toko_id', 'transaksi_kategori_id', 'type', 'tanggal', 'nominal'],
                 properties: [
                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                    new OA\Property(property: 'tipe', type: 'string', example: 'keluar'),
+                    new OA\Property(property: 'transaksi_kategori_id', type: 'integer', example: 1),
+                    new OA\Property(property: 'type', type: 'string', example: 'keluar'),
+                    new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
                     new OA\Property(property: 'nominal', type: 'number', example: 750000),
                     new OA\Property(property: 'keterangan', type: 'string', nullable: true, example: 'Pembelian emas 1 gram')
                 ]
@@ -579,7 +585,9 @@ class TransaksiApi extends Controller
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
                                 new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                                new OA\Property(property: 'tipe', type: 'string', example: 'keluar'),
+                                new OA\Property(property: 'transaksi_kategori_id', type: 'integer', example: 1),
+                                new OA\Property(property: 'type', type: 'string', example: 'keluar'),
+                                new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),    
                                 new OA\Property(property: 'nominal', type: 'number', example: 750000),
                                 new OA\Property(property: 'keterangan', type: 'string', example: 'Pembelian emas 1 gram'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
