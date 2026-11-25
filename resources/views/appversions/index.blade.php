@@ -117,6 +117,36 @@
         </div>
     </div>
 
+    <div id="download-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Enter Access Code</h2>
+            <form id="download-form" method="POST" action="{{ route('app-versions.download') }}">
+                @csrf
+                <input type="hidden" name="_method" value="GET">
+                <input type="hidden" name="id" id="download-id">
+                <div class="mb-4">
+                    <label for="kode_akses" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Access Code</label>
+                    <input type="text" name="kode_akses" id="kode_akses" class="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-gray-100">
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeDownloadModal()" class="mr-2 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Download</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openDownloadModal(id) {
+            document.getElementById('download-id').value = id;
+            document.getElementById('download-modal').classList.remove('hidden');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.add('hidden');
+        }
+    </script>
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.tailwindcss.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>

@@ -26,6 +26,7 @@ Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'inde
 //bisa tanpa login
 Route::get('app-versions', [AppVersionController::class, 'index'])->name('app-versions.index');
 Route::get('app-versions/indexTable', [AppVersionController::class, 'indexTable'])->name('app-versions.indexTable');
+Route::get('app-versions/download', [AppVersionController::class, 'download'])->name('app-versions.download');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('api-token', [UserController::class, 'getApiToken'])->name('api-token');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppVersion;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class AppVersionController extends Controller
@@ -42,22 +43,26 @@ class AppVersionController extends Controller
 
             return DataTables::of($objects)
                 ->addIndexColumn()
-                ->addColumn('foreign_id', function ($row) {
-                    return $row->foreign ? $row->foreign->name : '';
+                ->editColumn('url_apk_file', function ($row) {
+                    // buka modal untuk form untuk mengisi kode_akses / password, nanti routing ke download
+                    return '<button class="text-blue-600 dark:text-blue-400 hover:underline" onclick="openDownloadModal(' . $row->id . ')">Download</button>';
                 })
                 ->addColumn('actions', function ($row) {
                     $actions = '';
-
-                    if (auth()->user()->hasPermission('show-template-studs')) {
-                        $actions .= '<a href="' . route('template-studs.show', $row) . '" class="text-green-600 dark:text-green-400 hover:underline mr-3">View</a>';
+                    if(!auth()->check()){
+                        return '';
                     }
 
-                    if (auth()->user()->hasPermission('edit-template-studs')) {
-                        $actions .= '<a href="' . route('template-studs.edit', $row) . '" class="text-blue-600 dark:text-blue-400 hover:underline mr-3">Edit</a>';
+                    if (auth()->user()->hasPermission('show-app-versions')) {
+                        $actions .= '<a href="' . route('app-versions.show', $row) . '" class="text-green-600 dark:text-green-400 hover:underline mr-3">View</a>';
                     }
 
-                    if (auth()->user()->hasPermission('delete-template-studs')) {
-                        $actions .= '<form action="' . route('template-studs.destroy', $row) . '" method="POST" class="inline" onsubmit="return confirm(\'Are you sure?\')">
+                    if (auth()->user()->hasPermission('edit-app-versions')) {
+                        $actions .= '<a href="' . route('app-versions.edit', $row) . '" class="text-blue-600 dark:text-blue-400 hover:underline mr-3">Edit</a>';
+                    }
+
+                    if (auth()->user()->hasPermission('delete-app-versions')) {
+                        $actions .= '<form action="' . route('app-versions.destroy', $row) . '" method="POST" class="inline" onsubmit="return confirm(\'Are you sure?\')">
                             ' . csrf_field() . method_field('DELETE') . '
                             <button type="submit" class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
                         </form>';
@@ -68,15 +73,36 @@ class AppVersionController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at ? $row->created_at->format('Y-m-d H:i:s') : '';
                 })
-                ->rawColumns(['actions',])
+                ->rawColumns(['actions', 'url_apk_file'])
                 ->make(true);
         }
     }
 
-    public function show(AppVersion $object)
+    public function download(Request $request)
     {
-        $structure = $object->structure();
-        $data = $object;
+        $request->validate([
+            'id' => 'required|exists:app_versions,id',
+            'kode_akses' => 'nullable|string|max:255',
+        ]);
+
+        $object = AppVersion::findOrFail($request->id);
+
+        if ($object->kode_akses && $object->kode_akses !== $request->kode_akses) {
+            return redirect()->back()->with('error', 'Invalid access code.');
+        }
+
+
+        if ($object->url_apk_file && Storage::disk('public')->exists('apk_files/' . $object->url_apk_file)) {
+            return Storage::disk('public')->download('apk_files/' . $object->url_apk_file);
+        }
+
+        return redirect()->back()->with('error', 'File not found.');
+    }
+
+    public function show(AppVersion $appVersion)
+    {
+        $structure = $appVersion->structure();
+        $data = $appVersion;
         return view('dynamiccrud.show', array_merge($structure, ['data' => $data]));
     }
 
@@ -93,32 +119,65 @@ class AppVersionController extends Controller
             ...$this->model->getValidationRules()
         ]);
 
+        //file handling
+        if ($request->has('url_apk_file')) {
+            // dd('masuk sini');
+
+            //format file = tngold_{versi}.apk
+
+            $file = $request->file('url_apk_file');
+            $filename = 'tngold_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('apk_files', $filename, 'public');
+            $validatedData['url_apk_file'] = $filename;
+        }
+        else {
+            //jika tida ada maka tetap generate
+            $validatedData['url_apk_file'] = 'tngold_' . $validatedData['version'] . '.apk';
+        }
+
         $object = AppVersion::create($validatedData);
 
-        return redirect()->route('template-studs.index')->with('success', 'Template Stud created successfully.');
+        return redirect()->route('app-versions.index')->with('success', 'App Version created successfully.');
     }
 
-    public function edit(AppVersion $object)
+    public function edit(AppVersion $appVersion)
     {
-        $structure = $object->structure();
-        $data = $object;
+        $structure = $appVersion->structure();
+        $data = $appVersion;
         return view('dynamiccrud.edit', array_merge($structure, ['data' => $data]));
     }
 
-    public function update(Request $request, AppVersion $object)
+    public function update(Request $request, AppVersion $appVersion)
     {
         $validatedData = $request->validate([
             ...$this->model->getValidationRules()
         ]);
 
-        $object->update($validatedData);
+        //file handling
+        if ($request->has('url_apk_file')) {
+            // dd('masuk sini');
 
-        return redirect()->route('template-studs.index')->with('success', 'Template Stud updated successfully.');
+            //format file = tngold_{versi}.apk
+
+            //delete old file if exists
+            if ($appVersion->url_apk_file) {
+                Storage::disk('public')->delete('apk_files/' . $appVersion->url_apk_file);
+            }
+
+            $file = $request->file('url_apk_file');
+            $filename = 'tngold_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('apk_files', $filename, 'public');
+            $validatedData['url_apk_file'] = $filename;
+        }
+
+        $appVersion->update($validatedData);
+
+        return redirect()->route('app-versions.index')->with('success', 'App Version updated successfully.');
     }
 
-    public function destroy(AppVersion $object)
+    public function destroy(AppVersion $appVersion)
     {
-        $object->delete();
-        return redirect()->route('template-studs.index')->with('success', 'Template Stud deleted successfully.');
+        $appVersion->delete();
+        return redirect()->route('app-versions.index')->with('success', 'App Version deleted successfully.');
     }
 }

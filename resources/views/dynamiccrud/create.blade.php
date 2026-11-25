@@ -117,6 +117,13 @@
                 @break
 
                 @case('file')
+                <div class="mb-4">
+                    <x-forms.file :label="$label" :name="$name"
+                        :accept="$type === 'file' ? 'file/*' : null"
+                        :required="$required" />
+                </div>
+                @break
+
                 @case('image')
                 <div class="mb-4">
                     <x-forms.file :label="$label" :name="$name"
