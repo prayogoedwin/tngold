@@ -23,6 +23,17 @@ class AppVersion extends Model
         'deleted_by'
     ];
 
+    protected $casts = [
+        'release_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'release_by' => 'integer',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'deleted_by' => 'integer',
+    ];
+
     protected static function booted()
     {
         static::creating(function ($model) {
@@ -210,7 +221,14 @@ class AppVersion extends Model
         
         return [
             'id' => $this->id,
-            // etc
+            'tipe' => $this->tipe,
+            'tipe_version' => $this->tipe_version,
+            'version' => $this->version,
+            'url_apk_file' => url($this->url_apk_file),
+            'kode_akses' => $this->kode_akses,
+            'catatan' => $this->catatan,
+            'release_at' => $this->release_at,
+            'released_by' => $this->released_by,
         ];
     }
 

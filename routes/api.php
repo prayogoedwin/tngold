@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AppVersionApi;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HargaEmasApi;
 use App\Http\Controllers\Api\PembelianApi;
@@ -62,4 +63,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('tokos/{toko}', [TokoApi::class, 'show'])->middleware('permission:show-tokos');
     Route::put('tokos/{toko}', [TokoApi::class, 'update'])->middleware('permission:edit-tokos');
     Route::delete('tokos/{toko}', [TokoApi::class, 'destroy'])->middleware('permission:delete-tokos');
+
+    //app versions
+    Route::get('app-versions', [AppVersionApi::class, 'index'])->middleware('permission:view-app-versions');
+    Route::post('app-versions', [AppVersionApi::class, 'store'])->middleware('permission:create-app-versions');
+    Route::get('app-versions/{appVersion}', [AppVersionApi::class, 'show'])->middleware('permission:show-app-versions');
+    Route::put('app-versions/{appVersion}', [AppVersionApi::class, 'update'])->middleware('permission:edit-app-versions');
+    Route::delete('app-versions/{appVersion}', [AppVersionApi::class, 'destroy'])->middleware('permission:delete-app-versions');
 });
