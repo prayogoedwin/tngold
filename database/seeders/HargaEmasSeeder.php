@@ -15,6 +15,7 @@ class HargaEmasSeeder extends Seeder
         $data = [
             [
                 'emas_asal' => 'Antam',
+                'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
                 'jumlah' => 1,
@@ -22,6 +23,7 @@ class HargaEmasSeeder extends Seeder
             ],
             [
                 'emas_asal' => 'UBS Gold',
+                'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
                 'jumlah' => 1,
@@ -29,6 +31,7 @@ class HargaEmasSeeder extends Seeder
             ],
             [
                 'emas_asal' => 'Galeri 24',
+                'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
                 'jumlah' => 1,
@@ -36,6 +39,7 @@ class HargaEmasSeeder extends Seeder
             ],
             [
                 'emas_asal' => 'Lotus Archi',
+                'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
                 'jumlah' => 1,
@@ -43,6 +47,7 @@ class HargaEmasSeeder extends Seeder
             ],
             [
                 'emas_asal' => 'King Halim',
+                'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
                 'jumlah' => 1,
