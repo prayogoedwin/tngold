@@ -23,6 +23,35 @@ class AppVersion extends Model
         'deleted_by'
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->created_by = auth()->id();
+                $model->updated_by = auth()->id();
+
+                //generate kode akses = random 4 string               
+                $model->kode_akses = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 4);
+            }
+        });
+
+
+        static::updating(function ($model) {
+            if (auth()->check()) {
+                $model->updated_by = auth()->id();
+            }
+        });
+        
+
+
+        static::deleting(function ($model) {
+            if (auth()->check()) {
+                $model->deleted_by = auth()->id();
+                $model->save();
+            }
+        });
+    }
+
     public function structure()
     {
         return [
@@ -85,8 +114,8 @@ class AppVersion extends Model
                     'label' => 'Kode Akses',
                     'required' => false,
                     'inTable' => false,
-                    'inCreateForm' => true,
-                    'inEditForm' => true,
+                    'inCreateForm' => false,
+                    'inEditForm' => false,
                     'inShowPage' => true,
                 ],
                 [
