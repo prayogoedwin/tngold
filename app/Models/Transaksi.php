@@ -195,6 +195,13 @@ class Transaksi extends Model
         return $saldoMasuk - $saldoKeluar;
     }
 
+    public function currentSaldoAll()
+    {
+        $saldoMasuk = $this->transaksiMasuk()->sum('nominal');
+        $saldoKeluar = $this->transaksiKeluar()->sum('nominal');
+        return $saldoMasuk - $saldoKeluar;
+    }
+
     public function getValidationRules(): array
     {
         $structure = $this->structure();

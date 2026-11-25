@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 //alfay merubah sesuatu aku ubah lagi
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
