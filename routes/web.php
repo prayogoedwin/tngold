@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppVersionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Settings;
@@ -21,6 +22,10 @@ Route::get('/', function () {
 Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+//bisa tanpa login
+Route::get('app-versions', [AppVersionController::class, 'index'])->name('app-versions.index');
+Route::get('app-versions/indexTable', [AppVersionController::class, 'indexTable'])->name('app-versions.indexTable');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('api-token', [UserController::class, 'getApiToken'])->name('api-token');
@@ -83,8 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transaksis/{transaksi}', [TransaksiController::class, 'show'])->name('transaksis.show')->middleware('permission:show-transaksis');
     Route::get('transaksis/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksis.edit')->middleware('permission:edit-transaksis');
     Route::put('transaksis/{transaksi}', [TransaksiController::class, 'update'])->name('transaksis.update')->middleware('permission:edit-transaksis');
-    Route::delete('transaksis/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksis.destroy')->middleware('permission:delete-transaksis');  
-    
+    Route::delete('transaksis/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksis.destroy')->middleware('permission:delete-transaksis');
+
     //resource transaksi-kategoris
     Route::get('transaksi-kategoris', [TransaksiKategoriController::class, 'index'])->name('transaksi-kategoris.index')->middleware('permission:view-transaksi-kategoris');
     Route::get('transaksi-kategoris/indexTable', [TransaksiKategoriController::class, 'indexTable'])->name('transaksi-kategoris.indexTable')->middleware('permission:view-transaksi-kategoris');
@@ -133,8 +138,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pembelians/{pembelian}/edit', [PembelianController::class, 'edit'])->name('pembelians.edit')->middleware('permission:edit-pembelians');
     Route::put('pembelians/{pembelian}', [PembelianController::class, 'update'])->name('pembelians.update')->middleware('permission:edit-pembelians');
     Route::delete('pembelians/{pembelian}', [PembelianController::class, 'destroy'])->name('pembelians.destroy')->middleware('permission:delete-pembelians');
-    
 
+
+
+    Route::get('app-versions/export', [AppVersionController::class, 'export'])->name('app-versions.export')->middleware('permission:download-app-versions');
+    Route::get('app-versions/create', [AppVersionController::class, 'create'])->name('app-versions.create')->middleware('permission:create-app-versions');
+    Route::post('app-versions', [AppVersionController::class, 'store'])->name('app-versions.store')->middleware('permission:create-app-versions');
+    Route::get('app-versions/{appVersion}', [AppVersionController::class, 'show'])->name('app-versions.show')->middleware('permission:show-app-versions');
+    Route::get('app-versions/{appVersion}/edit', [AppVersionController::class, 'edit'])->name('app-versions.edit')->middleware('permission:edit-app-versions');
+    Route::put('app-versions/{appVersion}', [AppVersionController::class, 'update'])->name('app-versions.update')->middleware('permission:edit-app-versions');
+    Route::delete('app-versions/{appVersion}', [AppVersionController::class, 'destroy'])->name('app-versions.destroy')->middleware('permission:delete-app-versions');
 });
+
+
+
 
 require __DIR__ . '/auth.php';

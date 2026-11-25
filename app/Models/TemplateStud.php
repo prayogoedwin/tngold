@@ -162,6 +162,16 @@ class TemplateStud extends Model
         ];
     }
 
+    //untuk keluaran api
+    public function transformed()
+    {
+        
+        return [
+            'id' => $this->id,
+            // etc
+        ];
+    }
+
     public function getValidationRules(): array
     {
         $structure = $this->structure();

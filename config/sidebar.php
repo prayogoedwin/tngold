@@ -79,6 +79,14 @@ return [
         'route' => 'harga-emas.index',
         'active' => 'harga-emas*',
         'permission' => 'view-harga-emas',
+    ],
+    [
+        'title' => 'App Versions',
+        'icon' => 'fas-mobile-alt',
+        'route' => 'app-versions.index',
+        'active' => 'app-versions*',
+        'permission' => 'view-app-versions',
     ]
+
     
 ];

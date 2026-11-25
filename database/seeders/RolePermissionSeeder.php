@@ -88,6 +88,14 @@ class RolePermissionSeeder extends Seeder
             'edit-pembelian-details',
             'download-pembelian-details',
             'delete-pembelian-details',
+
+            //app versions
+            'view-app-versions',
+            'show-app-versions',
+            'create-app-versions',
+            'edit-app-versions',
+            'download-app-versions',
+            'delete-app-versions',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -155,6 +163,13 @@ class RolePermissionSeeder extends Seeder
                 'edit-pembelian-details',
                 'download-pembelian-details',
                 'delete-pembelian-details',
+
+                'view-app-versions',
+                'show-app-versions',
+                'create-app-versions',
+                'edit-app-versions',
+                'download-app-versions',
+                'delete-app-versions',
             ])->pluck('id')
         );
 

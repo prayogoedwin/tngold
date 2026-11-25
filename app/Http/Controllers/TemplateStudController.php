@@ -30,26 +30,26 @@ class TemplateStudController extends Controller
     {
         if (request()->ajax()) {
 
-            $templateStuds = TemplateStud::query();
+            $objects = TemplateStud::query();
             
-            return DataTables::of($templateStuds)
+            return DataTables::of($objects)
                 ->addIndexColumn()
-                ->addColumn('foreign_id', function ($templateStud) {
-                    return $templateStud->foreign ? $templateStud->foreign->name : '';
+                ->addColumn('foreign_id', function ($row) {
+                    return $row->foreign ? $row->foreign->name : '';
                 })
-                ->addColumn('actions', function ($templateStud) {
+                ->addColumn('actions', function ($row) {
                     $actions = '';
                     
                     if (auth()->user()->hasPermission('show-template-studs')) {
-                        $actions .= '<a href="' . route('template-studs.show', $templateStud) . '" class="text-green-600 dark:text-green-400 hover:underline mr-3">View</a>';
+                        $actions .= '<a href="' . route('template-studs.show', $row) . '" class="text-green-600 dark:text-green-400 hover:underline mr-3">View</a>';
                     }
                     
                     if (auth()->user()->hasPermission('edit-template-studs')) {
-                        $actions .= '<a href="' . route('template-studs.edit', $templateStud) . '" class="text-blue-600 dark:text-blue-400 hover:underline mr-3">Edit</a>';
+                        $actions .= '<a href="' . route('template-studs.edit', $row) . '" class="text-blue-600 dark:text-blue-400 hover:underline mr-3">Edit</a>';
                     }
                     
                     if (auth()->user()->hasPermission('delete-template-studs')) {
-                        $actions .= '<form action="' . route('template-studs.destroy', $templateStud) . '" method="POST" class="inline" onsubmit="return confirm(\'Are you sure?\')">
+                        $actions .= '<form action="' . route('template-studs.destroy', $row) . '" method="POST" class="inline" onsubmit="return confirm(\'Are you sure?\')">
                             ' . csrf_field() . method_field('DELETE') . '
                             <button type="submit" class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
                         </form>';
@@ -57,18 +57,18 @@ class TemplateStudController extends Controller
                     
                     return $actions;
                 })
-                ->editColumn('created_at', function ($templateStud) {
-                    return $templateStud->created_at ? $templateStud->created_at->format('Y-m-d H:i:s') : '';
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at ? $row->created_at->format('Y-m-d H:i:s') : '';
                 })
                 ->rawColumns(['actions',])
                 ->make(true);
         }
     }
 
-    public function show(TemplateStud $templateStud)
+    public function show(TemplateStud $object)
     {
-        $structure = $templateStud->structure();
-        $data = $templateStud;
+        $structure = $object->structure();
+        $data = $object;
         return view('dynamiccrud.show', array_merge($structure, ['data' => $data]));
     }
 
@@ -85,32 +85,32 @@ class TemplateStudController extends Controller
             ...$this->model->getValidationRules()
         ]);
 
-        $templateStud = TemplateStud::create($validatedData);
+        $object = TemplateStud::create($validatedData);
 
         return redirect()->route('template-studs.index')->with('success', 'Template Stud created successfully.');
     }
 
-    public function edit(TemplateStud $templateStud)
+    public function edit(TemplateStud $object)
     {
-        $structure = $templateStud->structure();
-        $data = $templateStud;
+        $structure = $object->structure();
+        $data = $object;
         return view('dynamiccrud.edit', array_merge($structure, ['data' => $data]));
     }
 
-    public function update(Request $request, TemplateStud $templateStud)
+    public function update(Request $request, TemplateStud $object)
     {
         $validatedData = $request->validate([
             ...$this->model->getValidationRules()
         ]);
 
-        $templateStud->update($validatedData);
+        $object->update($validatedData);
 
         return redirect()->route('template-studs.index')->with('success', 'Template Stud updated successfully.');
     }
 
-    public function destroy(TemplateStud $templateStud)
+    public function destroy(TemplateStud $object)
     {
-        $templateStud->delete();
+        $object->delete();
         return redirect()->route('template-studs.index')->with('success', 'Template Stud deleted successfully.');
     }
 }
