@@ -290,16 +290,16 @@ class AppVersionApi extends Controller
         if ($request->has('url_apk_file')) {
             // dd('masuk sini');
 
-            //format file = tngold_{versi}.apk
+            //format file = tngold_{tipe}_{versi}.apk
 
             $file = $request->file('url_apk_file');
-            $filename = 'tngold_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
+            $filename = 'tngold_' . $validatedData['tipe'] . '_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
             $file->storeAs('apk_files', $filename, 'public');
             $validatedData['url_apk_file'] = $filename;
         }
         else {
             //jika tida ada maka tetap generate
-            $validatedData['url_apk_file'] = 'tngold_' . $validatedData['version'] . '.apk';
+            $validatedData['url_apk_file'] = 'tngold_' . $validatedData['tipe'] . '_' . $validatedData['version'] . '.apk';
         }
 
         $object = AppVersion::create($validatedData);
@@ -406,7 +406,7 @@ class AppVersionApi extends Controller
         if ($request->has('url_apk_file')) {
             // dd('masuk sini');
 
-            //format file = tngold_{versi}.apk
+            //format file = tngold_{tipe}_{versi}.apk
 
             //delete old file if exists
             if ($appVersion->url_apk_file) {
@@ -414,9 +414,13 @@ class AppVersionApi extends Controller
             }
 
             $file = $request->file('url_apk_file');
-            $filename = 'tngold_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
+            $filename = 'tngold_' . $validatedData['tipe'] . '_' . $validatedData['version'] . '.' . $file->getClientOriginalExtension();
             $file->storeAs('apk_files', $filename, 'public');
             $validatedData['url_apk_file'] = $filename;
+        }
+        else {
+            //jika tida ada maka tetap generate
+            $validatedData['url_apk_file'] = 'tngold_' . $validatedData['tipe'] . '_' . $validatedData['version'] . '.apk';
         }
 
         $appVersion->update($validatedData);
