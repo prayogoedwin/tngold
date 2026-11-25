@@ -13,10 +13,12 @@ class HargaEmas extends Model
     protected $table = 'harga_emas';
     protected $fillable = [
         'emas_asal',
+        'sumber',
         'kadar',
         'satuan',
         'jumlah',
         'harga_beli', ////harga beli per jumlah/satuan
+        'keterangan',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -90,6 +92,19 @@ class HargaEmas extends Model
                     'inShowPage' => true,
                 ],
                 [
+                    'name' => 'sumber',
+                    'data' => 'sumber',
+                    'display_value' => 'sumber',
+                    'type' => 'string',
+                    'validation' => 'required|string|max:255',
+                    'label' => 'Sumber',
+                    'required' => true,
+                    'inTable' => true,
+                    'inCreateForm' => true,
+                    'inEditForm' => true,
+                    'inShowPage' => true,
+                ],
+                [
                     'name' => 'kadar',
                     'data' => 'kadar',
                     'display_value' => 'kadar',
@@ -141,6 +156,19 @@ class HargaEmas extends Model
                     'inEditForm' => true,
                     'inShowPage' => true,
                 ],
+                [
+                    'name' => 'keterangan',
+                    'data' => 'keterangan',
+                    'display_value' => 'keterangan',
+                    'type' => 'text',
+                    'validation' => 'nullable|string|max:255',
+                    'label' => 'Keterangan',
+                    'required' => false,
+                    'inTable' => true,
+                    'inCreateForm' => true,
+                    'inEditForm' => true,
+                    'inShowPage' => true,
+                ],
 
             ]
         ];
@@ -151,11 +179,13 @@ class HargaEmas extends Model
     {
         return [
             'id' => $this->id,
-            'nama' => $this->emas_asal,
+            'emas_asal' => $this->emas_asal,
+            'sumber' => $this->sumber,
             'kadar' => $this->kadar,
             'satuan' => $this->satuan,
             'jumlah' => $this->jumlah,
             'harga_beli' => $this->harga_beli,
+            'keterangan' => $this->keterangan,
         ];
     }
 
