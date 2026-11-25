@@ -80,10 +80,10 @@ class PembelianApi extends Controller
         $pembelians = Pembelian::paginate($per_page, ['*'], 'page', $page);
 
         $data = $pembelians->getCollection()
-                ->map(
-                    fn(Pembelian $pembelian) =>
-                    $pembelian->transformed()
-                );
+            ->map(
+                fn(Pembelian $pembelian) =>
+                $pembelian->transformed()
+            );
 
         $output = $pembelians->toArray();
         $output['data'] = $data;
@@ -340,6 +340,15 @@ class PembelianApi extends Controller
 
         $selectedTokoId = $validatedData['toko_id'];
 
+        //validasi dulu, barang yang dibeli tidak boleh melebihi saldo yang tersedia
+        if (isset($validatedData['status']) && $validatedData['status'] === 'completed') {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return response()->json(['errors' => ['details' => 'Total harga pembelian melebihi saldo yang tersedia.']], 422);
+            }
+        }
+
         $pembelian = DB::transaction(function () use ($validatedData, $selectedTokoId) {
 
             // Simpan data pembelian
@@ -536,6 +545,14 @@ class PembelianApi extends Controller
         $perlu_buat_transaksi = $pembelian->status !== 'completed' && isset($validatedData['status']) && $validatedData['status'] === 'completed';
 
         $selectedTokoId = $validatedData['toko_id'];
+
+        if ($perlu_buat_transaksi) {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return response()->json(['errors' => ['details' => 'Total harga pembelian melebihi saldo yang tersedia.']], 422);
+            }
+        }
 
         $pembelian = DB::transaction(function () use ($validatedData, $pembelian, $perlu_buat_transaksi, $selectedTokoId) {
 

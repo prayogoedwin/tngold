@@ -171,6 +171,15 @@ class PembelianController extends Controller
             'details.*.total_harga' => ['required', 'numeric'],
         ]);
 
+        //validasi dulu, barang yang dibeli tidak boleh melebihi saldo yang tersedia
+        if (isset($validatedData['status']) && $validatedData['status'] === 'completed') {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return redirect()->back()->withErrors(['details' => 'Total harga pembelian melebihi saldo yang tersedia.'])->withInput();
+            }
+        }
+
         DB::transaction(function () use ($validatedData, $selectedTokoId) {
 
             // Simpan data pembelian
@@ -247,6 +256,14 @@ class PembelianController extends Controller
         //jika status pembelian sebelumnya bukan 'completed' dan status baru adalah 'completed', perlu buat transaksi
         $perlu_buat_transaksi = $pembelian->status !== 'completed' && isset($validatedData['status']) && $validatedData['status'] === 'completed';
 
+        if ($perlu_buat_transaksi) {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return redirect()->back()->withErrors(['details' => 'Total harga pembelian melebihi saldo yang tersedia.'])->withInput();
+            }
+        }
+
 
         DB::transaction(function () use ($validatedData, $pembelian, $perlu_buat_transaksi, $selectedTokoId) {
 
@@ -273,7 +290,7 @@ class PembelianController extends Controller
                     'type' => 'OUT',
                     'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
                     'tanggal' => now(),
-                    'toko_id' => $selectedTokoId, 
+                    'toko_id' => $selectedTokoId,
                     'nominal' => $pembelian->totalHarga(),
                     'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
                 ]);
