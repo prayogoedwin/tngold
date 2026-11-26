@@ -37,7 +37,14 @@ class HargaEmasApi extends Controller
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer', example: 1)
-            )
+            ),
+            new OA\Parameter(
+                name: 'search',
+                description: 'Search query',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', example: 'Emas Batangan')
+            ),
         ],
         responses: [
             new OA\Response(
@@ -91,16 +98,30 @@ class HargaEmasApi extends Controller
     {
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
+        $searchQuery = $request->string('search')->nullable();
 
 
-        $hargaEmas = HargaEmas::paginate($per_page, ['*'], 'page', $page);
+        $hargaEmas = HargaEmas::query();
+        if ($searchQuery) {
+            $hargaEmas->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('sumber', 'like', "%{$searchQuery}%")
+                ->orWhere('keterangan', 'like', "%{$searchQuery}%");
+            // Search dari tabel kategoris
+            $hargaEmas->orWhereHas('emasAsal', function ($q) use ($searchQuery) {
+                $q->where('name', 'like', "%{$searchQuery}%");
+            });
+            $hargaEmas->orWhereHas('kadar', function ($q) use ($searchQuery) {
+                $q->where('name', 'like', "%{$searchQuery}%");
+            });
+        }
+        $hargaEmas = $hargaEmas->paginate($per_page, ['*'], 'page', $page);
 
 
         $data = $hargaEmas->getCollection()
-                ->map(
-                    fn(HargaEmas $h) =>
-                    $h->transformed()
-                );
+            ->map(
+                fn(HargaEmas $h) =>
+                $h->transformed()
+            );
 
         $output = $hargaEmas->toArray();
         $output['data'] = $data;
