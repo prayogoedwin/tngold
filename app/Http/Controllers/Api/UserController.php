@@ -117,7 +117,7 @@ class UserController extends Controller
         $users = User::with('roles.permissions')->paginate(15);
 
         return $this->apiResponseOk(
-            data: $users,
+            data: $users->map(fn($user) => $user->transformed()),
             message: 'Users retrieved successfully.'
         );
     }
@@ -181,7 +181,7 @@ class UserController extends Controller
     public function me(Request $request): JsonResponse
     {
         return $this->apiResponseOk(
-            data: $request->user()->load('roles.permissions'),
+            data: $request->user()->transformed(),
             message: 'User retrieved successfully.'
         );
     }
@@ -312,7 +312,7 @@ class UserController extends Controller
         $user->save();
 
         return $this->apiResponseOk(
-            data: $user->load('roles.permissions'),
+            data: $user->transformed(),
             message: 'Password updated successfully.'
         );
     }
