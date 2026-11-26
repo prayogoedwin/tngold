@@ -50,6 +50,19 @@ class User extends Authenticatable
         ];
     }
 
+    public function transformed(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'initials' => $this->initials(),
+            'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
+            'theme_preference' => $this->theme_preference,
+            'roles' => $this->roles->map(fn($role) => $role->name),
+        ];
+    }
+
     /**
      * Get the user's initials
      */

@@ -95,7 +95,7 @@ class AuthController extends Controller
         return $this->apiResponseOk(
             data: [
                 'token' => $token,
-                'user' => $user,
+                'user' => $user->transformed(),
             ],
             message: 'Login successful.'
         );
