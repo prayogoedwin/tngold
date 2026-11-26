@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TransaksiKategoriSeeder::class,
             TransaksiSeeder::class,
             HargaEmasEmasAsalSeeder::class,
+            HargaEmasKadarSeeder::class,
             HargaEmasSeeder::class,
             HargaEmasHistorySeeder::class
         ]);

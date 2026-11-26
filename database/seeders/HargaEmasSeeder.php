@@ -16,7 +16,7 @@ class HargaEmasSeeder extends Seeder
             [
                 'emas_asal_id' => 1,
                 'sumber' => 'Official',
-                'kadar' => 24,
+                'kadar_id' => 1,
                 'satuan' => 'gram',
                 'jumlah' => 1,
                 'harga_beli' => 1545000
@@ -24,7 +24,7 @@ class HargaEmasSeeder extends Seeder
             [
                 'emas_asal_id' => 2,
                 'sumber' => 'Official',
-                'kadar' => 24,
+                'kadar_id' => 1,
                 'satuan' => 'gram',
                 'jumlah' => 1,
                 'harga_beli' => 1512000
@@ -32,7 +32,7 @@ class HargaEmasSeeder extends Seeder
             [
                 'emas_asal_id' => 3,
                 'sumber' => 'Official',
-                'kadar' => 24,
+                'kadar_id' => 1,
                 'satuan' => 'gram',
                 'jumlah' => 1,
                 'harga_beli' => 1518000
@@ -40,7 +40,7 @@ class HargaEmasSeeder extends Seeder
             [
                 'emas_asal_id' => 4,
                 'sumber' => 'Official',
-                'kadar' => 24,
+                'kadar_id' => 4,
                 'satuan' => 'gram',
                 'jumlah' => 1,
                 'harga_beli' => 1510000
@@ -48,7 +48,7 @@ class HargaEmasSeeder extends Seeder
             [
                 'emas_asal_id' => 5,
                 'sumber' => 'Official',
-                'kadar' => 24,
+                'kadar_id' => 2,
                 'satuan' => 'gram',
                 'jumlah' => 1,
                 'harga_beli' => 1508000

@@ -54,6 +54,7 @@ Route::prefix('pembelian')->group(function () {
         // - pembelian
         Route::get('pembelians', [PembelianApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
         Route::post('pembelians', [PembelianApi::class, 'storePembelian'])->middleware('permission:create-pembelians');
+        Route::get('pembelians/total-nominal', [PembelianApi::class, 'getNominalTotalPembelianPembelian'])->middleware('permission:view-pembelians');
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updatePembelian'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
@@ -75,6 +76,7 @@ Route::prefix('pembelian')->group(function () {
 
         //master
         Route::get('emas-asals', [MasterApi::class, 'getEmasAsal']);
+        Route::get('kadars', [MasterApi::class, 'getKadar']);
     });
 });
 
@@ -121,6 +123,7 @@ Route::prefix('internal')->group(function () {
         // - pembelian
         Route::get('pembelians', [PembelianApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
         Route::post('pembelians', [PembelianApi::class, 'storeInternal'])->middleware('permission:create-pembelians');
+        Route::get('pembelians/total-nominal', [PembelianApi::class, 'getNominalTotalPembelianInternal'])->middleware('permission:view-pembelians');
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updateInternal'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
@@ -139,5 +142,9 @@ Route::prefix('internal')->group(function () {
         Route::get('app-versions/{appVersion}', [AppVersionApi::class, 'show'])->middleware('permission:show-app-versions');
         Route::put('app-versions/{appVersion}', [AppVersionApi::class, 'update'])->middleware('permission:edit-app-versions');
         Route::delete('app-versions/{appVersion}', [AppVersionApi::class, 'destroy'])->middleware('permission:delete-app-versions');
+
+        //master
+        Route::get('emas-asals', [MasterApi::class, 'getEmasAsal']);
+        Route::get('kadars', [MasterApi::class, 'getKadar']);
     });
 });

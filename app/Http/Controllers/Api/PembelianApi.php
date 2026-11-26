@@ -121,6 +121,103 @@ class PembelianApi extends Controller
     }
 
     #[OA\Get(
+        path: '/pembelians/total-nominal',
+        operationId: 'getTotalNominalPembelian',
+        summary: 'Get total nominal pembelian',
+        description: 'Retrieves the total nominal of pembelian for a specific store. Requires the view-transaksis permission.',
+        tags: ['Pembelian'],
+        security: [['bearerAuth' => []]],
+        
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Total nominal pembelian retrieved successfully',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'total_nominal_pembelian', type: 'number', example: 15000000)
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthenticated',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 403,
+                description: 'Forbidden - missing permission view-transaksis',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Forbidden')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation error',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'The selected toko id is invalid.'),
+                        new OA\Property(
+                            property: 'errors',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(
+                                    property: 'toko_id',
+                                    type: 'array',
+                                    items: new OA\Items(type: 'string', example: 'The selected toko id is invalid.')
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+    public function getNominalTotalPembelianPembelian(Request $request)
+    {
+        $user = $request->user();
+        $request->merge(['toko_id' => $user->tokos->first()->id]);
+
+        $request->validate([
+            'toko_id' => 'required|integer|exists:tokos,id'
+        ]);
+
+        $pembelians = Pembelian::whereHas('toko', fn ($query) => $query->where('id', $request->toko_id))->get();
+
+        $totalNominal = 0;
+        foreach ($pembelians as $pembelian) {
+            $totalNominal += $pembelian->totalHarga();
+        }
+
+
+            
+        return $this->apiResponseOk(
+            data: ['total_nominal_pembelian' => $totalNominal],
+            message: 'Total nominal pembelian retrieved successfully.'
+        );
+    }
+    public function getNominalTotalPembelianInternal(Request $request)
+    {
+
+        $totalNominal = Pembelian::get()
+            ->sum(fn (Pembelian $pembelian) => $pembelian->totalHarga());
+
+        return $this->apiResponseOk(
+            data: ['total_nominal_pembelian' => $totalNominal],
+            message: 'Total nominal pembelian retrieved successfully.'
+        );
+    }
+
+    #[OA\Get(
         path: '/pembelians/{pembelian}',
         operationId: 'getPembelianDetail',
         summary: 'Get purchase detail',

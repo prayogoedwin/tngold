@@ -15,7 +15,7 @@ class HargaEmas extends Model
         'emas_asal_id',
         'name',
         'sumber',
-        'kadar',
+        'kadar_id',
         'satuan',
         'jumlah',
         'harga_beli', ////harga beli per jumlah/satuan
@@ -26,7 +26,7 @@ class HargaEmas extends Model
     ];
 
     protected $casts = [
-        'kadar' => 'integer',
+        'kadar_id' => 'integer',
         'jumlah' => 'integer',
         'harga_beli' => 'integer',
         'created_by' => 'integer',
@@ -43,7 +43,7 @@ class HargaEmas extends Model
             }
             //auto generate name based on emas_asal_id, kadar, and satuan
             $model->name = \App\Models\HargaEmas\HargaEmasEmasAsal::find($model->emas_asal_id)->name 
-                . ' ' . $model->kadar . 'K ' . $model->satuan;
+                . ' ' . $model->kadar;
             $model->name = 'temp';
         });
 
@@ -111,14 +111,15 @@ class HargaEmas extends Model
                     'inShowPage' => true,
                 ],
                 [
-                    'name' => 'kadar',
-                    'data' => 'kadar',
-                    'display_value' => 'kadar',
-                    'type' => 'integer',
-                    'validation' => 'required|integer|min:0',
+                    'name' => 'kadar_id',
+                    'data' => 'kadar.name',
+                    'display_value' => 'kadar.name',
+                    'type' => 'select',
+                    'validation' => 'required|exists:harga_emas_kadars,id',
                     'label' => 'Kadar',
                     'required' => true,
                     'inTable' => true,
+                    'options' => \App\Models\HargaEmas\HargaEmasKadar::all()->pluck('name', 'id')->toArray(),
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,
@@ -185,15 +186,25 @@ class HargaEmas extends Model
     {
         return [
             'id' => $this->id,
-            'emas_asal' => $this->emas_asal,
+            'emas_asal' => $this->emasAsal(),
             'sumber' => $this->sumber,
-            'kadar' => $this->kadar,
+            'kadar' => $this->kadar(),
             'satuan' => 'per' . $this->jumlah . ' ' . $this->satuan,
             'jumlah' => $this->jumlah,
             'harga_beli' => $this->harga_beli,
             'keterangan' => $this->keterangan,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    public function kadar()
+    {
+        return $this->belongsTo(HargaEmasKadar::class, 'kadar_id');
+    }
+
+    public function emasAsal()
+    {
+        return $this->belongsTo(HargaEmasEmasAsal::class, 'emas_asal_id');
     }
 
     public function hargaEmasHistories()
