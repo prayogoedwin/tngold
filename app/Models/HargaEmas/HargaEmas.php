@@ -12,7 +12,8 @@ class HargaEmas extends Model
     use SoftDeletes;
     protected $table = 'harga_emas';
     protected $fillable = [
-        'emas_asal',
+        'emas_asal_id',
+        'name',
         'sumber',
         'kadar',
         'satuan',
@@ -40,6 +41,10 @@ class HargaEmas extends Model
                 $model->created_by = auth()->id();
                 $model->updated_by = auth()->id();
             }
+            //auto generate name based on emas_asal_id, kadar, and satuan
+            $model->name = \App\Models\HargaEmas\HargaEmasEmasAsal::find($model->emas_asal_id)->name 
+                . ' ' . $model->kadar . 'K ' . $model->satuan;
+            $model->name = 'temp';
         });
 
         static::created(function ($model) {
@@ -79,12 +84,13 @@ class HargaEmas extends Model
 
             'columns' => [
                 [
-                    'name' => 'emas_asal',
-                    'data' => 'emas_asal',
-                    'display_value' => 'emas_asal',
-                    'type' => 'string',
-                    'validation' => 'required|string|max:255',
+                    'name' => 'emas_asal_id',
+                    'data' => 'emas_asal.name',
+                    'display_value' => 'emasAsal.name',
+                    'type' => 'select',
+                    'validation' => 'required|exists:harga_emas_emas_asal,id',
                     'label' => 'Emas Asal',
+                    'options' => \App\Models\HargaEmas\HargaEmasEmasAsal::all()->pluck('name', 'id')->toArray(),
                     'required' => true,
                     'inTable' => true,
                     'inCreateForm' => true,

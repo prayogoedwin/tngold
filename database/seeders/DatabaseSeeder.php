@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AssignAdminTokoSeeder::class,
             TransaksiKategoriSeeder::class,
             TransaksiSeeder::class,
+            HargaEmasEmasAsalSeeder::class,
             HargaEmasSeeder::class,
             HargaEmasHistorySeeder::class
         ]);

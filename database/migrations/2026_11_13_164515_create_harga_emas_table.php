@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('harga_emas', function (Blueprint $table) {
             $table->id();
-            $table->string('emas_asal');
+            $table->string('name');
+            $table->foreignId('emas_asal_id')->constrained('harga_emas_emas_asal')->onDelete('cascade');
             $table->string('sumber');
-            $table->integer('kadar');
+            $table->string('kadar');
             $table->string('satuan')->default('gram');
             $table->integer('jumlah')->default(1);
             $table->integer('harga_beli'); //harga beli per jumlah/satuan

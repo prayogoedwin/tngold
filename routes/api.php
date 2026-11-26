@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AppVersionApi;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HargaEmasApi;
+use App\Http\Controllers\Api\MasterApi;
 use App\Http\Controllers\Api\PembelianApi;
 use App\Http\Controllers\Api\TokoApi;
 use App\Http\Controllers\Api\UserController;
@@ -71,6 +72,9 @@ Route::prefix('pembelian')->group(function () {
         Route::get('app-versions/{appVersion}', [AppVersionApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('app-versions/{appVersion}', [AppVersionApi::class, 'update'])->middleware('permission:edit-pembelians');
         Route::delete('app-versions/{appVersion}', [AppVersionApi::class, 'destroy'])->middleware('permission:delete-pembelians');
+
+        //master
+        Route::get('emas-asals', [MasterApi::class, 'getEmasAsal']);
     });
 });
 

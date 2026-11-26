@@ -14,7 +14,7 @@ class HargaEmasSeeder extends Seeder
     {
         $data = [
             [
-                'emas_asal' => 'Antam',
+                'emas_asal_id' => 1,
                 'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
@@ -22,7 +22,7 @@ class HargaEmasSeeder extends Seeder
                 'harga_beli' => 1545000
             ],
             [
-                'emas_asal' => 'UBS Gold',
+                'emas_asal_id' => 2,
                 'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
@@ -30,7 +30,7 @@ class HargaEmasSeeder extends Seeder
                 'harga_beli' => 1512000
             ],
             [
-                'emas_asal' => 'Galeri 24',
+                'emas_asal_id' => 3,
                 'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
@@ -38,7 +38,7 @@ class HargaEmasSeeder extends Seeder
                 'harga_beli' => 1518000
             ],
             [
-                'emas_asal' => 'Lotus Archi',
+                'emas_asal_id' => 4,
                 'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
@@ -46,7 +46,7 @@ class HargaEmasSeeder extends Seeder
                 'harga_beli' => 1510000
             ],
             [
-                'emas_asal' => 'King Halim',
+                'emas_asal_id' => 5,
                 'sumber' => 'Official',
                 'kadar' => 24,
                 'satuan' => 'gram',
@@ -59,9 +59,13 @@ class HargaEmasSeeder extends Seeder
         $userId = 1;
         foreach ($data as &$hargaEmas) {
             $hargaEmas['created_by'] = $userId;
+            $hargaEmas['created_at'] = now();
             $hargaEmas['updated_by'] = $userId;
+            $hargaEmas['updated_at'] = now();
         }
 
-        \App\Models\HargaEmas\HargaEmas::insert($data);
+        foreach ($data as $hargaEmas) {
+            \App\Models\HargaEmas\HargaEmas::create($hargaEmas);
+        }
     }
 }
