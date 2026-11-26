@@ -104,9 +104,11 @@ class HargaEmasApi extends Controller
 
         $output = $hargaEmas->toArray();
         $output['data'] = $data;
-        $output['message'] = 'Harga Emas retrieved successfully.';
 
-        return response()->json($output);
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'Harga Emas retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -201,10 +203,13 @@ class HargaEmasApi extends Controller
 
         $hargaHistoryData = $data->hargaEmasHistories()->limit(20)->get();
 
-        return response()->json([
-            'data' => $data->transformed(),
-            'hargaHistoryData' => $hargaHistoryData->map->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: [
+                'data' => $data->transformed(),
+                'hargaHistoryData' => $hargaHistoryData->map->transformed(),
+            ],
+            message: 'Harga Emas retrieved successfully.'
+        );
     }
 
     #[OA\Post(
@@ -302,10 +307,10 @@ class HargaEmasApi extends Controller
 
         $hargaEmas = HargaEmas::create($validatedData);
 
-        return response()->json([
-            'message' => 'Harga Emas created successfully.',
-            'data' => $hargaEmas->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $hargaEmas->transformed(),
+            message: 'Harga Emas created successfully.'
+        );
     }
 
     #[OA\Put(
@@ -424,10 +429,10 @@ class HargaEmasApi extends Controller
 
         $hargaEmas->update($validatedData);
 
-        return response()->json([
-            'message' => 'Harga Emas updated successfully.',
-            'data' => $hargaEmas->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $hargaEmas->transformed(),
+            message: 'Harga Emas updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -492,8 +497,9 @@ class HargaEmasApi extends Controller
     public function destroy(HargaEmas $hargaEmas)
     {
         $hargaEmas->delete();
-        return response()->json([
-            'message' => 'Harga Emas deleted successfully.',
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Harga Emas deleted successfully.'
+        );
     }
 }

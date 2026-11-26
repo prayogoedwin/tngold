@@ -66,7 +66,10 @@ class TokoApi extends Controller
     public function index()
     {
         $tokos = Toko::all();
-        return response()->json($tokos->map->transformed());
+        return $this->apiResponseOk(
+            data: $tokos->map->transformed(),
+            message: 'Tokos retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -140,10 +143,9 @@ class TokoApi extends Controller
     )]
     public function show(Toko $toko)
     {
-        return response()->json(
-            [
-                'data' => $toko->transformed()
-            ]
+        return $this->apiResponseOk(
+            data: $toko->transformed(),
+            message: 'Toko retrieved successfully.'
         );
     }
 
@@ -240,18 +242,12 @@ class TokoApi extends Controller
 
         $toko = Toko::create($validatedData);
 
-        return response()->json([
-            'message' => 'Toko created successfully.',
-            'data' => $toko->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $toko->transformed(),
+            message: 'Toko created successfully.'
+        );
     }
 
-    public function edit(Toko $toko)
-    {
-        $structure = $toko->structure();
-        $data = $toko;
-        return view('dynamiccrud.edit', array_merge($structure, ['data' => $data]));
-    }
 
     #[OA\Put(
         path: '/api/tokos/{toko}',
@@ -365,10 +361,10 @@ class TokoApi extends Controller
 
         $toko->update($validatedData);
 
-        return response()->json([
-            'message' => 'Toko updated successfully.',
-            'data' => $toko->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $toko->transformed(),
+            message: 'Toko updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -433,8 +429,9 @@ class TokoApi extends Controller
     public function destroy(Toko $toko)
     {
         $toko->delete();
-        return response()->json([
-            'message' => 'Toko deleted successfully.'
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Toko deleted successfully.'
+        );
     }
 }

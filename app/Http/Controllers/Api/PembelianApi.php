@@ -87,9 +87,11 @@ class PembelianApi extends Controller
 
         $output = $pembelians->toArray();
         $output['data'] = $data;
-        $output['message'] = 'Pembelian retrieved successfully.';
 
-        return response()->json($output);
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'Pembelian retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -196,11 +198,13 @@ class PembelianApi extends Controller
     {
         $transaksi = $pembelian->transaksiOne();
 
-        return response()->json([
-            'message' => 'Pembelian retrieved successfully.',
-            'data' => $pembelian->transformed(),
-            'transaksi' => $transaksi->transformed() ?? null,
-        ]);
+        return $this->apiResponseOk(
+            data: [
+                'data' => $pembelian->transformed(),
+                'transaksi' => $transaksi->transformed() ?? null,
+            ],
+            message: 'Pembelian retrieved successfully.'
+        );
     }
 
     #[OA\Post(
@@ -345,7 +349,10 @@ class PembelianApi extends Controller
             $totalHarga = collect($validatedData['details'])->sum('total_harga');
             $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
             if ($totalHarga > $currentSaldo) {
-                return response()->json(['errors' => ['details' => 'Total harga pembelian melebihi saldo yang tersedia.']], 422);
+                return $this->apiResponseError(
+                    message: 'Total harga pembelian melebihi saldo yang tersedia.',
+                    status: 422
+                );
             }
         }
 
@@ -380,10 +387,10 @@ class PembelianApi extends Controller
             return $pembelian;
         });
 
-        return response()->json([
-            'message' => 'Pembelian created successfully.',
-            'data' => $pembelian->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $pembelian->transformed(),
+            message: 'Pembelian created successfully.'
+        );
     }
 
     #[OA\Put(
@@ -550,7 +557,10 @@ class PembelianApi extends Controller
             $totalHarga = collect($validatedData['details'])->sum('total_harga');
             $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
             if ($totalHarga > $currentSaldo) {
-                return response()->json(['errors' => ['details' => 'Total harga pembelian melebihi saldo yang tersedia.']], 422);
+                return $this->apiResponseError(
+                    message: 'Total harga pembelian melebihi saldo yang tersedia.',
+                    status: 422
+                );
             }
         }
 
@@ -586,10 +596,10 @@ class PembelianApi extends Controller
             return $pembelian;
         });
 
-        return response()->json([
-            'message' => 'Pembelian updated successfully.',
-            'data' => $pembelian->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $pembelian->transformed(),
+            message: 'Pembelian updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -654,8 +664,9 @@ class PembelianApi extends Controller
     public function destroy(Pembelian $pembelian)
     {
         $pembelian->delete();
-        return response()->json([
-            'message' => 'Pembelian deleted successfully.',
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Pembelian deleted successfully.'
+        );
     }
 }

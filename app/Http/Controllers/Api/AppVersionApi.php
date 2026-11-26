@@ -109,9 +109,11 @@ class AppVersionApi extends Controller
 
         $output = $hargaEmas->toArray();
         $output['data'] = $data;
-        $output['message'] = 'App Versions retrieved successfully.';
 
-        return response()->json($output);
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'App Versions retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -190,9 +192,10 @@ class AppVersionApi extends Controller
         $data = $appVersion;
 
 
-        return response()->json([
-            'data' => $data->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $data->transformed(),
+            message: 'App version retrieved successfully.'
+        );
     }
 
 
@@ -304,10 +307,10 @@ class AppVersionApi extends Controller
 
         $object = AppVersion::create($validatedData);
 
-        return response()->json([
-            'message' => 'App Version created successfully.',
-            'data' => $object->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $object->transformed(),
+            message: 'App Version created successfully.'
+        );
     }
 
 
@@ -425,10 +428,10 @@ class AppVersionApi extends Controller
 
         $appVersion->update($validatedData);
 
-        return response()->json([
-            'message' => 'App Version updated successfully.',
-            'data' => $appVersion->transformed(),
-        ]);
+        return $this->apiResponseOk(
+            data: $appVersion->transformed(),
+            message: 'App Version updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -475,8 +478,9 @@ class AppVersionApi extends Controller
     public function destroy(AppVersion $appVersion)
     {
         $appVersion->delete();
-        return response()->json([
-            'message' => 'App Version deleted successfully.',
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'App Version deleted successfully.'
+        );
     }
 }

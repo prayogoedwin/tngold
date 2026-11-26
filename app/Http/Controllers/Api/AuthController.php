@@ -92,10 +92,13 @@ class AuthController extends Controller
 
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json([
-            'token' => $token,
-            'user' => $user,
-        ]);
+        return $this->apiResponseOk(
+            data: [
+                'token' => $token,
+                'user' => $user,
+            ],
+            message: 'Login successful.'
+        );
     }
 
     #[OA\Post(
@@ -132,8 +135,9 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Logged out successfully.'
+        );
     }
 }

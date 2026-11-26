@@ -70,7 +70,10 @@ class TransaksiKategoriApi extends Controller
     public function index()
     {
         $transaksiKategoris = TransaksiKategori::all();
-        return response()->json($transaksiKategoris->map->transformed());
+        return $this->apiResponseOk(
+            data: $transaksiKategoris->map->transformed(),
+            message: 'Transaksi Kategoris retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -143,10 +146,9 @@ class TransaksiKategoriApi extends Controller
     )]
     public function show(TransaksiKategori $transaksiKategori)
     {
-        return response()->json(
-            [
-                'data' => $transaksiKategori->transformed()
-            ]
+        return $this->apiResponseOk(
+            data: $transaksiKategori->transformed(),
+            message: 'Transaksi Kategori retrieved successfully.'
         );
     }
 
@@ -243,18 +245,13 @@ class TransaksiKategoriApi extends Controller
 
         $transaksiKategori = TransaksiKategori::create($validatedData);
 
-        return response()->json([
-            'message' => 'Transaction category created successfully.',
-            'data' => $transaksiKategori->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $transaksiKategori->transformed(),
+            message: 'Transaction category created successfully.'
+        );
     }
 
-    public function edit(TransaksiKategori $transaksiKategori)
-    {
-        $structure = $transaksiKategori->structure();
-        $data = $transaksiKategori;
-        return view('dynamiccrud.edit', array_merge($structure, ['data' => $data]));
-    }
+    
 
     #[OA\Put(
         path: '/api/transaksi-kategoris/{transaksiKategori}',
@@ -368,10 +365,10 @@ class TransaksiKategoriApi extends Controller
 
         $transaksiKategori->update($validatedData);
 
-        return response()->json([
-            'message' => 'Transaction category updated successfully.',
-            'data' => $transaksiKategori->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $transaksiKategori->transformed(),
+            message: 'Transaction category updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -436,8 +433,9 @@ class TransaksiKategoriApi extends Controller
     public function destroy(TransaksiKategori $transaksiKategori)
     {
         $transaksiKategori->delete();
-        return response()->json([
-            'message' => 'Transaction category deleted successfully.'
-        ]);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Transaction category deleted successfully.'
+        );
     }
 }

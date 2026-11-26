@@ -116,9 +116,10 @@ class UserController extends Controller
     {
         $users = User::with('roles.permissions')->paginate(15);
 
-        return response()->json([
-            'data' => $users
-        ]);
+        return $this->apiResponseOk(
+            data: $users,
+            message: 'Users retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -179,7 +180,10 @@ class UserController extends Controller
     )]
     public function me(Request $request): JsonResponse
     {
-        return response()->json($request->user()->load('roles.permissions'));
+        return $this->apiResponseOk(
+            data: $request->user()->load('roles.permissions'),
+            message: 'User retrieved successfully.'
+        );
     }
 
     #[OA\Post(
@@ -298,15 +302,18 @@ class UserController extends Controller
         $user = $request->user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['message' => 'Current password is incorrect'], 400);
+            return $this->apiResponseError(
+                message: 'Current password is incorrect',
+                status: 400
+            );
         }
 
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return response()->json([
-            'message' => 'Password updated successfully.',
-            'data' => $user->load('roles.permissions')
-        ]);
+        return $this->apiResponseOk(
+            data: $user->load('roles.permissions'),
+            message: 'Password updated successfully.'
+        );
     }
 }

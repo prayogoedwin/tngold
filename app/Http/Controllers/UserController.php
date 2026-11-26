@@ -69,12 +69,12 @@ class UserController extends Controller
         $user = $request->user();
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json([
-            'status' => 'success',
-            'data' => [
+        return $this->apiResponseOk(
+            data: [
                 'token' => $token,
             ],
-        ], 200);
+            message: 'API token retrieved successfully.'
+        );
     }
 
     public function export()

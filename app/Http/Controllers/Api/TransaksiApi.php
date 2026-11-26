@@ -134,9 +134,11 @@ class TransaksiApi extends Controller
 
         $output = $transaksis->toArray();
         $output['data'] = $data;
-        $output['message'] = 'Transaksis retrieved successfully.';
 
-        return response()->json($output);
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'Transaksis retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -216,7 +218,10 @@ class TransaksiApi extends Controller
         ]);
 
         $saldo = $this->model->currentSaldo($request->toko_id);
-        return response()->json(['current_saldo' => $saldo]);
+        return $this->apiResponseOk(
+            data: ['current_saldo' => $saldo],
+            message: 'Current saldo retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -296,7 +301,10 @@ class TransaksiApi extends Controller
         ]);
 
         $total = $this->model->transaksiMasuk()->where('toko_id', $request->toko_id)->sum('nominal');
-        return response()->json(['total_nominal_transaksi_masuk' => $total]);
+        return $this->apiResponseOk(
+            data: ['total_nominal_transaksi_masuk' => $total],
+            message: 'Total incoming transaction amount retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -376,7 +384,10 @@ class TransaksiApi extends Controller
         ]);
 
         $total = $this->model->transaksiKeluar()->where('toko_id', $request->toko_id)->sum('nominal');
-        return response()->json(['total_nominal_transaksi_keluar' => $total]);
+        return $this->apiResponseOk(
+            data: ['total_nominal_transaksi_keluar' => $total],
+            message: 'Total outgoing transaction amount retrieved successfully.'
+        );
     }
 
     #[OA\Get(
@@ -454,10 +465,10 @@ class TransaksiApi extends Controller
     public function show(Transaksi $transaksi)
     {
         $data = $transaksi;
-        return response()->json([
-            'message' => 'Transaksi retrieved successfully.',
-            'data' => $data->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $data->transformed(),
+            message: 'Transaksi retrieved successfully.'
+        );
     }
 
     #[OA\Post(
@@ -559,10 +570,10 @@ class TransaksiApi extends Controller
 
         $transaksi = Transaksi::create($validatedData);
 
-        return response()->json([
-            'message' => 'Transaksi created successfully.',
-            'data' => $transaksi->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $transaksi->transformed(),
+            message: 'Transaksi created successfully.'
+        );
     }
 
     #[OA\Put(
@@ -683,10 +694,10 @@ class TransaksiApi extends Controller
 
         $transaksi->update($validatedData);
 
-        return response()->json([
-            'message' => 'Transaksi updated successfully.',
-            'data' => $transaksi->transformed()
-        ]);
+        return $this->apiResponseOk(
+            data: $transaksi->transformed(),
+            message: 'Transaksi updated successfully.'
+        );
     }
 
     #[OA\Delete(
@@ -751,6 +762,9 @@ class TransaksiApi extends Controller
     public function destroy(Transaksi $transaksi)
     {
         $transaksi->delete();
-        return response()->json(['message' => 'Transaksi deleted successfully.']);
+        return $this->apiResponseOk(
+            data: null,
+            message: 'Transaksi deleted successfully.'
+        );
     }
 }

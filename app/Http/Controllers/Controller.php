@@ -23,4 +23,46 @@ use OpenApi\Attributes as OA;
 abstract class Controller
 {
     //
+
+
+    //api response helper function
+    protected function apiResponseOk($data = null, $message = '', $status = 200)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'message' => $message,
+            'status' => $status
+        ], $status);
+    }
+
+    protected function apiResponseError($message = '', $status = 400, $data = null)
+    {
+        return response()->json([
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'status' => $status
+        ], $status);
+    }
+
+    protected function apiResponseNotFound($message = 'Not Found', $status = 404, $data = null)
+    {
+        return response()->json([
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'status' => $status
+        ], $status);
+    }
+
+    protected function apiResponseUnauthorized($message = 'Unauthorized', $status = 401, $data = null)
+    {
+        return response()->json([
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+            'status' => $status
+        ], $status);
+    }
 }
