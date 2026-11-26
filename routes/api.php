@@ -12,7 +12,7 @@ use App\Http\Controllers\Api\TransaksiKategoriApi;
 
 Route::prefix('pembelian')->group(function () {
 
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'loginPembelian']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -51,10 +51,10 @@ Route::prefix('pembelian')->group(function () {
         Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
 
         // - pembelian
-        Route::get('pembelians', [PembelianApi::class, 'index'])->middleware('permission:view-pembelians');
-        Route::post('pembelians', [PembelianApi::class, 'store'])->middleware('permission:create-pembelians');
+        Route::get('pembelians', [PembelianApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
+        Route::post('pembelians', [PembelianApi::class, 'storePembelian'])->middleware('permission:create-pembelians');
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
-        Route::put('pembelians/{pembelian}', [PembelianApi::class, 'update'])->middleware('permission:edit-pembelians');
+        Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updatePembelian'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
 
@@ -76,7 +76,7 @@ Route::prefix('pembelian')->group(function () {
 
 Route::prefix('internal')->group(function () {
 
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'loginInternal']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -115,10 +115,10 @@ Route::prefix('internal')->group(function () {
         Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
 
         // - pembelian
-        Route::get('pembelians', [PembelianApi::class, 'index'])->middleware('permission:view-pembelians');
-        Route::post('pembelians', [PembelianApi::class, 'store'])->middleware('permission:create-pembelians');
+        Route::get('pembelians', [PembelianApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
+        Route::post('pembelians', [PembelianApi::class, 'storeInternal'])->middleware('permission:create-pembelians');
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
-        Route::put('pembelians/{pembelian}', [PembelianApi::class, 'update'])->middleware('permission:edit-pembelians');
+        Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updateInternal'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
 

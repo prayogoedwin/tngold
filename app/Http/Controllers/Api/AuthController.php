@@ -75,7 +75,7 @@ class AuthController extends Controller
             )
         ]
     )]
-    public function login(Request $request): JsonResponse
+    public function loginPembelian(Request $request): JsonResponse
     {
         $request->validate([
             'email' => ['required', 'email'],
@@ -88,6 +88,45 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
+        }
+
+        //hanya user dengan role admin-toko
+        if (! $user->hasRole('admin-toko')) {
+            return $this->apiResponseUnauthorized(
+                message: 'You do not have permission to login Pembelian.'
+            );
+        }
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return $this->apiResponseOk(
+            data: [
+                'token' => $token,
+                'user' => $user->transformed(),
+            ],
+            message: 'Login successful.'
+        );
+    }
+    public function loginInternal(Request $request): JsonResponse
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        //login internal hanya user dengan role super-admin atau owner
+        if (! $user->hasRole(['super-admin', 'owner'])) {
+            return $this->apiResponseUnauthorized(
+                message: 'You do not have permission to login Aplikasi Internal.'
+            );
         }
 
         $token = $user->createToken('api-token')->plainTextToken;

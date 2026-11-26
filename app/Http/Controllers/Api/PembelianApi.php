@@ -72,7 +72,33 @@ class PembelianApi extends Controller
             )
         ]
     )]
-    public function index(Request $request)
+    public function indexPembelian(Request $request)
+    {
+        $per_page = $request->integer('per_page', 10);
+        $page = $request->integer('page', 1);
+
+        $user = $request->user();
+        $toko_id = $user->tokos->first()->id;
+
+        $pembelians = Pembelian::whereHas('toko', function ($query) use ($toko_id) {
+            $query->where('id', $toko_id);
+        })->paginate($per_page, ['*'], 'page', $page);
+
+        $data = $pembelians->getCollection()
+            ->map(
+                fn(Pembelian $pembelian) =>
+                $pembelian->transformed()
+            );
+
+        $output = $pembelians->toArray();
+        $output['data'] = $data;
+
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'Pembelian retrieved successfully.'
+        );
+    }
+    public function indexInternal(Request $request)
     {
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
@@ -326,7 +352,77 @@ class PembelianApi extends Controller
             )
         ]
     )]
-    public function store(Request $request)
+    public function storePembelian(Request $request)
+    {
+
+        $user = $request->user();
+        $request->merge(['toko_id' => $user->tokos->first()->id]);
+
+        $validatedData = $request->validate([
+            ...$this->model->getValidationRules(),
+
+            'toko_id' => ['required', 'exists:tokos,id'],
+
+            'details' => ['required', 'array', 'min:1'],
+            'details.*.emas_asal' => ['required', 'string'],
+            'details.*.kadar' => ['required'],
+            'details.*.satuan' => ['required', 'string'],
+            'details.*.jumlah' => ['required', 'numeric'],
+            'details.*.harga_per_satuan' => ['required', 'numeric'],
+            'details.*.total_harga' => ['required', 'numeric'],
+        ]);
+
+        $selectedTokoId = $validatedData['toko_id'];
+
+        //validasi dulu, barang yang dibeli tidak boleh melebihi saldo yang tersedia
+        if (isset($validatedData['status']) && $validatedData['status'] === 'completed') {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return $this->apiResponseError(
+                    message: 'Total harga pembelian melebihi saldo yang tersedia.',
+                    status: 422
+                );
+            }
+        }
+
+        $pembelian = DB::transaction(function () use ($validatedData, $selectedTokoId) {
+
+            // Simpan data pembelian
+            $pembelian = Pembelian::create(
+                collect($validatedData)->except('details')->toArray()
+            );
+
+            // Simpan semua detail pembelian
+            $pembelian->details()->createMany(
+                $validatedData['details']
+            );
+
+            $pembelian->toko()->attach($selectedTokoId);
+
+            //jika status pembelian adalah 'completed', buat transaksi
+            if (isset($validatedData['status']) && $validatedData['status'] === 'completed') {
+                // Buat data transaksi terkait pembelian
+                $transaksi = Transaksi::create([
+                    'type' => 'OUT',
+                    'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
+                    'tanggal' => now(),
+                    'toko_id' => $selectedTokoId,
+                    'nominal' => $pembelian->totalHarga(),
+                    'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
+                ]);
+
+                $pembelian->transaksi()->attach($transaksi->id);
+            }
+            return $pembelian;
+        });
+
+        return $this->apiResponseOk(
+            data: $pembelian->transformed(),
+            message: 'Pembelian created successfully.'
+        );
+    }
+    public function storeInternal(Request $request)
     {
         $validatedData = $request->validate([
             ...$this->model->getValidationRules(),
@@ -532,7 +628,79 @@ class PembelianApi extends Controller
             )
         ]
     )]
-    public function update(Request $request, Pembelian $pembelian)
+    public function updatePembelian(Request $request, Pembelian $pembelian)
+    {
+        $user = $request->user();
+        $request->merge(['toko_id' => $user->tokos->first()->id]);
+
+        $validatedData = $request->validate([
+            ...$this->model->getValidationRules(),
+
+            'toko_id' => ['required', 'exists:tokos,id'],
+
+            'details' => ['required', 'array', 'min:1'],
+            'details.*.emas_asal' => ['required', 'string'],
+            'details.*.kadar' => ['required'],
+            'details.*.satuan' => ['required', 'string'],
+            'details.*.jumlah' => ['required', 'numeric'],
+            'details.*.harga_per_satuan' => ['required', 'numeric'],
+            'details.*.total_harga' => ['required', 'numeric'],
+        ]);
+
+        //jika status pembelian sebelumnya bukan 'completed' dan status baru adalah 'completed', perlu buat transaksi
+        $perlu_buat_transaksi = $pembelian->status !== 'completed' && isset($validatedData['status']) && $validatedData['status'] === 'completed';
+
+        $selectedTokoId = $validatedData['toko_id'];
+
+        if ($perlu_buat_transaksi) {
+            $totalHarga = collect($validatedData['details'])->sum('total_harga');
+            $currentSaldo = (new Transaksi())->currentSaldo($selectedTokoId);
+            if ($totalHarga > $currentSaldo) {
+                return $this->apiResponseError(
+                    message: 'Total harga pembelian melebihi saldo yang tersedia.',
+                    status: 422
+                );
+            }
+        }
+
+        $pembelian = DB::transaction(function () use ($validatedData, $pembelian, $perlu_buat_transaksi, $selectedTokoId) {
+
+            // Simpan data pembelian
+            $pembelian->update(
+                collect($validatedData)->except('details')->toArray()
+            );
+            $pembelian = $pembelian->fresh();
+
+            //hapus detail pembelian lama jika ada
+            $pembelian->details()->delete();
+
+            // Simpan semua detail pembelian
+            $pembelian->details()->createMany(
+                $validatedData['details']
+            );
+
+            //jika status pembelian adalah 'completed', buat transaksi
+            if ($perlu_buat_transaksi) {
+                // Buat data transaksi terkait pembelian
+                $transaksi = Transaksi::create([
+                    'type' => 'OUT',
+                    'transaksi_kategori_id' => 4, // Ganti dengan ID kategori yang sesuai
+                    'tanggal' => now(),
+                    'toko_id' => $selectedTokoId,
+                    'nominal' => $pembelian->totalHarga(),
+                    'keterangan' => 'Pembelian #' . $pembelian->no_invoice,
+                ]);
+                $pembelian->transaksi()->attach($transaksi->id);
+            }
+            return $pembelian;
+        });
+
+        return $this->apiResponseOk(
+            data: $pembelian->transformed(),
+            message: 'Pembelian updated successfully.'
+        );
+    }
+    public function updateInternal(Request $request, Pembelian $pembelian)
     {
         $validatedData = $request->validate([
             ...$this->model->getValidationRules(),
