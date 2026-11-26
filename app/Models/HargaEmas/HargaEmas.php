@@ -186,6 +186,7 @@ class HargaEmas extends Model
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'emas_asal' => $this->emasAsal()->first()->transformed(),
             'sumber' => $this->sumber,
             'kadar' => $this->kadar()->first()->transformed(),
