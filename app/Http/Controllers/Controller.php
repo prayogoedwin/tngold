@@ -36,7 +36,8 @@ abstract class Controller
             'success' => true,
             'data' => $data,
             'message' => $message,
-            'status' => $status
+            'status' => true,
+            'code' => $status
         ], $status);
     }
 
@@ -46,7 +47,8 @@ abstract class Controller
             'success' => false,
             'data' => $data,
             'message' => $message,
-            'status' => $status
+            'status' => false,
+            'code' => $status
         ], $status);
     }
 
@@ -56,7 +58,8 @@ abstract class Controller
             'success' => false,
             'data' => $data,
             'message' => $message,
-            'status' => $status
+            'status' => false,
+            'code' => $status
         ], $status);
     }
 
@@ -66,7 +69,8 @@ abstract class Controller
             'success' => false,
             'data' => $data,
             'message' => $message,
-            'status' => $status
+            'status' => false,
+            'code' => $status
         ], $status);
     }
 }
