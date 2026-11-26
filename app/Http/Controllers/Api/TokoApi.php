@@ -17,7 +17,7 @@ class TokoApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/tokos',
+        path: '/tokos',
         operationId: 'getTokoList',
         summary: 'Get list of stores',
         description: 'Retrieves all stores. The response is a plain array without a message or data wrapper. Requires the view-tokos permission.',
@@ -73,7 +73,7 @@ class TokoApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/tokos/{toko}',
+        path: '/tokos/{toko}',
         operationId: 'getTokoDetail',
         summary: 'Get store detail',
         description: 'Retrieves a single store by its ID. Requires the show-tokos permission.',
@@ -150,7 +150,7 @@ class TokoApi extends Controller
     }
 
     #[OA\Post(
-        path: '/api/tokos',
+        path: '/tokos',
         operationId: 'createToko',
         summary: 'Create store',
         description: 'Creates a new store. Requires the create-tokos permission.',
@@ -250,7 +250,7 @@ class TokoApi extends Controller
 
 
     #[OA\Put(
-        path: '/api/tokos/{toko}',
+        path: '/tokos/{toko}',
         operationId: 'updateToko',
         summary: 'Update store',
         description: 'Updates an existing store. Requires the edit-tokos permission.',
@@ -368,7 +368,7 @@ class TokoApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/tokos/{toko}',
+        path: '/tokos/{toko}',
         operationId: 'deleteToko',
         summary: 'Delete store',
         description: 'Soft deletes a store (the record is kept with a deleted_at timestamp). Requires the delete-tokos permission.',

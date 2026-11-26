@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 class UserController extends Controller
 {
     #[OA\Get(
-        path: '/api/users',
+        path: '/users',
         operationId: 'getUsers',
         summary: 'Get list of users',
         description: 'Retrieves a paginated list of users along with their roles and permissions. Only accessible by users with the admin role.',
@@ -75,12 +75,12 @@ class UserController extends Controller
                                         ]
                                     )
                                 ),
-                                new OA\Property(property: 'first_page_url', type: 'string', example: 'http://localhost/api/users?page=1'),
+                                new OA\Property(property: 'first_page_url', type: 'string', example: 'http://localhost/users?page=1'),
                                 new OA\Property(property: 'from', type: 'integer', example: 1),
                                 new OA\Property(property: 'last_page', type: 'integer', example: 3),
-                                new OA\Property(property: 'last_page_url', type: 'string', example: 'http://localhost/api/users?page=3'),
-                                new OA\Property(property: 'next_page_url', type: 'string', nullable: true, example: 'http://localhost/api/users?page=2'),
-                                new OA\Property(property: 'path', type: 'string', example: 'http://localhost/api/users'),
+                                new OA\Property(property: 'last_page_url', type: 'string', example: 'http://localhost/users?page=3'),
+                                new OA\Property(property: 'next_page_url', type: 'string', nullable: true, example: 'http://localhost/users?page=2'),
+                                new OA\Property(property: 'path', type: 'string', example: 'http://localhost/users'),
                                 new OA\Property(property: 'per_page', type: 'integer', example: 15),
                                 new OA\Property(property: 'prev_page_url', type: 'string', nullable: true, example: null),
                                 new OA\Property(property: 'to', type: 'integer', example: 15),
@@ -123,7 +123,7 @@ class UserController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/me',
+        path: '/me',
         operationId: 'getAuthenticatedUser',
         summary: 'Get authenticated user',
         description: 'Retrieves the profile of the currently authenticated user along with their roles and permissions.',
@@ -187,7 +187,7 @@ class UserController extends Controller
     }
 
     #[OA\Post(
-        path: '/api/update-password',
+        path: '/update-password',
         operationId: 'updatePassword',
         summary: 'Update user password',
         description: 'Updates the password of the currently authenticated user. Requires the current password for verification and a confirmation of the new password.',

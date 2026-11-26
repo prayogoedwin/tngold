@@ -21,7 +21,7 @@ class TransaksiKategoriApi extends Controller
 
 
     #[OA\Get(
-        path: '/api/transaksi-kategoris',
+        path: '/transaksi-kategoris',
         operationId: 'getTransaksiKategoriList',
         summary: 'Get list of transaction categories',
         description: 'Retrieves all transaction categories. The response is a plain array without a message or data wrapper. Requires the view-transaksi-kategoris permission.',
@@ -77,7 +77,7 @@ class TransaksiKategoriApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksi-kategoris/{transaksiKategori}',
+        path: '/transaksi-kategoris/{transaksiKategori}',
         operationId: 'getTransaksiKategoriDetail',
         summary: 'Get transaction category detail',
         description: 'Retrieves a single transaction category by its ID. Requires the show-transaksi-kategoris permission.',
@@ -153,7 +153,7 @@ class TransaksiKategoriApi extends Controller
     }
 
     #[OA\Post(
-        path: '/api/transaksi-kategoris',
+        path: '/transaksi-kategoris',
         operationId: 'createTransaksiKategori',
         summary: 'Create transaction category',
         description: 'Creates a new transaction category. Requires the create-transaksi-kategoris permission.',
@@ -254,7 +254,7 @@ class TransaksiKategoriApi extends Controller
     
 
     #[OA\Put(
-        path: '/api/transaksi-kategoris/{transaksiKategori}',
+        path: '/transaksi-kategoris/{transaksiKategori}',
         operationId: 'updateTransaksiKategori',
         summary: 'Update transaction category',
         description: 'Updates an existing transaction category. Requires the edit-transaksi-kategoris permission.',
@@ -372,7 +372,7 @@ class TransaksiKategoriApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/transaksi-kategoris/{transaksiKategori}',
+        path: '/transaksi-kategoris/{transaksiKategori}',
         operationId: 'deleteTransaksiKategori',
         summary: 'Delete transaction category',
         description: 'Soft deletes a transaction category (the record is kept with a deleted_at timestamp). Requires the delete-transaksi-kategoris permission.',

@@ -14,7 +14,7 @@ use OpenApi\Attributes as OA;
 class AuthController extends Controller
 {
     #[OA\Post(
-        path: '/api/login',
+        path: '/login',
         operationId: 'login',
         summary: 'User login',
         description: 'Authenticates a user using email and password, and returns a Sanctum personal access token to be used as a Bearer token on protected endpoints.',
@@ -102,7 +102,7 @@ class AuthController extends Controller
     }
 
     #[OA\Post(
-        path: '/api/logout',
+        path: '/logout',
         operationId: 'logout',
         summary: 'User logout',
         description: 'Revokes the current access token of the authenticated user.',

@@ -19,7 +19,7 @@ class PembelianApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/pembelians',
+        path: '/pembelians',
         operationId: 'getPembelianList',
         summary: 'Get list of purchases',
         description: 'Retrieves all purchase records. Requires the view-pembelians permission.',
@@ -95,7 +95,7 @@ class PembelianApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/pembelians/{pembelian}',
+        path: '/pembelians/{pembelian}',
         operationId: 'getPembelianDetail',
         summary: 'Get purchase detail',
         description: 'Retrieves a single purchase along with its related transaction (if the purchase has been completed). Requires the show-pembelians permission.',
@@ -208,7 +208,7 @@ class PembelianApi extends Controller
     }
 
     #[OA\Post(
-        path: '/api/pembelians',
+        path: '/pembelians',
         operationId: 'createPembelian',
         summary: 'Create purchase',
         description: 'Creates a new purchase with its detail items and attaches it to a store. If the status is "completed", an outgoing transaction (type OUT) is automatically created. Requires the create-pembelians permission.',
@@ -394,7 +394,7 @@ class PembelianApi extends Controller
     }
 
     #[OA\Put(
-        path: '/api/pembelians/{pembelian}',
+        path: '/pembelians/{pembelian}',
         operationId: 'updatePembelian',
         summary: 'Update purchase',
         description: 'Updates an existing purchase and replaces all of its detail items. If the status changes from non-completed to "completed", an outgoing transaction (type OUT) is automatically created. Requires the edit-pembelians permission.',
@@ -603,7 +603,7 @@ class PembelianApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/pembelians/{pembelian}',
+        path: '/pembelians/{pembelian}',
         operationId: 'deletePembelian',
         summary: 'Delete purchase',
         description: 'Deletes a purchase record. Requires the delete-pembelians permission.',

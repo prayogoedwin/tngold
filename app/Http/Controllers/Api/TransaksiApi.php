@@ -17,7 +17,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksis',
+        path: '/transaksis',
         operationId: 'getTransaksiList',
         summary: 'Get list of transactions',
         description: 'Retrieves all transactions belonging to a specific store. Requires the view-transaksis permission.',
@@ -142,7 +142,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksis/current-saldo',
+        path: '/transaksis/current-saldo',
         operationId: 'getTransaksiCurrentSaldo',
         summary: 'Get current balance',
         description: 'Retrieves the current balance (saldo) of a specific store. Requires the view-transaksis permission.',
@@ -225,7 +225,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksis/total-nominal-transaksi-masuk',
+        path: '/transaksis/total-nominal-transaksi-masuk',
         operationId: 'getTotalNominalTransaksiMasuk',
         summary: 'Get total incoming transaction amount',
         description: 'Retrieves the total nominal of incoming transactions for a specific store. Requires the view-transaksis permission.',
@@ -308,7 +308,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksis/total-nominal-transaksi-keluar',
+        path: '/transaksis/total-nominal-transaksi-keluar',
         operationId: 'getTotalNominalTransaksiKeluar',
         summary: 'Get total outgoing transaction amount',
         description: 'Retrieves the total nominal of outgoing transactions for a specific store. Requires the view-transaksis permission.',
@@ -391,7 +391,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/transaksis/{transaksi}',
+        path: '/transaksis/{transaksi}',
         operationId: 'getTransaksiDetail',
         summary: 'Get transaction detail',
         description: 'Retrieves a single transaction by its ID. Requires the show-transaksis permission.',
@@ -472,7 +472,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Post(
-        path: '/api/transaksis',
+        path: '/transaksis',
         operationId: 'createTransaksi',
         summary: 'Create transaction',
         description: 'Creates a new transaction. Requires the create-transaksis permission.',
@@ -577,7 +577,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Put(
-        path: '/api/transaksis/{transaksi}',
+        path: '/transaksis/{transaksi}',
         operationId: 'updateTransaksi',
         summary: 'Update transaction',
         description: 'Updates an existing transaction. Requires the edit-transaksis permission.',
@@ -701,7 +701,7 @@ class TransaksiApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/transaksis/{transaksi}',
+        path: '/transaksis/{transaksi}',
         operationId: 'deleteTransaksi',
         summary: 'Delete transaction',
         description: 'Deletes a transaction. Requires the delete-transaksis permission.',

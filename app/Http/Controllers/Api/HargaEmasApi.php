@@ -17,7 +17,7 @@ class HargaEmasApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/harga-emas',
+        path: '/harga-emas',
         operationId: 'getHargaEmasList',
         summary: 'Get list of gold prices',
         description: 'Retrieves all gold price data. Requires the view-harga-emas permission.',
@@ -112,7 +112,7 @@ class HargaEmasApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/harga-emas/{hargaEmas}',
+        path: '/harga-emas/{hargaEmas}',
         operationId: 'getHargaEmasDetail',
         summary: 'Get gold price detail',
         description: 'Retrieves a single gold price along with its latest 20 price history records. Requires the show-harga-emas permission.',
@@ -213,7 +213,7 @@ class HargaEmasApi extends Controller
     }
 
     #[OA\Post(
-        path: '/api/harga-emas',
+        path: '/harga-emas',
         operationId: 'createHargaEmas',
         summary: 'Create gold price',
         description: 'Creates a new gold price record. Requires the create-harga-emas permission.',
@@ -314,7 +314,7 @@ class HargaEmasApi extends Controller
     }
 
     #[OA\Put(
-        path: '/api/harga-emas/{hargaEmas}',
+        path: '/harga-emas/{hargaEmas}',
         operationId: 'updateHargaEmas',
         summary: 'Update gold price',
         description: 'Updates an existing gold price record. Requires the edit-harga-emas permission.',
@@ -436,7 +436,7 @@ class HargaEmasApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/harga-emas/{hargaEmas}',
+        path: '/harga-emas/{hargaEmas}',
         operationId: 'deleteHargaEmas',
         summary: 'Delete gold price',
         description: 'Deletes a gold price record. Requires the delete-harga-emas permission.',

@@ -22,7 +22,7 @@ class AppVersionApi extends Controller
 
 
     #[OA\Get(
-        path: '/api/app-versions',
+        path: '/app-versions',
         operationId: 'getAppVersionList',
         summary: 'Get list of app versions',
         description: 'Retrieves all app version data.',
@@ -117,7 +117,7 @@ class AppVersionApi extends Controller
     }
 
     #[OA\Get(
-        path: '/api/app-versions/{appVersion}',
+        path: '/app-versions/{appVersion}',
         operationId: 'getAppVersionDetail',
         summary: 'Get app version detail',
         description: 'Retrieves a single app version along with its latest 20 price history records. Requires the show-app-versions permission.',
@@ -200,7 +200,7 @@ class AppVersionApi extends Controller
 
 
     #[OA\Post(
-        path: '/api/app-versions',
+        path: '/app-versions',
         operationId: 'createAppVersion',
         summary: 'Create app version',
         description: 'Creates a new app version record. Requires the create-app-versions permission.',
@@ -315,7 +315,7 @@ class AppVersionApi extends Controller
 
 
     #[OA\Put(
-        path: '/api/app-versions/{appVersion}',
+        path: '/app-versions/{appVersion}',
         operationId: 'updateAppVersion',
         summary: 'Update app version',
         description: 'Updates an existing app version record. Requires the update-app-versions permission.',
@@ -435,7 +435,7 @@ class AppVersionApi extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/app-versions/{appVersion}',
+        path: '/app-versions/{appVersion}',
         operationId: 'deleteAppVersion',
         summary: 'Delete app version',
         description: 'Deletes an existing app version record. Requires the delete-app-versions permission.',
