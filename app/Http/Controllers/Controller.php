@@ -11,8 +11,12 @@ use OpenApi\Attributes as OA;
     description: 'API backend TNGOLD — auth, '
 )]
 #[OA\Server(
-    url: L5_SWAGGER_CONST_HOST,
-    description: 'API Server'
+    url: L5_SWAGGER_CONST_HOST_PEMBELIAN,
+    description: 'Pembelian API Server'
+)]
+#[OA\Server(
+    url: L5_SWAGGER_CONST_HOST_INTERNAL,
+    description: 'Internal API Server'
 )]
 #[OA\SecurityScheme(
     securityScheme: 'bearerAuth',
