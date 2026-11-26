@@ -182,10 +182,11 @@ class HargaEmas extends Model
             'emas_asal' => $this->emas_asal,
             'sumber' => $this->sumber,
             'kadar' => $this->kadar,
-            'satuan' => $this->satuan,
+            'satuan' => 'per' . $this->jumlah . ' ' . $this->satuan,
             'jumlah' => $this->jumlah,
             'harga_beli' => $this->harga_beli,
             'keterangan' => $this->keterangan,
+            'updated_at' => $this->updated_at,
         ];
     }
 
