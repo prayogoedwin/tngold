@@ -22,33 +22,33 @@ Route::prefix('pembelian')->group(function () {
 
         // - cek harga
         //resource hargaemas
-        Route::get('harga-emas', [HargaEmasApi::class, 'index'])->middleware('permission:view-harga-emas');
-        Route::post('harga-emas', [HargaEmasApi::class, 'store'])->middleware('permission:create-harga-emas');
+        Route::get('harga-emas', [HargaEmasApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::post('harga-emas', [HargaEmasApi::class, 'store'])->middleware('permission:create-pembelians');
 
         // - harga terkini kasih masing2 dari produk
-        Route::get('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'show'])->middleware('permission:show-harga-emas');
-        Route::put('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'update'])->middleware('permission:edit-harga-emas');
-        Route::delete('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'destroy'])->middleware('permission:delete-harga-emas');
+        Route::get('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'show'])->middleware('permission:show-pembelians');
+        Route::put('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'update'])->middleware('permission:edit-pembelians');
+        Route::delete('harga-emas/{hargaEmas}', [HargaEmasApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
 
 
         // - saldo terkini
         //resource transaksi
-        Route::get('transaksis', [TransaksiApi::class, 'index'])->middleware('permission:view-transaksis');
-        Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-transaksis');
-        Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-transaksis');
-        Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-transaksis');
-        Route::get('transaksis/total-nominal-transaksi-keluar', [TransaksiApi::class, 'getTotalNominalTransaksiKeluar'])->middleware('permission:view-transaksis');
-        Route::get('transaksis/{transaksi}', [TransaksiApi::class, 'show'])->middleware('permission:show-transaksis');
-        Route::put('transaksis/{transaksi}', [TransaksiApi::class, 'update'])->middleware('permission:edit-transaksis');
-        Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-transaksis');
+        Route::get('transaksis', [TransaksiApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-pembelians');
+        Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-pembelians');
+        Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-pembelians');
+        Route::get('transaksis/total-nominal-transaksi-keluar', [TransaksiApi::class, 'getTotalNominalTransaksiKeluar'])->middleware('permission:view-pembelians');
+        Route::get('transaksis/{transaksi}', [TransaksiApi::class, 'show'])->middleware('permission:show-pembelians');
+        Route::put('transaksis/{transaksi}', [TransaksiApi::class, 'update'])->middleware('permission:edit-pembelians');
+        Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
         //resource transaksi-kategori
-        Route::get('transaksi-kategoris', [TransaksiKategoriApi::class, 'index'])->name('transaksi-kategoris.index')->middleware('permission:view-transaksi-kategoris');
-        Route::post('transaksi-kategoris', [TransaksiKategoriApi::class, 'store'])->name('transaksi-kategoris.store')->middleware('permission:create-transaksi-kategoris');
-        Route::get('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'show'])->name('transaksi-kategoris.show')->middleware('permission:show-transaksi-kategoris');
-        Route::put('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'update'])->name('transaksi-kategoris.update')->middleware('permission:edit-transaksi-kategoris');
-        Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-transaksi-kategoris');
+        Route::get('transaksi-kategoris', [TransaksiKategoriApi::class, 'index'])->name('transaksi-kategoris.index')->middleware('permission:view-pembelians');
+        Route::post('transaksi-kategoris', [TransaksiKategoriApi::class, 'store'])->name('transaksi-kategoris.store')->middleware('permission:create-pembelians');
+        Route::get('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'show'])->name('transaksi-kategoris.show')->middleware('permission:show-pembelians');
+        Route::put('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'update'])->name('transaksi-kategoris.update')->middleware('permission:edit-pembelians');
+        Route::delete('transaksi-kategoris/{transaksiKategori}', [TransaksiKategoriApi::class, 'destroy'])->name('transaksi-kategoris.destroy')->middleware('permission:delete-pembelians');
 
         // - pembelian
         Route::get('pembelians', [PembelianApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
@@ -66,11 +66,11 @@ Route::prefix('pembelian')->group(function () {
         Route::delete('tokos/{toko}', [TokoApi::class, 'destroy'])->middleware('permission:delete-tokos');
 
         //app versions
-        Route::get('app-versions', [AppVersionApi::class, 'index'])->middleware('permission:view-app-versions');
-        Route::post('app-versions', [AppVersionApi::class, 'store'])->middleware('permission:create-app-versions');
-        Route::get('app-versions/{appVersion}', [AppVersionApi::class, 'show'])->middleware('permission:show-app-versions');
-        Route::put('app-versions/{appVersion}', [AppVersionApi::class, 'update'])->middleware('permission:edit-app-versions');
-        Route::delete('app-versions/{appVersion}', [AppVersionApi::class, 'destroy'])->middleware('permission:delete-app-versions');
+        Route::get('app-versions', [AppVersionApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::post('app-versions', [AppVersionApi::class, 'store'])->middleware('permission:create-pembelians');
+        Route::get('app-versions/{appVersion}', [AppVersionApi::class, 'show'])->middleware('permission:show-pembelians');
+        Route::put('app-versions/{appVersion}', [AppVersionApi::class, 'update'])->middleware('permission:edit-pembelians');
+        Route::delete('app-versions/{appVersion}', [AppVersionApi::class, 'destroy'])->middleware('permission:delete-pembelians');
     });
 });
 
