@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
+use App\Models\TransaksiKategori;
 use Yajra\DataTables\Facades\DataTables;
 
 // this is not real controller, just a template for dynamic CRUD operations
@@ -87,9 +88,18 @@ class TransaksiController extends Controller
         return view('dynamiccrud.show', array_merge($structure, ['data' => $data]));
     }
 
-    public function create()
+    public function createPemasukan()
     {
         $structure = (new Transaksi())->structure();
+        $structure['columns'][0]['options'] = TransaksiKategori::where('type', 'IN')->pluck('name', 'id')->toArray();
+
+        // dd($structure);
+        return view('dynamiccrud.create', $structure);
+    }
+    public function createPengeluaran()
+    {
+        $structure = (new Transaksi())->structure();
+        $structure['columns'][0]['options'] = TransaksiKategori::where('type', 'OUT')->pluck('name', 'id')->toArray();
         // dd($structure);
         return view('dynamiccrud.create', $structure);
     }
@@ -99,6 +109,10 @@ class TransaksiController extends Controller
         $validatedData = $request->validate([
             ...$this->model->getValidationRules()
         ]);
+
+        $transaksiKategori = TransaksiKategori::find($validatedData['transaksi_kategori_id']);
+
+        $validatedData['type'] = $transaksiKategori->type;
 
         $transaksi = Transaksi::create($validatedData);
 

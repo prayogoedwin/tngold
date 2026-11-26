@@ -134,17 +134,17 @@ class PembelianController extends Controller
     public function create()
     {
         $structure = (new Pembelian())->structure();
-        $hargaEmass = HargaEmas::get();
+        $hargaEmass = HargaEmas::with(['emasAsal', 'kadar'])->get();
         $asal_emas_options = [];
         foreach ($hargaEmass as $hargaEmas) {
-            $asal_emas_options[$hargaEmas->id] = $hargaEmas->emas_asal . ' - ' . $hargaEmas->kadar . 'K';
+            $asal_emas_options[$hargaEmas->id] = $hargaEmas->emasAsal->name . ' - ' . $hargaEmas->kadar->name;
         }
         $asal_emas_data = [];
 
         foreach ($hargaEmass as $hargaEmas) {
             $asal_emas_data[$hargaEmas->id] = [
-                'emas_asal' => $hargaEmas->emas_asal,
-                'kadar' => $hargaEmas->kadar,
+                'emas_asal' => $hargaEmas->emasAsal->name,
+                'kadar' => $hargaEmas->kadar->name,
                 'satuan' => $hargaEmas->satuan,
                 'jumlah' => $hargaEmas->jumlah,
                 'harga_per_satuan' => $hargaEmas->harga_beli,

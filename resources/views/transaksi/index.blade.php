@@ -37,7 +37,10 @@
 
             @if (auth()->user()->hasPermission('create-' . $table) && ($canCreate ?? true) !== false)
             <a href="{{ route($table . '.create') }}">
-                <x-button type="primary">{{ __('Create ' . $title) }}</x-button>
+                <x-button type="primary">{{ __('Buat Pemasukan ') }}</x-button>
+            </a>
+            <a href="{{ route($table . '.create') }}">
+                <x-button type="primary" class="bg-red-600 hover:bg-red-700 text-white">{{ __('Buat Pengeluaran ') }}</x-button>
             </a>
             @endif
         </div>

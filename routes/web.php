@@ -84,7 +84,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transaksis', [TransaksiController::class, 'index'])->name('transaksis.index')->middleware('permission:view-transaksis');
     Route::get('transaksis/indexTable', [TransaksiController::class, 'indexTable'])->name('transaksis.indexTable')->middleware('permission:view-transaksis');
     Route::get('transaksis/export', [TransaksiController::class, 'export'])->name('transaksis.export')->middleware('permission:download-transaksis');
-    Route::get('transaksis/create', [TransaksiController::class, 'create'])->name('transaksis.create')->middleware('permission:create-transaksis');
+    Route::get('transaksis/create-pengeluaran', [TransaksiController::class, 'createPengeluaran'])->name('transaksis.create')->middleware('permission:create-transaksis');
+    Route::get('transaksis/create-pemasukan', [TransaksiController::class, 'createPemasukan'])->name('transaksis.createPemasukan')->middleware('permission:create-transaksis');
     Route::post('transaksis', [TransaksiController::class, 'store'])->name('transaksis.store')->middleware('permission:create-transaksis');
     Route::get('transaksis/{transaksi}', [TransaksiController::class, 'show'])->name('transaksis.show')->middleware('permission:show-transaksis');
     Route::get('transaksis/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksis.edit')->middleware('permission:edit-transaksis');
