@@ -139,7 +139,7 @@ class TransaksiApi extends Controller
         $transaksis = Transaksi::where('toko_id', $toko_id);
 
         if ($tipe) {
-            $tipevalue = $tipe == 1 ? 'IN' : 'OUT';
+            $tipevalue = (string) $tipe == '1' ? 'IN' : 'OUT';
             $transaksis->where('type', $tipevalue);
         }
 
@@ -181,7 +181,7 @@ class TransaksiApi extends Controller
         $searchQuery = $request->string('search');
 
         if ($tipe) {
-            $tipevalue = $tipe == 1 ? 'IN' : 'OUT';
+            $tipevalue = (string) $tipe == '1' ? 'IN' : 'OUT';
             $transaksis->where('type', $tipevalue);
         }
 
@@ -280,7 +280,7 @@ class TransaksiApi extends Controller
     {
         $user = $request->user();
         $toko_id = $user->tokos->first()->id;
-        
+
 
         $saldo = $this->model->currentSaldo($toko_id);
         $total_nominal_transaksi_masuk = $this->model->transaksiMasuk()->where('toko_id', $toko_id)->sum('nominal');
