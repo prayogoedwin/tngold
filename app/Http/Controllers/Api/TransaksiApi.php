@@ -24,13 +24,7 @@ class TransaksiApi extends Controller
         tags: ['Transaksi'],
         security: [['bearerAuth' => []]],
         parameters: [
-            new OA\Parameter(
-                name: 'toko_id',
-                description: 'ID of the store',
-                in: 'query',
-                required: true,
-                schema: new OA\Schema(type: 'integer', example: 1)
-            ),
+            
             new OA\Parameter(
                 name: 'per_page',
                 description: 'Number of items per page',
@@ -116,15 +110,38 @@ class TransaksiApi extends Controller
             )
         ]
     )]
-    public function index(Request $request)
+    public function indexPembelian(Request $request)
     {
-        $request->validate([
-            'toko_id' => 'required|integer|exists:tokos,id'
-        ]);
+        
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
 
-        $transaksis = Transaksi::where('toko_id', $request->toko_id)->paginate($per_page, ['*'], 'page', $page);
+        $user = $request->user();
+        $toko_id = $user->tokos->first()->id;
+
+        $transaksis = Transaksi::where('toko_id', $toko_id)->paginate($per_page, ['*'], 'page', $page);
+
+        $data = $transaksis->getCollection()
+                ->map(
+                    fn(Transaksi $t) =>
+                    $t->transformed()
+                );
+
+        $output = $transaksis->toArray();
+        $output['data'] = $data;
+
+        return $this->apiResponseOk(
+            data: $output,
+            message: 'Transaksis retrieved successfully.'
+        );
+    }
+    public function indexInternal(Request $request)
+    {
+        
+        $per_page = $request->integer('per_page', 10);
+        $page = $request->integer('page', 1);
+
+        $transaksis = Transaksi::paginate($per_page, ['*'], 'page', $page);
 
         $data = $transaksis->getCollection()
                 ->map(

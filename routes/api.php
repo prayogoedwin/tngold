@@ -36,7 +36,7 @@ Route::prefix('pembelian')->group(function () {
 
         // - saldo terkini
         //resource transaksi
-        Route::get('transaksis', [TransaksiApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::get('transaksis', [TransaksiApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
         Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-pembelians');
         Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-pembelians');
         Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-pembelians');
@@ -108,7 +108,7 @@ Route::prefix('internal')->group(function () {
 
         // - saldo terkini
         //resource transaksi
-        Route::get('transaksis', [TransaksiApi::class, 'index'])->middleware('permission:view-transaksis');
+        Route::get('transaksis', [TransaksiApi::class, 'indexInternal'])->middleware('permission:view-transaksis');
         Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-transaksis');
         Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-transaksis');
         Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-transaksis');
