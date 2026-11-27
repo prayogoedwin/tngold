@@ -180,12 +180,13 @@ class Transaksi extends Model
             'id' => $this->id,
             'kode' => $this->kode,
             'type' => $this->type,
-            'tanggal' => $this->tanggal,
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
             'transaksi_kategori_id' => $this->transaksi_kategori_id,
             'title' => $this->transaksiKategori ? $this->transaksiKategori->name : null,
             'toko_id' => $this->toko_id,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at
         ];
     }
 
