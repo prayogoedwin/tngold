@@ -140,7 +140,6 @@ class TransaksiApi extends Controller
 
         if ($tipe != '') {
             // input tipe bisa 1,2 atau juga IN/OUT
-            dd($tipe);
             $tipevalue = (string) $tipe == '1' ? 'IN' : ((string) $tipe == '2' ? 'OUT' : strtoupper((string) $tipe));
             $transaksis->where('type', $tipevalue);
         }
