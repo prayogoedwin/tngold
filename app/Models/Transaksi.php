@@ -183,7 +183,7 @@ class Transaksi extends Model
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
             'transaksi_kategori_id' => $this->transaksi_kategori_id,
-            'title' => $this->transaksiKategori ? $this->transaksiKategori->name : null,
+            'kategori' => $this->transaksiKategori ? $this->transaksiKategori->name : null,
             'toko_id' => $this->toko_id,
             'created_by' => $this->createdBy ? $this->createdBy->name : null,
             'created_at' => $this->created_at
