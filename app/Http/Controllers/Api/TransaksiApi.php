@@ -47,11 +47,11 @@ class TransaksiApi extends Controller
                 schema: new OA\Schema(type: 'string', example: 'Emas Batangan')
             ),
             new OA\Parameter(
-                name: 'kategori',
-                description: 'Filter by transaksi kategori',
+                name: 'tipe',
+                description: 'Filter by transaksi tipe',
                 in: 'query',
                 required: false,
-                schema: new OA\Schema(type: 'integer', example: 1)
+                schema: new OA\Schema(type: 'string', example: 'IN')
             ),
         ],
         responses: [
@@ -130,7 +130,7 @@ class TransaksiApi extends Controller
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
         $searchQuery = $request->string('search');
-        $kategori = $request->integer('kategori');
+        $tipe = $request->string('tipe');
 
 
         $user = $request->user();
@@ -138,8 +138,8 @@ class TransaksiApi extends Controller
 
         $transaksis = Transaksi::where('toko_id', $toko_id);
 
-        if ($kategori) {
-            $transaksis->where('transaksi_kategori_id', $kategori);
+        if ($tipe) {
+            $transaksis->where('type', $tipe);
         }
 
         if ($searchQuery) {
@@ -172,11 +172,30 @@ class TransaksiApi extends Controller
     }
     public function indexInternal(Request $request)
     {
-
+        $transaksis = Transaksi::query();
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
 
-        $transaksis = Transaksi::paginate($per_page, ['*'], 'page', $page);
+        $tipe = $request->string('tipe');
+        $searchQuery = $request->string('search');
+
+        if ($tipe) {
+            $transaksis->where('type', $tipe);
+        }
+
+        if ($searchQuery) {
+            $transaksis->where(function ($query) use ($searchQuery) {
+                $query->where('kode', 'like', "%{$searchQuery}%")
+                    ->orWhere('type', 'like', "%{$searchQuery}%")
+                    ->orWhere('keterangan', 'like', "%{$searchQuery}%")
+                    ->orWhere('tanggal', 'like', "%{$searchQuery}%")
+                    ->orWhere('nominal', 'like', "%{$searchQuery}%")
+                    ->orWhereHas('transaksiKategori', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', "%{$searchQuery}%");
+                    });
+            });
+        }
+        $transaksis = $transaksis->paginate($per_page, ['*'], 'page', $page);
 
         $data = $transaksis->getCollection()
             ->map(
