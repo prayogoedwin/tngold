@@ -51,7 +51,7 @@ class TransaksiApi extends Controller
                 description: 'Filter by transaksi tipe',
                 in: 'query',
                 required: false,
-                schema: new OA\Schema(type: 'integer', example: 1)
+                schema: new OA\Schema(type: 'string', example: 'IN')
             ),
         ],
         responses: [
@@ -70,7 +70,7 @@ class TransaksiApi extends Controller
                                 properties: [
                                     new OA\Property(property: 'id', type: 'integer', example: 1),
                                     new OA\Property(property: 'toko_id', type: 'integer', example: 1),
-                                    new OA\Property(property: 'tipe', type: 'integer', example: 1),
+                                    new OA\Property(property: 'tipe', type: 'string', example: 'IN'),
                                     new OA\Property(property: 'nominal', type: 'number', example: 500000),
                                     new OA\Property(property: 'keterangan', type: 'string', example: 'Penjualan emas 1 gram'),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
