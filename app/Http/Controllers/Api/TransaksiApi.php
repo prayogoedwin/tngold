@@ -38,7 +38,21 @@ class TransaksiApi extends Controller
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer', example: 1)
-            )
+            ),
+            new OA\Parameter(
+                name: 'search',
+                description: 'Search query',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', example: 'Emas Batangan')
+            ),
+            new OA\Parameter(
+                name: 'filterKategori',
+                description: 'Filter by kategori',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 1)
+            ),
         ],
         responses: [
             new OA\Response(
@@ -115,11 +129,33 @@ class TransaksiApi extends Controller
         
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
+        $searchQuery = $request->string('search');
+        $filterKategori = $request->integer('filterKategori');
+
 
         $user = $request->user();
         $toko_id = $user->tokos->first()->id;
 
-        $transaksis = Transaksi::where('toko_id', $toko_id)->paginate($per_page, ['*'], 'page', $page);
+        $transaksis = Transaksi::where('toko_id', $toko_id);
+
+
+        if ($filterKategori) {
+            $transaksis->where('transaksi_kategori_id', $filterKategori);
+        }
+
+        if ($searchQuery) {
+            $transaksis->where('kode', 'like', "%{$searchQuery}%")
+                ->orWhere('type', 'like', "%{$searchQuery}%")
+                ->orWhere('keterangan', 'like', "%{$searchQuery}%")
+                ->orWhere('tanggal', 'like', "%{$searchQuery}%")
+                ->orWhere('nominal', 'like', "%{$searchQuery}%");
+            // Search dari tabel kategoris
+            $transaksis->orWhereHas('transaksiKategori', function ($q) use ($searchQuery) {
+                $q->where('name', 'like', "%{$searchQuery}%");
+            });
+        }
+
+        $transaksis = $transaksis->paginate($per_page, ['*'], 'page', $page);
 
         $data = $transaksis->getCollection()
                 ->map(

@@ -45,6 +45,13 @@ class HargaEmasApi extends Controller
                 required: false,
                 schema: new OA\Schema(type: 'string', example: 'Emas Batangan')
             ),
+            new OA\Parameter(
+                name: 'filterEmasAsal',
+                description: 'Filter by emas asal',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', example: 1)
+            )
         ],
         responses: [
             new OA\Response(
@@ -99,9 +106,16 @@ class HargaEmasApi extends Controller
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
         $searchQuery = $request->string('search');
+        $filterEmasAsal = $request->integer('filterEmasAsal');
 
 
         $hargaEmas = HargaEmas::query();
+
+        if ($filterEmasAsal) {
+            $hargaEmas->where('emas_asal_id', $filterEmasAsal);
+        }
+
+
         if ($searchQuery) {
             $hargaEmas->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('sumber', 'like', "%{$searchQuery}%")
