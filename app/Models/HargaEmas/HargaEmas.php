@@ -203,7 +203,7 @@ class HargaEmas extends Model
             'emas_asal' => $this->emasAsal()->first()->name,
             'sumber' => $this->sumber,
             'kadar' => $this->kadar,
-            'satuan' => '/ ' . $this->jumlah . ' ' . $this->satuan,
+            'satuan' => $this->satuan,
             'jumlah' => $this->jumlah,
             'harga_beli' => $this->harga_beli,
             'keterangan' => $this->keterangan,
