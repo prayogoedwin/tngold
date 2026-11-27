@@ -184,6 +184,7 @@ class Transaksi extends Model
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
             'transaksi_kategori_id' => $this->transaksi_kategori_id,
+            'title' => $this->transaksiKategori ? $this->transaksiKategori->name : null,
             'toko_id' => $this->toko_id,
         ];
     }
