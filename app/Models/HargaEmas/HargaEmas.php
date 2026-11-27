@@ -15,7 +15,7 @@ class HargaEmas extends Model
         'emas_asal_id',
         'name',
         'sumber',
-        'kadar_id',
+        'kadar',
         'satuan',
         'jumlah',
         'harga_beli', ////harga beli per jumlah/satuan
@@ -26,7 +26,7 @@ class HargaEmas extends Model
     ];
 
     protected $casts = [
-        'kadar_id' => 'integer',
+        'kadar' => 'string',
         'jumlah' => 'integer',
         'harga_beli' => 'integer',
         'created_by' => 'integer',
@@ -42,9 +42,8 @@ class HargaEmas extends Model
                 $model->updated_by = auth()->id();
             }
             //auto generate name based on emas_asal_id, kadar, and satuan
-            $model->name = \App\Models\HargaEmas\HargaEmasEmasAsal::find($model->emas_asal_id)->name 
+            $model->name = \App\Models\HargaEmas\HargaEmasEmasAsal::find($model->emas_asal_id)->name
                 . ' ' . $model->kadar;
-            $model->name = 'temp';
         });
 
         static::created(function ($model) {
@@ -84,6 +83,19 @@ class HargaEmas extends Model
 
             'columns' => [
                 [
+                    'name' => 'name',
+                    'data' => 'name',
+                    'display_value' => 'name',
+                    'type' => 'string',
+                    'validation' => 'nullable|string|max:255',
+                    'label' => 'Nama Produk',
+                    'required' => false,
+                    'inTable' => true,
+                    'inCreateForm' => false,
+                    'inEditForm' => false,
+                    'inShowPage' => true,
+                ],
+                [
                     'name' => 'emas_asal_id',
                     'data' => 'emas_asal.name',
                     'display_value' => 'emasAsal.name',
@@ -105,21 +117,22 @@ class HargaEmas extends Model
                     'validation' => 'required|string|max:255',
                     'label' => 'Sumber',
                     'required' => true,
-                    'inTable' => true,
+                    'inTable' => false,
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,
                 ],
+
                 [
-                    'name' => 'kadar_id',
-                    'data' => 'kadar.name',
-                    'display_value' => 'kadar.name',
-                    'type' => 'select',
-                    'validation' => 'required|exists:harga_emas_kadars,id',
+                    'name' => 'kadar',
+                    'data' => 'kadar',
+                    'display_value' => 'kadar',
+                    'type' => 'enum',
+                    'validation' => 'required|string|max:255',
                     'label' => 'Kadar',
                     'required' => true,
                     'inTable' => true,
-                    'options' => \App\Models\HargaEmas\HargaEmasKadar::all()->pluck('name', 'id')->toArray(),
+                    'options' => \App\Models\HargaEmas\HargaEmasKadar::all()->pluck('name')->toArray(),
                     'inCreateForm' => true,
                     'inEditForm' => true,
                     'inShowPage' => true,
@@ -187,9 +200,9 @@ class HargaEmas extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'emas_asal' => $this->emasAsal()->first()->transformed(),
+            'emas_asal' => $this->emasAsal()->first()->name,
             'sumber' => $this->sumber,
-            'kadar' => $this->kadar()->first()->transformed(),
+            'kadar' => $this->kadar,
             'satuan' => '/ ' . $this->jumlah . ' ' . $this->satuan,
             'jumlah' => $this->jumlah,
             'harga_beli' => $this->harga_beli,
@@ -198,10 +211,7 @@ class HargaEmas extends Model
         ];
     }
 
-    public function kadar()
-    {
-        return $this->belongsTo(HargaEmasKadar::class, 'kadar_id');
-    }
+
 
     public function emasAsal()
     {

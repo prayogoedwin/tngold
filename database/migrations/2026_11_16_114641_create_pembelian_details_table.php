@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pembelian_id')->nullable()->constrained('pembelians')->onDelete('cascade'); //bisa nullable dulu
             $table->string('emas_asal');
-            $table->integer('kadar');
+            $table->string('kadar');
             $table->string('satuan');
             $table->integer('jumlah');
             $table->integer('harga_per_satuan');

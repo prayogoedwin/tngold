@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->string('kode')->unique();
             $table->enum('type', ['IN', 'OUT']);
             $table->foreignId('transaksi_kategori_id')->constrained('transaksi_kategoris')->onDelete('cascade');
             $table->foreignId('toko_id')->constrained('tokos')->onDelete('cascade');
-            $table->integer('nominal');
+            $table->double('nominal');
             $table->string('keterangan');
             $table->timestamp('tanggal')->useCurrent();
             $table->timestamps();

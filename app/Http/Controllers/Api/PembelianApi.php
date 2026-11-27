@@ -25,6 +25,22 @@ class PembelianApi extends Controller
         description: 'Retrieves all purchase records. Requires the view-pembelians permission.',
         tags: ['Pembelian'],
         security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'per_page',
+                in: 'query',
+                description: 'Number of items per page',
+                required: false,
+                schema: new OA\Schema(type: 'integer', default: 10)
+            ),
+            new OA\Parameter(
+                name: 'page',
+                in: 'query',
+                description: 'Page number',
+                required: false,
+                schema: new OA\Schema(type: 'integer', default: 1)
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 200,

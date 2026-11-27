@@ -98,21 +98,20 @@ class HargaEmasApi extends Controller
     {
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
-        $searchQuery = $request->string('search')->nullable();
+        $searchQuery = $request->string('search');
 
 
         $hargaEmas = HargaEmas::query();
         if ($searchQuery) {
             $hargaEmas->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('sumber', 'like', "%{$searchQuery}%")
-                ->orWhere('keterangan', 'like', "%{$searchQuery}%");
+                ->orWhere('keterangan', 'like', "%{$searchQuery}%")
+                ->orWhere('kadar', 'like', "%{$searchQuery}%");
             // Search dari tabel kategoris
             $hargaEmas->orWhereHas('emasAsal', function ($q) use ($searchQuery) {
                 $q->where('name', 'like', "%{$searchQuery}%");
             });
-            $hargaEmas->orWhereHas('kadar', function ($q) use ($searchQuery) {
-                $q->where('name', 'like', "%{$searchQuery}%");
-            });
+            
         }
         $hargaEmas = $hargaEmas->paginate($per_page, ['*'], 'page', $page);
 

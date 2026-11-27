@@ -8,12 +8,12 @@ use App\Models\Toko;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-// this is not real Model, just a template structure for copy paste purposes
 class Transaksi extends Model
 {
     use SoftDeletes;
     protected $table = 'transaksis';
     protected $fillable = [
+        'kode',
         'type',
         'transaksi_kategori_id',
         'tanggal',
@@ -39,6 +39,15 @@ class Transaksi extends Model
                 $model->created_by = auth()->id();
                 $model->updated_by = auth()->id();
             }
+
+            // auto-generate kode
+            //contoh format = K202611#4
+
+            $t = $model->type == 'IN' ? 'M' : 'K';
+            $p = date('Ym');
+            $count = self::where('type', $model->type)->whereYear('tanggal', date('Y'))->whereMonth('tanggal', date('m'))->count() + 1;
+            $model->kode = $t . $p . '#' . $count;
+
         });
 
         static::updating(function ($model) {
@@ -66,7 +75,19 @@ class Transaksi extends Model
             'index_has_download' => false,
 
             'columns' => [
-                
+                [
+                    'name' => 'kode',
+                    'data' => 'kode',
+                    'display_value' => 'kode',
+                    'type' => 'text',
+                    'validation' => 'nullable|string|max:255',
+                    'label' => 'Kode',
+                    'required' => false,
+                    'inTable' => false,
+                    'inCreateForm' => false,
+                    'inEditForm' => false,
+                    'inShowPage' => true,
+                ],
                 [
                     'name' => 'transaksi_kategori_id',
                     'data' => 'transaksi_kategori.name',
@@ -157,6 +178,7 @@ class Transaksi extends Model
     {
         return [
             'id' => $this->id,
+            'kode' => $this->kode,
             'type' => $this->type,
             'tanggal' => $this->tanggal,
             'nominal' => $this->nominal,

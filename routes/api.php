@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HargaEmasApi;
 use App\Http\Controllers\Api\MasterApi;
 use App\Http\Controllers\Api\PembelianApi;
+use App\Http\Controllers\Api\TabPembelianDiPembelianApi;
 use App\Http\Controllers\Api\TokoApi;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,9 @@ Route::prefix('pembelian')->group(function () {
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updatePembelian'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
+
+        //tab pembelian
+        Route::get('tabpembelian', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
 
 
         //toko
@@ -127,6 +131,9 @@ Route::prefix('internal')->group(function () {
         Route::get('pembelians/{pembelian}', [PembelianApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('pembelians/{pembelian}', [PembelianApi::class, 'updateInternal'])->middleware('permission:edit-pembelians');
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
+
+        //tab pembelian
+        Route::get('tabpembelian', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
 
 
         //toko

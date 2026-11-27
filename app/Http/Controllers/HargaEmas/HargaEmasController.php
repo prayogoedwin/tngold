@@ -30,7 +30,9 @@ class HargaEmasController extends Controller
     {
         if (request()->ajax()) {
 
-            $hargaEmas = HargaEmas::query();
+            $hargaEmas = HargaEmas::query()
+            ->with('emasAsal')
+            ;
 
             return DataTables::of($hargaEmas)
                 ->addIndexColumn()
