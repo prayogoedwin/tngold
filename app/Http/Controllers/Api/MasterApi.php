@@ -119,4 +119,69 @@ class MasterApi extends Controller
             data: $kadar->map->transformed(),
         );
     }
+
+
+    #[OA\Get(
+        path: '/tipetransaksis',
+        operationId: 'getTipeTransaksiList',
+        summary: 'Get list of Tipe Transaksi',
+        description: 'Retrieves all Tipe Transaksi. The response is a plain array without a message or data wrapper. Requires the view-emas-asal permission.',
+        tags: ['Master'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Tipe Transaksis retrieved successfully',
+                content: new OA\JsonContent(
+                    type: 'array',
+                    items: new OA\Items(
+                        type: 'object',
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 1),
+                            new OA\Property(property: 'name', type: 'string', example: '24K'),
+                            new OA\Property(property: 'code', type: 'string', nullable: true, example: '24K'),
+                            new OA\Property(property: 'address', type: 'string', nullable: true, example: ''),
+                            new OA\Property(property: 'phone', type: 'string', nullable: true, example: '')
+                        ]
+                    )
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthenticated',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 403,
+                description: 'Forbidden - missing permission view-emas-asal',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Forbidden')
+                    ]
+                )
+            )
+        ]
+    )]
+    public function getTipeTransaksi()
+    {
+        $tipes = [
+            [
+                "key" => "IN",
+                "name" => "IN"
+            ],
+            [
+                "key" => "OUT",
+                "name" => "OUT"
+            ]
+        ];
+        return $this->apiResponseOk(
+            data: $tipes,
+        );
+    }
 }
