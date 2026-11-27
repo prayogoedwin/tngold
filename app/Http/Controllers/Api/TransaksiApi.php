@@ -139,7 +139,8 @@ class TransaksiApi extends Controller
         $transaksis = Transaksi::where('toko_id', $toko_id);
 
         if ($tipe) {
-            $tipevalue = (string) $tipe == '1' ? 'IN' : 'OUT';
+            // input tipe bisa 1,2 atau juga IN/OUT
+            $tipevalue = (string) $tipe == '1' ? 'IN' : ((string) $tipe == '2' ? 'OUT' : strtoupper((string) $tipe));
             $transaksis->where('type', $tipevalue);
         }
 
@@ -181,7 +182,8 @@ class TransaksiApi extends Controller
         $searchQuery = $request->string('search');
 
         if ($tipe) {
-            $tipevalue = (string) $tipe == '1' ? 'IN' : 'OUT';
+            // input tipe bisa 1,2 atau juga IN/OUT
+            $tipevalue = (string) $tipe == '1' ? 'IN' : ((string) $tipe == '2' ? 'OUT' : strtoupper((string) $tipe));
             $transaksis->where('type', $tipevalue);
         }
 
