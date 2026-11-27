@@ -172,11 +172,11 @@ class MasterApi extends Controller
     {
         $tipes = [
             [
-                "key" => "IN",
+                "id" => 1,
                 "name" => "IN"
             ],
             [
-                "key" => "OUT",
+                "id" => 2,
                 "name" => "OUT"
             ]
         ];
