@@ -47,8 +47,8 @@ class TransaksiApi extends Controller
                 schema: new OA\Schema(type: 'string', example: 'Emas Batangan')
             ),
             new OA\Parameter(
-                name: 'filterKategori',
-                description: 'Filter by kategori',
+                name: 'kategori',
+                description: 'Filter by transaksi kategori',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer', example: 1)
@@ -130,7 +130,7 @@ class TransaksiApi extends Controller
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
         $searchQuery = $request->string('search');
-        $filterKategori = $request->integer('filterKategori');
+        $kategori = $request->integer('kategori');
 
 
         $user = $request->user();
@@ -138,8 +138,8 @@ class TransaksiApi extends Controller
 
         $transaksis = Transaksi::where('toko_id', $toko_id);
 
-        if ($filterKategori) {
-            $transaksis->where('transaksi_kategori_id', $filterKategori);
+        if ($kategori) {
+            $transaksis->where('transaksi_kategori_id', $kategori);
         }
 
         if ($searchQuery) {
