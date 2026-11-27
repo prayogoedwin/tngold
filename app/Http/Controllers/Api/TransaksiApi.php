@@ -281,8 +281,8 @@ class TransaksiApi extends Controller
         
 
         $saldo = $this->model->currentSaldo($toko_id);
-        $total_nominal_transaksi_masuk = $this->model->totalNominalTransaksiMasuk($toko_id);
-        $total_nominal_transaksi_keluar = $this->model->totalNominalTransaksiKeluar($toko_id);
+        $total_nominal_transaksi_masuk = $this->model->transaksiMasuk()->where('toko_id', $toko_id)->sum('nominal');
+        $total_nominal_transaksi_keluar = $this->model->transaksiKeluar()->where('toko_id', $toko_id)->sum('nominal');
 
 
         return $this->apiResponseOk(
