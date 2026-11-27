@@ -77,6 +77,7 @@ Route::prefix('pembelian')->group(function () {
         //master
         Route::get('emas-asals', [MasterApi::class, 'getEmasAsal']);
         Route::get('kadars', [MasterApi::class, 'getKadar']);
+        Route::get('tipetransaksis', [MasterApi::class, 'getTipeTransaksi']);
     });
 });
 
@@ -144,5 +145,6 @@ Route::prefix('internal')->group(function () {
         //master
         Route::get('emas-asals', [MasterApi::class, 'getEmasAsal']);
         Route::get('kadars', [MasterApi::class, 'getKadar']);
+        Route::get('tipetransaksis', [MasterApi::class, 'getTipeTransaksi']);
     });
 });
