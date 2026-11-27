@@ -185,9 +185,14 @@ class Transaksi extends Model
             'transaksi_kategori_id' => $this->transaksi_kategori_id,
             'title' => $this->transaksiKategori ? $this->transaksiKategori->name : null,
             'toko_id' => $this->toko_id,
-            'created_by' => $this->created_by,
+            'created_by' => $this->createdBy ? $this->createdBy->name : null,
             'created_at' => $this->created_at
         ];
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function transaksiKategori()
