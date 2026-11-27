@@ -80,7 +80,7 @@ class TabPembelianDiPembelianApi extends Controller
                 'type'       => 'pembelian',
                 'title'      => $pembelian->nama_pembeli,
                 'kode'       => $pembelian->no_invoice,
-                'keterangan' => $pembelian->keterangan,
+                'keterangan' => $pembelian->getCountDetailString(),
                 'nominal'    => $pembelian->totalHarga(),
                 'tanggal'    => $pembelian->tanggal,
             ];

@@ -192,6 +192,11 @@ class Pembelian extends Model
         return $this->details()->sum('total_harga');
     }
 
+    public function getCountDetailString()
+    {
+        return (string) $this->details()->count() . ' items';
+    }
+
     public function transaksi()
     {
         return $this->belongsToMany(Transaksi::class, 'transaksi_pembelians', 'pembelian_id', 'transaksi_id');
