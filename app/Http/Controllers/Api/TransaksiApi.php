@@ -270,177 +270,20 @@ class TransaksiApi extends Controller
         ]);
 
         $saldo = $this->model->currentSaldo($request->toko_id);
+        $total_nominal_transaksi_masuk = $this->model->totalNominalTransaksiMasuk($request->toko_id);
+        $total_nominal_transaksi_keluar = $this->model->totalNominalTransaksiKeluar($request->toko_id);
+
+
         return $this->apiResponseOk(
-            data: ['current_saldo' => $saldo],
+            data: [
+                'current_saldo' => $saldo,
+                'total_nominal_transaksi_masuk' => $total_nominal_transaksi_masuk,
+                'total_nominal_transaksi_keluar' => $total_nominal_transaksi_keluar
+            ],
             message: 'Current saldo retrieved successfully.'
         );
     }
 
-    #[OA\Get(
-        path: '/transaksis/total-nominal-transaksi-masuk',
-        operationId: 'getTotalNominalTransaksiMasuk',
-        summary: 'Get total incoming transaction amount',
-        description: 'Retrieves the total nominal of incoming transactions for a specific store. Requires the view-transaksis permission.',
-        tags: ['Transaksi'],
-        security: [['bearerAuth' => []]],
-        parameters: [
-            new OA\Parameter(
-                name: 'toko_id',
-                description: 'ID of the store',
-                in: 'query',
-                required: true,
-                schema: new OA\Schema(type: 'integer', example: 1)
-            )
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Total incoming transaction amount retrieved successfully',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'total_nominal_transaksi_masuk', type: 'number', example: 25000000)
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 401,
-                description: 'Unauthenticated',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.')
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 403,
-                description: 'Forbidden - missing permission view-transaksis',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'Forbidden')
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 422,
-                description: 'Validation error',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'The selected toko id is invalid.'),
-                        new OA\Property(
-                            property: 'errors',
-                            type: 'object',
-                            properties: [
-                                new OA\Property(
-                                    property: 'toko_id',
-                                    type: 'array',
-                                    items: new OA\Items(type: 'string', example: 'The selected toko id is invalid.')
-                                )
-                            ]
-                        )
-                    ]
-                )
-            )
-        ]
-    )]
-    public function getTotalNominalTransaksiMasuk(Request $request)
-    {
-        $request->validate([
-            'toko_id' => 'required|integer|exists:tokos,id'
-        ]);
-
-        $total = $this->model->transaksiMasuk()->where('toko_id', $request->toko_id)->sum('nominal');
-        return $this->apiResponseOk(
-            data: ['total_nominal_transaksi_masuk' => $total],
-            message: 'Total incoming transaction amount retrieved successfully.'
-        );
-    }
-
-    #[OA\Get(
-        path: '/transaksis/total-nominal-transaksi-keluar',
-        operationId: 'getTotalNominalTransaksiKeluar',
-        summary: 'Get total outgoing transaction amount',
-        description: 'Retrieves the total nominal of outgoing transactions for a specific store. Requires the view-transaksis permission.',
-        tags: ['Transaksi'],
-        security: [['bearerAuth' => []]],
-        parameters: [
-            new OA\Parameter(
-                name: 'toko_id',
-                description: 'ID of the store',
-                in: 'query',
-                required: true,
-                schema: new OA\Schema(type: 'integer', example: 1)
-            )
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Total outgoing transaction amount retrieved successfully',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'total_nominal_transaksi_keluar', type: 'number', example: 10000000)
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 401,
-                description: 'Unauthenticated',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.')
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 403,
-                description: 'Forbidden - missing permission view-transaksis',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'Forbidden')
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 422,
-                description: 'Validation error',
-                content: new OA\JsonContent(
-                    type: 'object',
-                    properties: [
-                        new OA\Property(property: 'message', type: 'string', example: 'The selected toko id is invalid.'),
-                        new OA\Property(
-                            property: 'errors',
-                            type: 'object',
-                            properties: [
-                                new OA\Property(
-                                    property: 'toko_id',
-                                    type: 'array',
-                                    items: new OA\Items(type: 'string', example: 'The selected toko id is invalid.')
-                                )
-                            ]
-                        )
-                    ]
-                )
-            )
-        ]
-    )]
-    public function getTotalNominalTransaksiKeluar(Request $request)
-    {
-        $request->validate([
-            'toko_id' => 'required|integer|exists:tokos,id'
-        ]);
-
-        $total = $this->model->transaksiKeluar()->where('toko_id', $request->toko_id)->sum('nominal');
-        return $this->apiResponseOk(
-            data: ['total_nominal_transaksi_keluar' => $total],
-            message: 'Total outgoing transaction amount retrieved successfully.'
-        );
-    }
 
     #[OA\Get(
         path: '/transaksis/{transaksi}',

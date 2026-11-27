@@ -39,8 +39,6 @@ Route::prefix('pembelian')->group(function () {
         Route::get('transaksis', [TransaksiApi::class, 'indexPembelian'])->middleware('permission:view-pembelians');
         Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-pembelians');
         Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-pembelians');
-        Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-pembelians');
-        Route::get('transaksis/total-nominal-transaksi-keluar', [TransaksiApi::class, 'getTotalNominalTransaksiKeluar'])->middleware('permission:view-pembelians');
         Route::get('transaksis/{transaksi}', [TransaksiApi::class, 'show'])->middleware('permission:show-pembelians');
         Route::put('transaksis/{transaksi}', [TransaksiApi::class, 'update'])->middleware('permission:edit-pembelians');
         Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-pembelians');
@@ -111,8 +109,6 @@ Route::prefix('internal')->group(function () {
         Route::get('transaksis', [TransaksiApi::class, 'indexInternal'])->middleware('permission:view-transaksis');
         Route::post('transaksis', [TransaksiApi::class, 'store'])->middleware('permission:create-transaksis');
         Route::get('transaksis/current-saldo', [TransaksiApi::class, 'getCurrentSaldo'])->middleware('permission:view-transaksis');
-        Route::get('transaksis/total-nominal-transaksi-masuk', [TransaksiApi::class, 'getTotalNominalTransaksiMasuk'])->middleware('permission:view-transaksis');
-        Route::get('transaksis/total-nominal-transaksi-keluar', [TransaksiApi::class, 'getTotalNominalTransaksiKeluar'])->middleware('permission:view-transaksis');
         Route::get('transaksis/{transaksi}', [TransaksiApi::class, 'show'])->middleware('permission:show-transaksis');
         Route::put('transaksis/{transaksi}', [TransaksiApi::class, 'update'])->middleware('permission:edit-transaksis');
         Route::delete('transaksis/{transaksi}', [TransaksiApi::class, 'destroy'])->middleware('permission:delete-transaksis');
