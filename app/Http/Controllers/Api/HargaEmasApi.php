@@ -117,13 +117,14 @@ class HargaEmasApi extends Controller
 
 
         if ($searchQuery) {
-            $hargaEmas->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('sumber', 'like', "%{$searchQuery}%")
-                ->orWhere('keterangan', 'like', "%{$searchQuery}%")
-                ->orWhere('kadar', 'like', "%{$searchQuery}%");
-            // Search dari tabel kategoris
-            $hargaEmas->orWhereHas('emasAsal', function ($q) use ($searchQuery) {
-                $q->where('name', 'like', "%{$searchQuery}%");
+            $hargaEmas->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'like', "%{$searchQuery}%")
+                    ->orWhere('sumber', 'like', "%{$searchQuery}%")
+                    ->orWhere('keterangan', 'like', "%{$searchQuery}%")
+                    ->orWhere('kadar', 'like', "%{$searchQuery}%")
+                    ->orWhereHas('emasAsal', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', "%{$searchQuery}%");
+                    });
             });
             
         }

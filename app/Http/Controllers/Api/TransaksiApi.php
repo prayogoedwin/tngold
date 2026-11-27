@@ -24,7 +24,7 @@ class TransaksiApi extends Controller
         tags: ['Transaksi'],
         security: [['bearerAuth' => []]],
         parameters: [
-            
+
             new OA\Parameter(
                 name: 'per_page',
                 description: 'Number of items per page',
@@ -126,7 +126,7 @@ class TransaksiApi extends Controller
     )]
     public function indexPembelian(Request $request)
     {
-        
+
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
         $searchQuery = $request->string('search');
@@ -138,30 +138,29 @@ class TransaksiApi extends Controller
 
         $transaksis = Transaksi::where('toko_id', $toko_id);
 
-
         if ($filterKategori) {
             $transaksis->where('transaksi_kategori_id', $filterKategori);
         }
 
         if ($searchQuery) {
-            $transaksis->where('kode', 'like', "%{$searchQuery}%")
-                ->orWhere('type', 'like', "%{$searchQuery}%")
-                ->orWhere('keterangan', 'like', "%{$searchQuery}%")
-                ->orWhere('tanggal', 'like', "%{$searchQuery}%")
-                ->orWhere('nominal', 'like', "%{$searchQuery}%");
-            // Search dari tabel kategoris
-            $transaksis->orWhereHas('transaksiKategori', function ($q) use ($searchQuery) {
-                $q->where('name', 'like', "%{$searchQuery}%");
+            $transaksis->where(function ($query) use ($searchQuery) {
+                $query->where('kode', 'like', "%{$searchQuery}%")
+                    ->orWhere('type', 'like', "%{$searchQuery}%")
+                    ->orWhere('keterangan', 'like', "%{$searchQuery}%")
+                    ->orWhere('tanggal', 'like', "%{$searchQuery}%")
+                    ->orWhere('nominal', 'like', "%{$searchQuery}%")
+                    ->orWhereHas('transaksiKategori', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', "%{$searchQuery}%");
+                    });
             });
         }
-
         $transaksis = $transaksis->paginate($per_page, ['*'], 'page', $page);
 
         $data = $transaksis->getCollection()
-                ->map(
-                    fn(Transaksi $t) =>
-                    $t->transformed()
-                );
+            ->map(
+                fn(Transaksi $t) =>
+                $t->transformed()
+            );
 
         $output = $transaksis->toArray();
         $output['data'] = $data;
@@ -173,17 +172,17 @@ class TransaksiApi extends Controller
     }
     public function indexInternal(Request $request)
     {
-        
+
         $per_page = $request->integer('per_page', 10);
         $page = $request->integer('page', 1);
 
         $transaksis = Transaksi::paginate($per_page, ['*'], 'page', $page);
 
         $data = $transaksis->getCollection()
-                ->map(
-                    fn(Transaksi $t) =>
-                    $t->transformed()
-                );
+            ->map(
+                fn(Transaksi $t) =>
+                $t->transformed()
+            );
 
         $output = $transaksis->toArray();
         $output['data'] = $data;
@@ -676,7 +675,7 @@ class TransaksiApi extends Controller
                                 new OA\Property(property: 'toko_id', type: 'integer', example: 1),
                                 new OA\Property(property: 'transaksi_kategori_id', type: 'integer', example: 1),
                                 new OA\Property(property: 'type', type: 'string', example: 'keluar'),
-                                new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),    
+                                new OA\Property(property: 'tanggal', type: 'string', example: '2024-06-28'),
                                 new OA\Property(property: 'nominal', type: 'number', example: 750000),
                                 new OA\Property(property: 'keterangan', type: 'string', example: 'Pembelian emas 1 gram'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2026-07-01T00:00:00.000000Z'),
