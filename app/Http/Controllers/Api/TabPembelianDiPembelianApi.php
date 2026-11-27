@@ -12,11 +12,11 @@ use OpenApi\Attributes as OA;
 class TabPembelianDiPembelianApi extends Controller
 {
     #[OA\Get(
-        path: '/tabpembelian',
-        operationId: 'getTabPembelianList',
-        summary: 'untuk tab pembelian',
-        description: 'Retrieves all purchase records. Requires the view-pembelians permission.',
-        tags: ['Tab Pembelian'],
+        path: '/tabtransaksi',
+        operationId: 'getTabTransaksiList',
+        summary: 'untuk tab transaksi di aplikasi pembelian',
+        description: 'Retrieves all transaction records. Requires the view-pembelians permission.',
+        tags: ['Tab Transaksi'],
         security: [['bearerAuth' => []]],
         responses: [
             new OA\Response(

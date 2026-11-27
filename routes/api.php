@@ -61,7 +61,7 @@ Route::prefix('pembelian')->group(function () {
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
         //tab pembelian
-        Route::get('tabpembelian', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::get('tabtransaksi', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
 
 
         //toko
@@ -133,7 +133,7 @@ Route::prefix('internal')->group(function () {
         Route::delete('pembelians/{pembelian}', [PembelianApi::class, 'destroy'])->middleware('permission:delete-pembelians');
 
         //tab pembelian
-        Route::get('tabpembelian', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
+        Route::get('tabtransaksi', [TabPembelianDiPembelianApi::class, 'index'])->middleware('permission:view-pembelians');
 
 
         //toko
