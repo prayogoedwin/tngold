@@ -200,15 +200,7 @@ class TransaksiApi extends Controller
         description: 'Retrieves the current balance (saldo) of a specific store. Requires the view-transaksis permission.',
         tags: ['Transaksi'],
         security: [['bearerAuth' => []]],
-        parameters: [
-            new OA\Parameter(
-                name: 'toko_id',
-                description: 'ID of the store',
-                in: 'query',
-                required: true,
-                schema: new OA\Schema(type: 'integer', example: 1)
-            )
-        ],
+        parameters: [],
         responses: [
             new OA\Response(
                 response: 200,
@@ -265,13 +257,13 @@ class TransaksiApi extends Controller
     )]
     public function getCurrentSaldo(Request $request)
     {
-        $request->validate([
-            'toko_id' => 'required|integer|exists:tokos,id'
-        ]);
+        $user = $request->user();
+        $toko_id = $user->tokos->first()->id;
+        
 
-        $saldo = $this->model->currentSaldo($request->toko_id);
-        $total_nominal_transaksi_masuk = $this->model->totalNominalTransaksiMasuk($request->toko_id);
-        $total_nominal_transaksi_keluar = $this->model->totalNominalTransaksiKeluar($request->toko_id);
+        $saldo = $this->model->currentSaldo($toko_id);
+        $total_nominal_transaksi_masuk = $this->model->totalNominalTransaksiMasuk($toko_id);
+        $total_nominal_transaksi_keluar = $this->model->totalNominalTransaksiKeluar($toko_id);
 
 
         return $this->apiResponseOk(
